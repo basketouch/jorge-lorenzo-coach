@@ -332,6 +332,36 @@
       font-size: 13px; color: var(--texto-suave);
     }
 
+    /* ─── CICLO ANUAL ─── */
+    .laboratorio-ciclo {
+      display: flex; align-items: center; gap: 8px;
+      margin: 40px 0; flex-wrap: wrap;
+    }
+    .ciclo-item {
+      background: var(--card); border: 1px solid var(--borde);
+      border-radius: 8px; padding: 16px 20px;
+      display: flex; flex-direction: column; gap: 4px;
+      flex: 1; min-width: 120px;
+    }
+    .ciclo-item.ciclo-activo {
+      border-color: var(--oro);
+      background: linear-gradient(160deg, #1a1c22 0%, var(--card) 100%);
+    }
+    .ciclo-mes {
+      font-size: 13px; font-weight: 800; color: var(--blanco);
+    }
+    .ciclo-item.ciclo-activo .ciclo-mes { color: var(--oro); }
+    .ciclo-desc {
+      font-size: 12px; color: var(--texto-suave); line-height: 1.4;
+    }
+    .ciclo-flecha {
+      color: var(--texto-suave); font-size: 18px; flex-shrink: 0;
+    }
+    @media (max-width: 720px) {
+      .laboratorio-ciclo { flex-direction: column; align-items: stretch; }
+      .ciclo-flecha { transform: rotate(90deg); text-align: center; }
+    }
+
     /* ─── LABORATORIO EXPANDIDO ─── */
     .laboratorio-box-full { display: block; }
     .laboratorio-intro { margin-bottom: 32px; }
@@ -608,10 +638,12 @@
           <p class="tier-nombre">Sistema</p>
           <div class="tier-precio">45€ <span>/mes</span></div>
           <p class="tier-precio-anual">425€/año</p>
-          <p class="tier-desc">Un sistema estructurado que sigues mes a mes durante la temporada. No acumulas contenido — construyes un proceso.</p>
+          <p class="tier-desc">Un sistema estructurado que sigues durante toda la temporada. 10 meses de Laboratorio, más julio de post-temporada y agosto de pre-temporada.</p>
           <ul class="tier-lista">
             <li>Todo lo de Standard</li>
-            <li>El Laboratorio del Entrenador (en curso)</li>
+            <li>El Laboratorio del Entrenador — sep. a jun. (10 meses)</li>
+            <li>Julio: análisis y cierre de temporada</li>
+            <li>Agosto: preparación para la nueva temporada</li>
             <li>1 contenido técnico mensual</li>
             <li>1 contenido de gestión y liderazgo</li>
             <li>Q&A mensual de 45 minutos</li>
@@ -668,7 +700,29 @@
     <div class="container">
       <p class="section-label">Producto independiente</p>
       <h2>El Laboratorio del Entrenador.</h2>
-      <p class="lead">Al finalizar la temporada, todo el sistema de trabajo del año queda disponible como un curso completo. Sin directo, sin suscripción — solo el contenido íntegro.</p>
+      <p class="lead">10 meses de sistema estructurado, de septiembre a junio. Al cerrar la temporada, el archivo completo queda disponible como curso único.</p>
+
+      <div class="laboratorio-ciclo">
+        <div class="ciclo-item ciclo-activo">
+          <span class="ciclo-mes">Sep – Jun</span>
+          <span class="ciclo-desc">El Laboratorio del Entrenador · 10 meses</span>
+        </div>
+        <div class="ciclo-flecha">→</div>
+        <div class="ciclo-item">
+          <span class="ciclo-mes">Julio</span>
+          <span class="ciclo-desc">Post-temporada</span>
+        </div>
+        <div class="ciclo-flecha">→</div>
+        <div class="ciclo-item">
+          <span class="ciclo-mes">Agosto</span>
+          <span class="ciclo-desc">Pre-temporada</span>
+        </div>
+        <div class="ciclo-flecha">→</div>
+        <div class="ciclo-item ciclo-activo">
+          <span class="ciclo-mes">Sep</span>
+          <span class="ciclo-desc">Empieza el nuevo Laboratorio</span>
+        </div>
+      </div>
 
       <div class="laboratorio-box laboratorio-box-full">
         <div class="laboratorio-intro">
