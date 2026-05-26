@@ -18,7 +18,7 @@ export default async function CuentaPage() {
   const [{ data: compras }, { data: perfil }, { data: accesoModulos }] = await Promise.all([
     supabase.from("compras").select("*, cursos(slug, titulo, portada_url)").eq("user_id", user.id),
     supabase.from("usuarios").select("nombre, apellido, is_admin").eq("id", user.id).single(),
-    admin.from("accesos_modulo").select("modulo_id, modulos(id, titulo, cursos(slug, titulo))").eq("user_id", user.id),
+    admin.from("accesos_modulo").select("modulo_id, modulos(id, titulo)").eq("user_id", user.id),
   ]);
 
   const nombre = perfil?.nombre ? `${perfil.nombre}${perfil.apellido ? ` ${perfil.apellido}` : ""}` : null;
@@ -115,38 +115,27 @@ export default async function CuentaPage() {
                 </Link>
               ))}
 
-              {/* Módulos individuales — agrupados por curso */}
-              {(() => {
-                type ModuloJoin = { id: number; titulo: string; cursos: { slug: string; titulo: string } | null };
-                const modulosValidos = (accesoModulos ?? [])
-                  .map((am) => am.modulos as unknown as ModuloJoin | null)
-                  .filter((m): m is ModuloJoin => !!m && !!m.cursos);
-
-                // Deduplicar por curso (mostrar 1 card por curso si tiene acceso por módulo)
-                const cursosSeen = new Set<string>();
-                return modulosValidos
-                  .filter((m) => {
-                    if (cursosSeen.has(m.cursos!.slug)) return false;
-                    cursosSeen.add(m.cursos!.slug);
-                    return true;
-                  })
-                  .map((modulo) => (
-                    <Link key={modulo.cursos!.slug} href={`/ver/${modulo.cursos!.slug}`} style={{ textDecoration: "none" }}>
-                      <div style={{ background: "var(--card)", border: "1px solid var(--borde)", borderRadius: 12, overflow: "hidden", cursor: "pointer" }}>
-                        <div style={{ width: "100%", aspectRatio: "16/9", background: "linear-gradient(135deg, rgba(201,168,76,0.15), rgba(201,168,76,0.05))", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                          <span style={{ fontSize: 40 }}>🎬</span>
-                        </div>
-                        <div style={{ padding: "20px 24px" }}>
-                          <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--oro)", marginBottom: 6 }}>Acceso por módulos</p>
-                          <p style={{ fontSize: 17, fontWeight: 700, color: "var(--blanco)", marginBottom: 16 }}>{modulo.cursos!.titulo}</p>
-                          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "var(--oro)", color: "var(--negro)", padding: "9px 20px", borderRadius: 6, fontSize: 13, fontWeight: 700 }}>
-                            Continuar →
-                          </div>
+              {/* Módulos individuales */}
+              {accesoModulos?.map((am) => {
+                const modulo = am.modulos as unknown as { id: number; titulo: string } | null;
+                if (!modulo) return null;
+                return (
+                  <Link key={am.modulo_id} href="/ver/laboratorio-2526" style={{ textDecoration: "none" }}>
+                    <div style={{ background: "var(--card)", border: "1px solid var(--borde)", borderRadius: 12, overflow: "hidden", cursor: "pointer" }}>
+                      <div style={{ width: "100%", aspectRatio: "16/9", background: "linear-gradient(135deg, rgba(201,168,76,0.15), rgba(201,168,76,0.05))", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                        <span style={{ fontSize: 40 }}>🎬</span>
+                      </div>
+                      <div style={{ padding: "20px 24px" }}>
+                        <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--oro)", marginBottom: 6 }}>Módulo</p>
+                        <p style={{ fontSize: 17, fontWeight: 700, color: "var(--blanco)", marginBottom: 16 }}>{modulo.titulo}</p>
+                        <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "var(--oro)", color: "var(--negro)", padding: "9px 20px", borderRadius: 6, fontSize: 13, fontWeight: 700 }}>
+                          Ver módulo →
                         </div>
                       </div>
-                    </Link>
-                  ));
-              })()}
+                    </div>
+                  </Link>
+                );
+              })}
             </div>
           ) : (
             <div style={{ background: "var(--card)", border: "1px solid var(--borde)", borderRadius: 12, padding: "48px 40px", textAlign: "center" }}>
