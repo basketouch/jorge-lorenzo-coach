@@ -4,6 +4,7 @@ import AccesoToggle from "../AccesoToggle";
 import AccesoModuloToggle from "./AccesoModuloToggle";
 import EliminarUsuario from "./EliminarUsuario";
 import EnviarEmailUsuario from "./EnviarEmailUsuario";
+import EnviarAccesoUsuario from "./EnviarAccesoUsuario";
 
 function formatFecha(iso?: string) {
   if (!iso) return "—";
@@ -59,6 +60,12 @@ export default async function UsuarioPerfil({ params }: { params: Promise<{ user
             <p style={{ color: "var(--texto-suave)", fontSize: 14 }}>{usuario.email ?? "—"}</p>
           </div>
           <div style={{ display: "flex", gap: 10 }}>
+            {usuario.email && (
+              <EnviarAccesoUsuario
+                email={usuario.email}
+                nombre={usuario.nombre ?? ""}
+              />
+            )}
             {usuario.email && (
               <EnviarEmailUsuario
                 email={usuario.email}
