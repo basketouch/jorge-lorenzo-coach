@@ -6,6 +6,7 @@ const SENDER = { name: "Jorge Lorenzo Coach", email: "info@jorgelorenzo.coach" }
 const REDIRECT_URL = "https://www.jorgelorenzo.coach";
 
 export async function POST(req: NextRequest) {
+  try {
   const { admin } = await requireAdmin();
   const { email, nombre, apellido } = await req.json();
 
@@ -139,4 +140,9 @@ export async function POST(req: NextRequest) {
   }
 
   return NextResponse.json({ ok: true });
+  } catch (err: unknown) {
+    console.error("[enviar-acceso] error inesperado:", err);
+    const msg = err instanceof Error ? err.message : String(err);
+    return NextResponse.json({ error: msg }, { status: 500 });
+  }
 }
