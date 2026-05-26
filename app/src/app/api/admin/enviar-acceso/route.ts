@@ -11,6 +11,20 @@ export async function POST(req: NextRequest) {
 
   if (!email) return NextResponse.json({ error: "email es obligatorio" }, { status: 400 });
 
+  // Si el usuario no existe en Auth, crearlo primero (sin contraseña)
+  const { data: lista } = await admin.auth.admin.listUsers();
+  const existeEnAuth = lista?.users?.some((u) => u.email === email);
+
+  if (!existeEnAuth) {
+    const { error: createError } = await admin.auth.admin.createUser({
+      email,
+      email_confirm: true,
+    });
+    if (createError) {
+      return NextResponse.json({ error: createError.message }, { status: 500 });
+    }
+  }
+
   const { data, error } = await admin.auth.admin.generateLink({
     type: "recovery",
     email,
