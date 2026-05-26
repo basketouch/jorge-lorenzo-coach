@@ -60,7 +60,10 @@ export default function LoginForm() {
       const { error } = await supabase.auth.signUp({
         email,
         password,
-        options: { data: { nombre: nombre.trim(), apellido: apellido.trim() } },
+        options: {
+          data: { nombre: nombre.trim(), apellido: apellido.trim() },
+          emailRedirectTo: `${window.location.origin}/auth/callback?next=/cuenta`,
+        },
       });
       if (error) { setError(error.message); setLoading(false); return; }
 
