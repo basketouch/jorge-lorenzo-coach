@@ -80,7 +80,7 @@ export default function EnviarEmailTodos({ total }: Props) {
                 <textarea
                   value={contenido}
                   onChange={(e) => setContenido(e.target.value)}
-                  placeholder={"Escribe el mensaje...\n\nSepara párrafos con línea en blanco.\nUsa → Texto: https://url para botón dorado."}
+                  placeholder={"Escribe el mensaje...\n\nSepara párrafos con línea en blanco.\nUsa -> Texto: https://url para botón dorado."}
                   required
                   rows={9}
                   style={{ ...inputStyle, resize: "vertical", lineHeight: 1.6 }}

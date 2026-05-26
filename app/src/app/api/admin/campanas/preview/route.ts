@@ -8,7 +8,7 @@ function contenidoAHtml(asunto: string, texto: string, portadaUrl?: string): str
   const paragraphs = texto.split("\n\n").map(p => {
     const trimmed = p.trim();
     // Detectar línea CTA: empieza con → y contiene una URL
-    const ctaMatch = trimmed.match(/^→\s*(.+?):\s*(https?:\/\/\S+)$/);
+    const ctaMatch = trimmed.match(/^(?:→|->)\s*(.+?):\s*(https?:\/\/\S+)$/);
     if (ctaMatch) {
       const label = ctaMatch[1].trim();
       const url = ctaMatch[2].trim();

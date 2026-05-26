@@ -11,7 +11,7 @@ function buildHtml(asunto: string, contenido: string, nombre: string): string {
     .split("\n\n")
     .map((p) => {
       const trimmed = p.trim();
-      const ctaMatch = trimmed.match(/^→\s*(.+?):\s*(https?:\/\/\S+)$/);
+      const ctaMatch = trimmed.match(/^(?:→|->)\s*(.+?):\s*(https?:\/\/\S+)$/);
       if (ctaMatch) {
         return `<table width="100%" cellpadding="0" cellspacing="0" style="margin:8px 0 24px;">
           <tr><td align="center">
