@@ -79,7 +79,7 @@ export async function POST(req: NextRequest) {
 
   // Actualizar perfil si tiene nombre (usuario existente puede no tenerlo)
   if (nombre) {
-    await supabase.from("perfiles")
+    await supabase.from("usuarios")
       .upsert({ id: userId, nombre, apellido, updated_at: new Date().toISOString() })
       .eq("id", userId);
   }

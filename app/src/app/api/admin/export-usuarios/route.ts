@@ -5,16 +5,14 @@ export async function GET() {
   const { admin } = await requireAdmin();
 
   const [
-    { data: perfiles },
-    { data: authUsers },
+    { data: usuarios },
     { data: compras },
     { data: accesoModulos },
     { data: modulos },
     { data: cursos },
     { data: accesos },
   ] = await Promise.all([
-    admin.from("perfiles").select("id, nombre, apellido").eq("is_admin", false),
-    admin.auth.admin.listUsers({ perPage: 1000 }),
+    admin.from("usuarios").select("id, nombre, apellido, email").eq("is_admin", false),
     admin.from("compras").select("user_id, curso_id, created_at"),
     admin.from("accesos_modulo").select("user_id, modulo_id"),
     admin.from("modulos").select("id, titulo, orden").order("orden"),
@@ -22,9 +20,6 @@ export async function GET() {
     admin.from("accesos").select("user_id, created_at").order("created_at", { ascending: false }),
   ]);
 
-  const emailMap = new Map(authUsers?.users?.map((u) => [u.id, { email: u.email, createdAt: u.created_at }]) ?? []);
-
-  // Último acceso por usuario
   const ultimoAccesoMap = new Map<string, string>();
   accesos?.forEach((a) => {
     if (!ultimoAccesoMap.has(a.user_id)) ultimoAccesoMap.set(a.user_id, a.created_at);
@@ -39,25 +34,23 @@ export async function GET() {
   const cursosTitulos = (cursos ?? []).map((c) => c.titulo);
 
   const headers = [
-    "Nombre", "Apellido", "Email", "Registrado", "Último acceso",
+    "Nombre", "Apellido", "Email", "Último acceso",
     ...cursosTitulos.map((t) => `Acceso: ${t}`),
     ...modulosTitulos.map((t) => `Módulo: ${t}`),
   ];
 
-  const rows = (perfiles ?? []).map((p) => {
-    const auth = emailMap.get(p.id);
+  const rows = (usuarios ?? []).map((u) => {
     const cursosAcceso = (cursos ?? []).map((c) =>
-      compras?.some((cp) => cp.user_id === p.id && cp.curso_id === c.id) ? "Sí" : "No"
+      compras?.some((cp) => cp.user_id === u.id && cp.curso_id === c.id) ? "Sí" : "No"
     );
     const modulosAcceso = (modulos ?? []).map((m) =>
-      accesoModulos?.some((am) => am.user_id === p.id && am.modulo_id === m.id) ? "Sí" : "No"
+      accesoModulos?.some((am) => am.user_id === u.id && am.modulo_id === m.id) ? "Sí" : "No"
     );
     return [
-      p.nombre ?? "",
-      p.apellido ?? "",
-      auth?.email ?? "",
-      fmt(auth?.createdAt),
-      fmt(ultimoAccesoMap.get(p.id)),
+      u.nombre ?? "",
+      u.apellido ?? "",
+      u.email ?? "",
+      fmt(ultimoAccesoMap.get(u.id)),
       ...cursosAcceso,
       ...modulosAcceso,
     ];

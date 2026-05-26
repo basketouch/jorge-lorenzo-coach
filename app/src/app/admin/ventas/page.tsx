@@ -5,7 +5,7 @@ export default async function AdminVentas() {
 
   const { data: compras } = await admin
     .from("compras")
-    .select("*, cursos(titulo, slug), perfiles(nombre, apellido)")
+    .select("*, cursos(titulo, slug), usuarios(nombre, apellido)")
     .order("created_at", { ascending: false });
 
   const total = compras?.length ?? 0;
@@ -35,8 +35,8 @@ export default async function AdminVentas() {
           </thead>
           <tbody>
             {compras?.map((compra) => {
-              const nombre = compra.perfiles
-                ? `${compra.perfiles.nombre ?? ""} ${compra.perfiles.apellido ?? ""}`.trim()
+              const nombre = compra.usuarios
+                ? `${compra.usuarios.nombre ?? ""} ${compra.usuarios.apellido ?? ""}`.trim()
                 : "—";
               const fecha = new Date(compra.created_at).toLocaleDateString("es-ES", {
                 day: "2-digit", month: "short", year: "numeric",

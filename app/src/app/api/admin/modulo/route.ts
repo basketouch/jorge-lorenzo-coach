@@ -7,7 +7,7 @@ async function isAdmin(): Promise<boolean> {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return false;
   const admin = createAdminClient();
-  const { data } = await admin.from("perfiles").select("is_admin").eq("id", user.id).single();
+  const { data } = await admin.from("usuarios").select("is_admin").eq("id", user.id).single();
   return !!data?.is_admin;
 }
 

@@ -19,7 +19,7 @@ export default function EditarPerfil({ userId, nombreInicial, apellidoInicial }:
   async function guardar() {
     setLoading(true);
     const supabase = createClient();
-    await supabase.from("perfiles").upsert({
+    await supabase.from("usuarios").upsert({
       id: userId,
       nombre: nombre.trim(),
       apellido: apellido.trim(),

@@ -10,7 +10,7 @@ export default async function AdminDashboard() {
     { count: visualizacionesSemana },
     { count: leccionesCompletadas },
   ] = await Promise.all([
-    admin.from("perfiles").select("*", { count: "exact", head: true }).eq("is_admin", false),
+    admin.from("usuarios").select("*", { count: "exact", head: true }).eq("is_admin", false),
     admin.from("compras").select("*", { count: "exact", head: true }),
     admin.from("accesos").select("*", { count: "exact", head: true })
       .gte("created_at", new Date(Date.now() - 86400000).toISOString()),

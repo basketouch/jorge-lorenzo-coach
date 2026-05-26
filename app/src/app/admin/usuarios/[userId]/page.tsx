@@ -15,37 +15,25 @@ export default async function UsuarioPerfil({ params }: { params: Promise<{ user
   const { admin } = await requireAdmin();
 
   const [
-    { data: perfil },
+    { data: usuario },
     { data: cursos },
     { data: modulos },
     { data: compras },
     { data: accesoModulos },
     { data: progreso },
     { data: accesos },
-    authRes,
   ] = await Promise.all([
-    admin.from("perfiles").select("*").eq("id", userId).single(),
+    admin.from("usuarios").select("*").eq("id", userId).single(),
     admin.from("cursos").select("id, slug, titulo, activo").order("id"),
     admin.from("modulos").select("id, titulo, orden, curso_id").order("orden"),
     admin.from("compras").select("*").eq("user_id", userId).order("created_at", { ascending: false }),
     admin.from("accesos_modulo").select("modulo_id").eq("user_id", userId),
     admin.from("progreso").select("leccion_id, completada").eq("user_id", userId),
     admin.from("accesos").select("created_at").eq("user_id", userId).order("created_at", { ascending: false }).limit(1),
-    fetch(
-      `${process.env.NEXT_PUBLIC_SUPABASE_URL}/auth/v1/admin/users/${userId}`,
-      {
-        headers: {
-          apikey: process.env.SUPABASE_SERVICE_ROLE_KEY!,
-          Authorization: `Bearer ${process.env.SUPABASE_SERVICE_ROLE_KEY!}`,
-        },
-        cache: "no-store",
-      }
-    ).then(r => r.ok ? r.json() : null).catch(() => null),
   ]);
 
-  if (!perfil) notFound();
+  if (!usuario) notFound();
 
-  const user = authRes as { email?: string; created_at?: string } | null;
   const completadas = progreso?.filter((p) => p.completada).length ?? 0;
   const total = progreso?.length ?? 0;
   const accesoModuloIds = new Set(accesoModulos?.map((a) => a.modulo_id) ?? []);
@@ -64,20 +52,20 @@ export default async function UsuarioPerfil({ params }: { params: Promise<{ user
             display: "flex", alignItems: "center", justifyContent: "center",
             fontSize: 22, fontWeight: 800, flexShrink: 0,
           }}>
-            {(perfil.nombre?.[0] ?? "?").toUpperCase()}
+            {(usuario.nombre?.[0] ?? "?").toUpperCase()}
           </div>
           <div style={{ flex: 1 }}>
-            <h2 style={{ marginBottom: 4 }}>{perfil.nombre} {perfil.apellido}</h2>
-            <p style={{ color: "var(--texto-suave)", fontSize: 14 }}>{user?.email ?? "—"}</p>
+            <h2 style={{ marginBottom: 4 }}>{usuario.nombre} {usuario.apellido}</h2>
+            <p style={{ color: "var(--texto-suave)", fontSize: 14 }}>{usuario.email ?? "—"}</p>
           </div>
           <div style={{ display: "flex", gap: 10 }}>
-            {user?.email && (
+            {usuario.email && (
               <EnviarEmailUsuario
-                email={user.email}
-                nombre={`${perfil.nombre} ${perfil.apellido ?? ""}`.trim()}
+                email={usuario.email}
+                nombre={`${usuario.nombre} ${usuario.apellido ?? ""}`.trim()}
               />
             )}
-            <EliminarUsuario userId={userId} nombre={`${perfil.nombre} ${perfil.apellido}`} />
+            <EliminarUsuario userId={userId} nombre={`${usuario.nombre} ${usuario.apellido}`} />
           </div>
         </div>
       </div>
@@ -90,8 +78,7 @@ export default async function UsuarioPerfil({ params }: { params: Promise<{ user
             Información
           </p>
           {[
-            { label: "Email", valor: user?.email ?? "—" },
-            { label: "Registrado", valor: formatFecha(user?.created_at) },
+            { label: "Email", valor: usuario.email ?? "—" },
             { label: "Último acceso", valor: formatFecha(accesos?.[0]?.created_at) },
             { label: "Progreso", valor: `${completadas} / ${total} lecciones completadas` },
           ].map(({ label, valor }) => (
@@ -124,7 +111,7 @@ export default async function UsuarioPerfil({ params }: { params: Promise<{ user
           )}
         </div>
 
-        {/* Acceso a cursos + historial — una card por curso */}
+        {/* Acceso a cursos + historial */}
         {cursos?.map((curso) => {
           const comprasCurso = compras?.filter((c) => c.curso_id === curso.id) ?? [];
           const tieneAcceso = comprasCurso.length > 0;
@@ -132,7 +119,6 @@ export default async function UsuarioPerfil({ params }: { params: Promise<{ user
 
           return (
             <div key={curso.id} style={{ background: "var(--card)", border: "1px solid var(--borde)", borderRadius: 10, padding: 24, gridColumn: "1 / -1" }}>
-              {/* Cabecera curso */}
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20 }}>
                 <div>
                   <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--oro)", marginBottom: 4 }}>
@@ -144,8 +130,6 @@ export default async function UsuarioPerfil({ params }: { params: Promise<{ user
               </div>
 
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
-
-                {/* Historial de compras del curso */}
                 <div>
                   <p style={{ fontSize: 11, color: "var(--texto-suave)", fontWeight: 600, marginBottom: 10, textTransform: "uppercase", letterSpacing: "0.08em" }}>
                     Historial de compras
@@ -162,7 +146,6 @@ export default async function UsuarioPerfil({ params }: { params: Promise<{ user
                   )}
                 </div>
 
-                {/* Módulos del curso */}
                 <div>
                   <p style={{ fontSize: 11, color: "var(--texto-suave)", fontWeight: 600, marginBottom: 10, textTransform: "uppercase", letterSpacing: "0.08em" }}>
                     Acceso por módulo
@@ -179,7 +162,6 @@ export default async function UsuarioPerfil({ params }: { params: Promise<{ user
                     <p style={{ fontSize: 13, color: "var(--texto-suave)" }}>Sin módulos.</p>
                   )}
                 </div>
-
               </div>
             </div>
           );

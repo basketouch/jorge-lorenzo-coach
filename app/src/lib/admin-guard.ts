@@ -9,7 +9,7 @@ export async function requireAdmin() {
 
   const admin = createAdminClient();
   const { data: perfil } = await admin
-    .from("perfiles")
+    .from("usuarios")
     .select("is_admin")
     .eq("id", user.id)
     .single();

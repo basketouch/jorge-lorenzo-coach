@@ -17,7 +17,7 @@ export default async function CuentaPage() {
   const admin = createAdminClient();
   const [{ data: compras }, { data: perfil }, { data: accesoModulos }] = await Promise.all([
     supabase.from("compras").select("*, cursos(slug, titulo, portada_url)").eq("user_id", user.id),
-    supabase.from("perfiles").select("nombre, apellido, is_admin").eq("id", user.id).single(),
+    supabase.from("usuarios").select("nombre, apellido, is_admin").eq("id", user.id).single(),
     admin.from("accesos_modulo").select("modulo_id, modulos(id, titulo, portada_url, cursos(slug))").eq("user_id", user.id),
   ]);
 
