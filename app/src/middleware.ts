@@ -6,7 +6,6 @@ const PROTECTED_PATHS = [
   "/cuenta",
   "/ver/",
   "/admin",
-  "/preview/",
 ];
 
 export async function middleware(req: NextRequest) {
