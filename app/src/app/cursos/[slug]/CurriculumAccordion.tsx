@@ -62,8 +62,8 @@ function ModuloRow({ modulo, slug, lemonStore }: { modulo: Modulo; slug: string;
   }
 
   const badge = estadoBadge();
-  const [abiertos, setAbiertos] = useState(false);
   const lecciones = [...modulo.lecciones_curso].sort((a, b) => a.id - b.id);
+  const [abiertos, setAbiertos] = useState(() => lecciones.some((l) => l.es_preview));
 
   return (
     <div style={{ background: "var(--card)", border: "1px solid var(--borde)", borderRadius: 8, overflow: "hidden" }}>
