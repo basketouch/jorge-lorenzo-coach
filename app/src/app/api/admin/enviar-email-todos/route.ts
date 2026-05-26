@@ -101,6 +101,7 @@ export async function POST(req: NextRequest) {
       body: JSON.stringify({
         sender: SENDER,
         subject: asunto,
+        htmlContent: buildHtml(asunto, contenido, ""),
         messageVersions: chunk,
       }),
     });
