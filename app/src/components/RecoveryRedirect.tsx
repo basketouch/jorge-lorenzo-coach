@@ -12,7 +12,8 @@ import { createClient } from "@/lib/supabase-browser";
 export default function RecoveryRedirect() {
   useEffect(() => {
     const hash = window.location.hash;
-    if (!hash.includes("type=recovery") || !hash.includes("access_token=")) return;
+    const isRecovery = hash.includes("type=recovery") || hash.includes("type=invite") || hash.includes("type=signup");
+    if (!isRecovery || !hash.includes("access_token=")) return;
 
     const params = new URLSearchParams(hash.substring(1));
     const access_token = params.get("access_token");

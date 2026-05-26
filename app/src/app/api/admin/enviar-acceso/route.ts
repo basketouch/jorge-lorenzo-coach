@@ -11,59 +11,34 @@ export async function POST(req: NextRequest) {
 
   if (!email) return NextResponse.json({ error: "email es obligatorio" }, { status: 400 });
 
-  // 1. Comprobar si ya existe en Auth
-  const { data: lista } = await admin.auth.admin.listUsers();
-  const usuarioAuth = lista?.users?.find((u) => u.email === email);
+  // Intentar recovery (usuario ya existe en auth)
+  // Si falla, usar invite (crea el usuario en auth automáticamente)
+  let actionLink: string | null = null;
 
-  if (!usuarioAuth) {
-    // 2. Buscar en la tabla usuarios para reutilizar su UUID
-    const { data: perfilExistente } = await admin
-      .from("usuarios")
-      .select("id, nombre")
-      .eq("email", email)
-      .single();
-
-    if (perfilExistente) {
-      // Crear auth con el mismo UUID que ya tiene en la tabla usuarios
-      const { error: createError } = await admin.auth.admin.createUser({
-        id: perfilExistente.id,
-        email,
-        email_confirm: true,
-      });
-      if (createError) {
-        return NextResponse.json({ error: createError.message }, { status: 500 });
-      }
-    } else {
-      // Usuario nuevo: crear auth (UUID automático) y perfil en usuarios
-      const { data: nuevoAuth, error: createError } = await admin.auth.admin.createUser({
-        email,
-        email_confirm: true,
-      });
-      if (createError || !nuevoAuth?.user) {
-        return NextResponse.json({ error: createError?.message ?? "Error al crear usuario" }, { status: 500 });
-      }
-      // Crear perfil básico en usuarios
-      await admin.from("usuarios").insert({
-        id: nuevoAuth.user.id,
-        email,
-        nombre: nombre?.trim() || null,
-      });
-    }
-  }
-
-  // 3. Generar enlace de recuperación (ahora sí existe en auth)
-  const { data, error } = await admin.auth.admin.generateLink({
+  const { data: recoveryData } = await admin.auth.admin.generateLink({
     type: "recovery",
     email,
     options: { redirectTo: REDIRECT_URL },
   });
 
-  if (error || !data?.properties?.action_link) {
-    return NextResponse.json({ error: error?.message ?? "No se pudo generar el enlace" }, { status: 500 });
+  if (recoveryData?.properties?.action_link) {
+    actionLink = recoveryData.properties.action_link;
+  } else {
+    const { data: inviteData, error: inviteError } = await admin.auth.admin.generateLink({
+      type: "invite",
+      email,
+      options: { redirectTo: REDIRECT_URL },
+    });
+    if (inviteError || !inviteData?.properties?.action_link) {
+      return NextResponse.json(
+        { error: inviteError?.message ?? "No se pudo generar el enlace de acceso" },
+        { status: 500 }
+      );
+    }
+    actionLink = inviteData.properties.action_link;
   }
 
-  // 4. Enviar email con Brevo
-  const enlace = data.properties.action_link;
+  // Enviar email con Brevo
   const nombreMostrado = nombre?.trim() || "entrenador";
   const year = new Date().getFullYear();
 
@@ -87,7 +62,7 @@ export async function POST(req: NextRequest) {
           <p style="margin:0 0 24px;font-size:14px;color:#666;line-height:1.7;">El enlace es válido durante 24 horas.</p>
           <table width="100%" cellpadding="0" cellspacing="0" style="margin:8px 0 24px;">
             <tr><td align="center">
-              <a href="${enlace}" style="display:inline-block;background:#c9a84c;color:#0a0a0a;font-size:15px;font-weight:700;text-decoration:none;padding:14px 32px;border-radius:8px;">
+              <a href="${actionLink}" style="display:inline-block;background:#c9a84c;color:#0a0a0a;font-size:15px;font-weight:700;text-decoration:none;padding:14px 32px;border-radius:8px;">
                 Crear contraseña y entrar →
               </a>
             </td></tr>
