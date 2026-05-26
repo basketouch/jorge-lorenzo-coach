@@ -20,7 +20,20 @@ export default async function PlayerIndex({ params }: { params: Promise<{ slug: 
   if (!curso) notFound();
 
   const { data: acceso } = await supabase.rpc("tiene_acceso", { p_curso_id: curso.id });
-  if (!acceso) redirect(`/cursos/${slug}`);
+
+  // También dejamos pasar si tiene acceso a al menos un módulo del curso
+  let tieneAccesoModulo = false;
+  if (!acceso) {
+    const { data: modAcceso } = await supabase
+      .from("accesos_modulo")
+      .select("modulo_id")
+      .eq("user_id", user.id)
+      .in("modulo_id", (curso.modulos ?? []).map((m: { id: number }) => m.id))
+      .limit(1);
+    tieneAccesoModulo = !!(modAcceso && modAcceso.length > 0);
+  }
+
+  if (!acceso && !tieneAccesoModulo) redirect(`/cursos/${slug}`);
 
   const { data: progresos } = await supabase
     .from("progreso")

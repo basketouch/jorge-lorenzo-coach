@@ -157,8 +157,8 @@ export default function CursoEditor({ curso }: { curso: CursoData }) {
             <Row label="URL portada">
               <input value={portada} onChange={e => setPortada(e.target.value)} style={iS} placeholder="https://..." />
             </Row>
-            <Row label="Activo">
-              <Toggle value={activo} onChange={setActivo} labelOn="Activo (visible)" labelOff="Oculto" />
+            <Row label="Modo">
+              <Toggle value={activo} onChange={setActivo} labelOn="Publicado" labelOff="Draft (oculto)" />
             </Row>
           </div>
         )}
