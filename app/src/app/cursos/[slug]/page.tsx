@@ -176,25 +176,29 @@ export default async function CursoPage({ params }: { params: Promise<{ slug: st
                   <a href="/login" className="btn-primary" style={{ display: "block", textAlign: "center", marginBottom: 20 }}>
                     Acceder al curso →
                   </a>
+                ) : !curso.en_venta ? (
+                  /* Curso cerrado — Próximamente */
+                  <div style={{ marginBottom: 20, textAlign: "center", padding: "24px 16px", background: "rgba(201,168,76,0.04)", border: "1px solid rgba(201,168,76,0.15)", borderRadius: 10 }}>
+                    <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--oro)", marginBottom: 8 }}>
+                      Próximamente
+                    </p>
+                    {curso.fecha_apertura_texto ? (
+                      <>
+                        <p style={{ fontSize: 22, fontWeight: 800, color: "var(--blanco)", marginBottom: 4 }}>
+                          {curso.fecha_apertura_texto}
+                        </p>
+                        <p style={{ fontSize: 13, color: "var(--texto-suave)", lineHeight: 1.5 }}>
+                          Nueva apertura · Plazas limitadas
+                        </p>
+                      </>
+                    ) : (
+                      <p style={{ fontSize: 14, color: "var(--texto-suave)", lineHeight: 1.6 }}>
+                        Este curso no está disponible en este momento.<br />Vuelve pronto.
+                      </p>
+                    )}
+                  </div>
                 ) : (
                   <div style={{ marginBottom: 20 }}>
-                    {/* Precio web */}
-                    {!esGratuito && (
-                      <div style={{ marginBottom: 8 }}>
-                        <div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
-                          <span style={{ fontSize: 38, fontWeight: 800, color: "var(--blanco)", lineHeight: 1 }}>
-                            {(webPrecio / 100).toFixed(0)}€
-                          </span>
-                          {webPrecioOrig && (
-                            <span style={{ fontSize: 16, color: "var(--texto-suave)", textDecoration: "line-through" }}>
-                              {(webPrecioOrig / 100).toFixed(0)}€
-                            </span>
-                          )}
-                        </div>
-                        <p style={{ fontSize: 13, color: "var(--texto-suave)", marginTop: 4 }}>Pago único · Acceso permanente</p>
-                      </div>
-                    )}
-
                     {/* Opción Skool — solo si está configurada */}
                     {tieneSkool && (
                       <>
@@ -235,22 +239,21 @@ export default async function CursoPage({ params }: { params: Promise<{ slug: st
                     )}
 
                     {/* Opción compra directa web */}
-                    <div style={{ background: "var(--card)", border: "1px solid var(--borde)", borderRadius: 10, padding: "16px 20px", marginBottom: 10 }}>
-                      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: curso.en_venta ? 12 : 6 }}>
-                        <div>
-                          <span style={{ fontSize: 26, fontWeight: 900, color: "var(--blanco)", lineHeight: 1 }}>
-                            {(webPrecio / 100).toFixed(0)}€
-                          </span>
+                    {curso.lemon_variant_id && (
+                      <div style={{ background: "var(--card)", border: "1px solid var(--borde)", borderRadius: 10, padding: "16px 20px", marginBottom: 10 }}>
+                        <div style={{ marginBottom: 12 }}>
+                          <div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
+                            <span style={{ fontSize: 26, fontWeight: 900, color: "var(--blanco)", lineHeight: 1 }}>
+                              {(webPrecio / 100).toFixed(0)}€
+                            </span>
+                            {webPrecioOrig && (
+                              <span style={{ fontSize: 13, color: "var(--texto-suave)", textDecoration: "line-through" }}>
+                                {(webPrecioOrig / 100).toFixed(0)}€
+                              </span>
+                            )}
+                          </div>
                           <p style={{ fontSize: 11, color: "var(--texto-suave)", marginTop: 3 }}>Acceso directo · Pago único</p>
                         </div>
-                        {!curso.en_venta && curso.fecha_apertura_texto && (
-                          <div style={{ textAlign: "right" }}>
-                            <p style={{ fontSize: 10, fontWeight: 700, color: "var(--oro)", letterSpacing: "0.15em", textTransform: "uppercase" }}>{curso.fecha_apertura_texto}</p>
-                            <p style={{ fontSize: 10, color: "var(--texto-suave)", marginTop: 2 }}>Apertura limitada</p>
-                          </div>
-                        )}
-                      </div>
-                      {curso.en_venta && curso.lemon_variant_id && (
                         <a
                           href={`https://${lemonStore}/checkout/buy/${curso.lemon_variant_id}?checkout[custom][slug]=${curso.slug}`}
                           target="_blank" rel="noopener noreferrer"
@@ -258,8 +261,8 @@ export default async function CursoPage({ params }: { params: Promise<{ slug: st
                         >
                           Comprar — {(webPrecio / 100).toFixed(0)}€ →
                         </a>
-                      )}
-                    </div>
+                      </div>
+                    )}
                   </div>
                 )}
 
