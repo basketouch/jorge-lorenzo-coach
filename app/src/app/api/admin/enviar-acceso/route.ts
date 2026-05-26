@@ -38,12 +38,18 @@ export async function POST(req: NextRequest) {
     actionLink = inviteData.properties.action_link;
   }
 
-  // Actualizar perfil con nombre/apellido si se proporcionaron
+  // Actualizar nombre/apellido en el perfil usando el UUID de auth (no email)
   if (nombre?.trim() || apellido?.trim()) {
-    await admin.from("usuarios").upsert(
-      { email, nombre: nombre?.trim() || null, apellido: apellido?.trim() || null },
-      { onConflict: "email", ignoreDuplicates: false }
-    );
+    const { data: authList } = await admin.auth.admin.listUsers();
+    const authUser = authList?.users?.find((u) => u.email === email);
+    if (authUser) {
+      await admin.from("usuarios")
+        .update({
+          nombre: nombre?.trim() || null,
+          apellido: apellido?.trim() || null,
+        })
+        .eq("id", authUser.id);
+    }
   }
 
   // Enviar email con Brevo
