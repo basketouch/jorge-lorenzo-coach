@@ -18,7 +18,7 @@ export default async function CuentaPage() {
   const [{ data: compras }, { data: perfil }, { data: accesoModulos }] = await Promise.all([
     supabase.from("compras").select("*, cursos(slug, titulo, portada_url)").eq("user_id", user.id),
     supabase.from("usuarios").select("nombre, apellido, is_admin").eq("id", user.id).single(),
-    admin.from("accesos_modulo").select("modulo_id, modulos(id, titulo, portada_url, cursos(slug), lecciones_curso(id, orden))").eq("user_id", user.id),
+    admin.from("accesos_modulo").select("modulo_id, modulos(id, titulo, portada_url)").eq("user_id", user.id),
   ]);
 
   const nombre = perfil?.nombre ? `${perfil.nombre}${perfil.apellido ? ` ${perfil.apellido}` : ""}` : null;
@@ -117,14 +117,10 @@ export default async function CuentaPage() {
 
               {/* Módulos individuales */}
               {accesoModulos?.map((am) => {
-                const modulo = am.modulos as unknown as { id: number; titulo: string; portada_url?: string; cursos: { slug: string } | null; lecciones_curso: { id: number; orden: number }[] } | null;
+                const modulo = am.modulos as unknown as { id: number; titulo: string; portada_url?: string } | null;
                 if (!modulo) return null;
-                const primeraLeccion = modulo.lecciones_curso?.sort((a, b) => a.orden - b.orden)[0];
-                const href = primeraLeccion && modulo.cursos
-                  ? `/ver/${modulo.cursos.slug}/${primeraLeccion.id}`
-                  : `/ver/${modulo.cursos?.slug ?? "laboratorio-2526"}`;
                 return (
-                  <Link key={am.modulo_id} href={href} style={{ textDecoration: "none" }}>
+                  <Link key={am.modulo_id} href={`/modulos/${am.modulo_id}`} style={{ textDecoration: "none" }}>
                     <div style={{ background: "var(--card)", border: "1px solid var(--borde)", borderRadius: 12, overflow: "hidden", cursor: "pointer" }}>
                       {modulo.portada_url ? (
                         // eslint-disable-next-line @next/next/no-img-element
