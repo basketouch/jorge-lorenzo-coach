@@ -1,23 +1,19 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextRequest, NextResponse } from "next/server";
 
-const BYPASS_PATHS = [
-  "/en-construccion",
-  "/api/",
-  "/_next/",
-  "/favicon",
-  "/login",
-  "/api/logout",
-  "/auth/",
-  "/nueva-contrasena",
-  "/cursos",
+// Rutas que requieren sesión activa
+const PROTECTED_PATHS = [
+  "/cuenta",
+  "/ver/",
+  "/admin",
+  "/preview/",
 ];
 
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
-  // Dejar pasar rutas internas y la propia página
-  if (BYPASS_PATHS.some((p) => pathname.startsWith(p))) {
+  // Si no es una ruta protegida, dejar pasar directamente
+  if (!PROTECTED_PATHS.some((p) => pathname.startsWith(p))) {
     return NextResponse.next();
   }
 
@@ -41,9 +37,11 @@ export async function middleware(req: NextRequest) {
 
   const { data: { user } } = await supabase.auth.getUser();
 
-  // Si no está logueado → página en construcción
+  // Si no está logueado → login (con redirect de vuelta)
   if (!user) {
-    return NextResponse.redirect(new URL("/en-construccion", req.url));
+    const loginUrl = new URL("/login", req.url);
+    loginUrl.searchParams.set("redirect", pathname);
+    return NextResponse.redirect(loginUrl);
   }
 
   return res;
