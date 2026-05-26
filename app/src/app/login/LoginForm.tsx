@@ -65,7 +65,16 @@ export default function LoginForm() {
           emailRedirectTo: `${window.location.origin}/auth/callback?next=/cuenta`,
         },
       });
-      if (error) { setError(error.message); setLoading(false); return; }
+      if (error) {
+        const msg = error.message.toLowerCase();
+        if (msg.includes("already registered") || msg.includes("already exists") || msg.includes("database error")) {
+          setError("Ya existe una cuenta con ese email. Inicia sesión o usa '¿Olvidaste tu contraseña?'");
+        } else {
+          setError(error.message);
+        }
+        setLoading(false);
+        return;
+      }
 
       // Enviar a Brevo
       fetch("/api/preview-lead", {
