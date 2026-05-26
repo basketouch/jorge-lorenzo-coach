@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase-browser";
 
@@ -11,6 +11,12 @@ export default function NuevaContrasenaForm() {
   const [error, setError] = useState("");
   const [ok, setOk] = useState(false);
   const router = useRouter();
+
+  // Asegura que el SDK procese el token del hash antes de mostrar el form
+  useEffect(() => {
+    const supabase = createClient();
+    supabase.auth.getSession();
+  }, []);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -36,7 +42,7 @@ export default function NuevaContrasenaForm() {
     }
 
     setOk(true);
-    setTimeout(() => router.push("/cuenta"), 2500);
+    setTimeout(() => router.push("/login"), 2500);
   }
 
   if (ok) {
@@ -44,7 +50,7 @@ export default function NuevaContrasenaForm() {
       <div style={{ textAlign: "center", padding: "48px 0" }}>
         <p style={{ fontSize: 40 }}>✅</p>
         <h2 style={{ marginTop: 16, marginBottom: 8 }}>Contraseña actualizada</h2>
-        <p style={{ color: "var(--texto-suave)" }}>Redirigiendo a tu cuenta...</p>
+        <p style={{ color: "var(--texto-suave)" }}>Redirigiendo al login...</p>
       </div>
     );
   }

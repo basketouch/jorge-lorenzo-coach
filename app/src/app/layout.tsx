@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import RecoveryRedirect from "@/components/RecoveryRedirect";
 
 export const metadata: Metadata = {
   title: "Jorge Lorenzo — Comunidad de Entrenadores de Baloncesto",
@@ -43,7 +44,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }}
         />
       </head>
-      <body>{children}</body>
+      <body>
+        <RecoveryRedirect />
+        {children}
+      </body>
     </html>
   );
 }
