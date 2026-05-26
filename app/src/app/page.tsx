@@ -33,8 +33,7 @@ export default async function Home() {
         <div className="nav-links">
           <a href="#niveles" className="nav-link">Comunidad</a>
           <a href="/cursos/laboratorio-2526" className="nav-link">El Laboratorio</a>
-          <a href="/stages" className="nav-link">Stages Spain</a>
-          <a href="/newsletter" className="nav-link">Newsletter</a>
+<a href="/newsletter" className="nav-link">Newsletter</a>
           {user ? (
             <a href="/cuenta" className="nav-cta">Mi cuenta</a>
           ) : (
