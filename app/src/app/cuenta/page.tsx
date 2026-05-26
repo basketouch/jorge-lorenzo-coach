@@ -18,7 +18,7 @@ export default async function CuentaPage() {
   const [{ data: compras }, { data: perfil }, { data: accesoModulos }] = await Promise.all([
     supabase.from("compras").select("*, cursos(slug, titulo, portada_url)").eq("user_id", user.id),
     supabase.from("usuarios").select("nombre, apellido, is_admin").eq("id", user.id).single(),
-    admin.from("accesos_modulo").select("modulo_id, modulos(id, titulo, cursos(slug), lecciones_curso(id, orden))").eq("user_id", user.id),
+    admin.from("accesos_modulo").select("modulo_id, modulos(id, titulo, portada_url, cursos(slug), lecciones_curso(id, orden))").eq("user_id", user.id),
   ]);
 
   const nombre = perfil?.nombre ? `${perfil.nombre}${perfil.apellido ? ` ${perfil.apellido}` : ""}` : null;
@@ -117,7 +117,7 @@ export default async function CuentaPage() {
 
               {/* Módulos individuales */}
               {accesoModulos?.map((am) => {
-                const modulo = am.modulos as unknown as { id: number; titulo: string; cursos: { slug: string } | null; lecciones_curso: { id: number; orden: number }[] } | null;
+                const modulo = am.modulos as unknown as { id: number; titulo: string; portada_url?: string; cursos: { slug: string } | null; lecciones_curso: { id: number; orden: number }[] } | null;
                 if (!modulo) return null;
                 const primeraLeccion = modulo.lecciones_curso?.sort((a, b) => a.orden - b.orden)[0];
                 const href = primeraLeccion && modulo.cursos
@@ -126,9 +126,15 @@ export default async function CuentaPage() {
                 return (
                   <Link key={am.modulo_id} href={href} style={{ textDecoration: "none" }}>
                     <div style={{ background: "var(--card)", border: "1px solid var(--borde)", borderRadius: 12, overflow: "hidden", cursor: "pointer" }}>
-                      <div style={{ width: "100%", aspectRatio: "16/9", background: "linear-gradient(135deg, rgba(201,168,76,0.15), rgba(201,168,76,0.05))", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                        <span style={{ fontSize: 40 }}>🎬</span>
-                      </div>
+                      {modulo.portada_url ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img src={modulo.portada_url} alt={modulo.titulo}
+                          style={{ width: "100%", aspectRatio: "16/9", objectFit: "cover", display: "block" }} />
+                      ) : (
+                        <div style={{ width: "100%", aspectRatio: "16/9", background: "linear-gradient(135deg, rgba(201,168,76,0.15), rgba(201,168,76,0.05))", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                          <span style={{ fontSize: 40 }}>🎬</span>
+                        </div>
+                      )}
                       <div style={{ padding: "20px 24px" }}>
                         <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--oro)", marginBottom: 6 }}>Módulo</p>
                         <p style={{ fontSize: 17, fontWeight: 700, color: "var(--blanco)", marginBottom: 16 }}>{modulo.titulo}</p>
