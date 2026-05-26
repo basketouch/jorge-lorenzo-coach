@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase-browser";
 
@@ -11,12 +11,6 @@ export default function NuevaContrasenaForm() {
   const [error, setError] = useState("");
   const [ok, setOk] = useState(false);
   const router = useRouter();
-
-  // Asegura que el SDK procese el token del hash antes de mostrar el form
-  useEffect(() => {
-    const supabase = createClient();
-    supabase.auth.getSession();
-  }, []);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
