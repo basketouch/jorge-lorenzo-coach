@@ -52,6 +52,9 @@ export async function POST(req: NextRequest) {
     }
   }
 
+  // Envolver el link bajo nuestro dominio para evitar filtros de Gmail
+  const enlaceSeguro = `https://www.jorgelorenzo.coach/api/ir?to=${encodeURIComponent(actionLink)}`;
+
   // Enviar email con Brevo
   const nombreMostrado = nombre?.trim() || "entrenador";
   const year = new Date().getFullYear();
@@ -76,7 +79,7 @@ export async function POST(req: NextRequest) {
           <p style="margin:0 0 24px;font-size:14px;color:#666;line-height:1.7;">El enlace es válido durante 24 horas.</p>
           <table width="100%" cellpadding="0" cellspacing="0" style="margin:8px 0 24px;">
             <tr><td align="center">
-              <a href="${actionLink}" style="display:inline-block;background:#c9a84c;color:#0a0a0a;font-size:15px;font-weight:700;text-decoration:none;padding:14px 32px;border-radius:8px;">
+              <a href="${enlaceSeguro}" style="display:inline-block;background:#c9a84c;color:#0a0a0a;font-size:15px;font-weight:700;text-decoration:none;padding:14px 32px;border-radius:8px;">
                 Crear contraseña y entrar →
               </a>
             </td></tr>
