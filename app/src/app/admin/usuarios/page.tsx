@@ -2,6 +2,7 @@ import { requireAdmin } from "@/lib/admin-guard";
 import CrearUsuario from "./CrearUsuario";
 import QuickEmailBtn from "./QuickEmailBtn";
 import EnviarEmailTodos from "./EnviarEmailTodos";
+import InvitarUsuario from "./InvitarUsuario";
 
 export default async function AdminUsuarios() {
   const { admin } = await requireAdmin();
@@ -49,6 +50,7 @@ export default async function AdminUsuarios() {
             ↓ Exportar CSV
           </a>
           <EnviarEmailTodos total={usuarios.length} />
+          <InvitarUsuario />
           <CrearUsuario />
         </div>
       </div>
