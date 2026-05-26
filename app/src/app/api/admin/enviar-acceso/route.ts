@@ -52,8 +52,11 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  // Envolver el link bajo nuestro dominio para evitar filtros de Gmail
-  const enlaceSeguro = `https://www.jorgelorenzo.coach/api/ir?to=${encodeURIComponent(actionLink)}`;
+  // Extraer token y tipo del action_link para construir URL limpia sin supabase.co
+  const actionUrl = new URL(actionLink);
+  const supabaseToken = actionUrl.searchParams.get("token") ?? "";
+  const supabaseType = actionUrl.searchParams.get("type") ?? "invite";
+  const enlaceSeguro = `https://www.jorgelorenzo.coach/api/ir?token=${encodeURIComponent(supabaseToken)}&type=${encodeURIComponent(supabaseType)}`;
 
   // Enviar email con Brevo
   const nombreMostrado = nombre?.trim() || "entrenador";
