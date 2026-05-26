@@ -6,11 +6,12 @@ export default function InvitarUsuario() {
   const [abierto, setAbierto] = useState(false);
   const [email, setEmail] = useState("");
   const [nombre, setNombre] = useState("");
+  const [apellido, setApellido] = useState("");
   const [loading, setLoading] = useState(false);
   const [estado, setEstado] = useState<"idle" | "ok" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
 
-  function cerrar() { setAbierto(false); setEmail(""); setNombre(""); setEstado("idle"); setErrorMsg(""); }
+  function cerrar() { setAbierto(false); setEmail(""); setNombre(""); setApellido(""); setEstado("idle"); setErrorMsg(""); }
 
   async function enviar(e: React.FormEvent) {
     e.preventDefault();
@@ -19,7 +20,7 @@ export default function InvitarUsuario() {
     const res = await fetch("/api/admin/enviar-acceso", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, nombre }),
+      body: JSON.stringify({ email, nombre, apellido }),
     });
     const data = await res.json();
     setLoading(false);
@@ -80,12 +81,20 @@ export default function InvitarUsuario() {
                   autoFocus
                   style={inputStyle}
                 />
-                <input
-                  value={nombre}
-                  onChange={(e) => setNombre(e.target.value)}
-                  placeholder="Nombre (opcional)"
-                  style={inputStyle}
-                />
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+                  <input
+                    value={nombre}
+                    onChange={(e) => setNombre(e.target.value)}
+                    placeholder="Nombre"
+                    style={inputStyle}
+                  />
+                  <input
+                    value={apellido}
+                    onChange={(e) => setApellido(e.target.value)}
+                    placeholder="Apellido"
+                    style={inputStyle}
+                  />
+                </div>
                 {estado === "error" && (
                   <p style={{ fontSize: 12, color: "#e05c5c" }}>{errorMsg}</p>
                 )}

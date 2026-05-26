@@ -7,7 +7,7 @@ const REDIRECT_URL = "https://www.jorgelorenzo.coach/auth/callback?next=/nueva-c
 
 export async function POST(req: NextRequest) {
   const { admin } = await requireAdmin();
-  const { email, nombre } = await req.json();
+  const { email, nombre, apellido } = await req.json();
 
   if (!email) return NextResponse.json({ error: "email es obligatorio" }, { status: 400 });
 
@@ -36,6 +36,14 @@ export async function POST(req: NextRequest) {
       );
     }
     actionLink = inviteData.properties.action_link;
+  }
+
+  // Actualizar perfil con nombre/apellido si se proporcionaron
+  if (nombre?.trim() || apellido?.trim()) {
+    await admin.from("usuarios").upsert(
+      { email, nombre: nombre?.trim() || null, apellido: apellido?.trim() || null },
+      { onConflict: "email", ignoreDuplicates: false }
+    );
   }
 
   // Enviar email con Brevo
