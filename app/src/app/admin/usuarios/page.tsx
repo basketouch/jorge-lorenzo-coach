@@ -1,8 +1,8 @@
 import { requireAdmin } from "@/lib/admin-guard";
 import CrearUsuario from "./CrearUsuario";
-import QuickEmailBtn from "./QuickEmailBtn";
 import EnviarEmailTodos from "./EnviarEmailTodos";
 import InvitarUsuario from "./InvitarUsuario";
+import UsuariosTable from "./UsuariosTable";
 
 export default async function AdminUsuarios() {
   const { admin } = await requireAdmin();
@@ -22,15 +22,19 @@ export default async function AdminUsuarios() {
     admin.from("progreso").select("user_id, completada").in("user_id", userIds),
   ]);
 
-  const ultimoAccesoMap = new Map<string, string>();
+  const ultimoAccesoMap: Record<string, string> = {};
   accesos?.forEach((a) => {
-    if (!ultimoAccesoMap.has(a.user_id)) ultimoAccesoMap.set(a.user_id, a.created_at);
+    if (!ultimoAccesoMap[a.user_id]) ultimoAccesoMap[a.user_id] = a.created_at;
   });
 
-  function formatFecha(iso?: string) {
-    if (!iso) return "—";
-    return new Date(iso).toLocaleDateString("es-ES", { day: "2-digit", month: "short", year: "numeric" });
-  }
+  const progresosMap: Record<string, { completadas: number; total: number }> = {};
+  usuarios.forEach((u) => {
+    const ups = progresos?.filter((pr) => pr.user_id === u.id) ?? [];
+    progresosMap[u.id] = {
+      completadas: ups.filter((pr) => pr.completada).length,
+      total: ups.length,
+    };
+  });
 
   return (
     <>
@@ -55,53 +59,11 @@ export default async function AdminUsuarios() {
         </div>
       </div>
 
-      <div style={{ overflowX: "auto" }}>
-        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
-          <thead>
-            <tr style={{ borderBottom: "1px solid var(--borde)" }}>
-              {["Nombre", "Email", "Último acceso", "Lecciones", ""].map((h) => (
-                <th key={h} style={{ padding: "10px 16px", textAlign: "left", fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--texto-suave)", whiteSpace: "nowrap" }}>{h}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {usuarios.map((u) => {
-              const completadas = progresos?.filter((pr) => pr.user_id === u.id && pr.completada).length ?? 0;
-              const total = progresos?.filter((pr) => pr.user_id === u.id).length ?? 0;
-
-              return (
-                <tr key={u.id} style={{ borderBottom: "1px solid var(--borde)" }}>
-                  <td style={{ padding: "14px 16px", fontWeight: 600, whiteSpace: "nowrap" }}>
-                    <a href={`/admin/usuarios/${u.id}`} style={{ color: "var(--texto)", textDecoration: "none" }}>
-                      {u.nombre || "—"} {u.apellido} →
-                    </a>
-                  </td>
-                  <td style={{ padding: "14px 16px", whiteSpace: "nowrap" }}>
-                    {u.email
-                      ? <span style={{ color: "var(--texto-suave)" }}>{u.email}</span>
-                      : <span style={{ fontSize: 11, color: "#e06", border: "1px solid #e0666655", borderRadius: 4, padding: "2px 8px" }}>sin email</span>
-                    }
-                  </td>
-                  <td style={{ padding: "14px 16px", color: "var(--texto-suave)", whiteSpace: "nowrap" }}>
-                    {formatFecha(ultimoAccesoMap.get(u.id))}
-                  </td>
-                  <td style={{ padding: "14px 16px", color: "var(--texto-suave)", whiteSpace: "nowrap" }}>
-                    {completadas}/{total}
-                  </td>
-                  <td style={{ padding: "14px 16px" }}>
-                    {u.email && (
-                      <QuickEmailBtn
-                        email={u.email}
-                        nombre={`${u.nombre ?? ""} ${u.apellido ?? ""}`.trim()}
-                      />
-                    )}
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
+      <UsuariosTable
+        usuarios={usuarios}
+        ultimoAccesoMap={ultimoAccesoMap}
+        progresosMap={progresosMap}
+      />
     </>
   );
 }
