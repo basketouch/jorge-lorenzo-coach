@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const REDIRECT_URL = "https://www.jorgelorenzo.coach/auth/callback?next=/nueva-contrasena";
+const REDIRECT_URL = "https://www.jorgelorenzo.coach";
 
 /**
  * Proxy limpio para links de auth de Supabase.

@@ -3,7 +3,7 @@ import { requireAdmin } from "@/lib/admin-guard";
 
 const BREVO_API_KEY = process.env.BREVO_API_KEY!;
 const SENDER = { name: "Jorge Lorenzo Coach", email: "info@jorgelorenzo.coach" };
-const REDIRECT_URL = "https://www.jorgelorenzo.coach/auth/callback?next=/nueva-contrasena";
+const REDIRECT_URL = "https://www.jorgelorenzo.coach";
 
 export async function POST(req: NextRequest) {
   const { admin } = await requireAdmin();
