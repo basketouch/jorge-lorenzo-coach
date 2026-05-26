@@ -11,54 +11,75 @@ export async function POST(req: NextRequest) {
 
   if (!email) return NextResponse.json({ error: "email es obligatorio" }, { status: 400 });
 
-  // Intentar recovery (usuario ya existe en auth)
-  // Si falla, usar invite (crea el usuario en auth automáticamente)
-  let actionLink: string | null = null;
+  // 1. Comprobar si ya existe en Auth
+  const { data: lista } = await admin.auth.admin.listUsers();
+  const usuarioAuth = lista?.users?.find((u) => u.email === email);
 
-  const { data: recoveryData } = await admin.auth.admin.generateLink({
+  if (!usuarioAuth) {
+    // 2. Crear usuario en Auth (email confirmado, sin contraseña)
+    //    Nunca usamos type:"invite" porque Supabase manda su propio email
+    const { data: creado, error: createError } = await admin.auth.admin.createUser({
+      email,
+      email_confirm: true,
+    });
+
+    if (createError || !creado?.user) {
+      return NextResponse.json({ error: createError?.message ?? "Error al crear usuario" }, { status: 500 });
+    }
+
+    const newId = creado.user.id;
+
+    // 3. Si había una fila antigua en usuarios (UUID distinto), migrar accesos y limpiar
+    const { data: viejo } = await admin
+      .from("usuarios")
+      .select("id")
+      .eq("email", email)
+      .neq("id", newId)
+      .single();
+
+    if (viejo?.id) {
+      const oldId = viejo.id;
+      // Migrar tablas relacionadas al nuevo UUID
+      await Promise.all([
+        admin.from("accesos_modulo").update({ user_id: newId }).eq("user_id", oldId),
+        admin.from("compras").update({ user_id: newId }).eq("user_id", oldId),
+        admin.from("progreso").update({ user_id: newId }).eq("user_id", oldId),
+        admin.from("accesos").update({ user_id: newId }).eq("user_id", oldId),
+      ]);
+      // Borrar fila vieja (ya no tiene dependencias)
+      await admin.from("usuarios").delete().eq("id", oldId);
+    }
+  }
+
+  // 4. Actualizar nombre/apellido en usuarios por UUID de auth
+  if (nombre?.trim() || apellido?.trim()) {
+    const { data: authList2 } = await admin.auth.admin.listUsers();
+    const authUser = authList2?.users?.find((u) => u.email === email);
+    if (authUser) {
+      await admin.from("usuarios")
+        .update({ nombre: nombre?.trim() || null, apellido: apellido?.trim() || null })
+        .eq("id", authUser.id);
+    }
+  }
+
+  // 5. Generar recovery link (NO manda email propio)
+  const { data, error } = await admin.auth.admin.generateLink({
     type: "recovery",
     email,
     options: { redirectTo: REDIRECT_URL },
   });
 
-  if (recoveryData?.properties?.action_link) {
-    actionLink = recoveryData.properties.action_link;
-  } else {
-    const { data: inviteData, error: inviteError } = await admin.auth.admin.generateLink({
-      type: "invite",
-      email,
-      options: { redirectTo: REDIRECT_URL },
-    });
-    if (inviteError || !inviteData?.properties?.action_link) {
-      return NextResponse.json(
-        { error: inviteError?.message ?? "No se pudo generar el enlace de acceso" },
-        { status: 500 }
-      );
-    }
-    actionLink = inviteData.properties.action_link;
+  if (error || !data?.properties?.action_link) {
+    return NextResponse.json({ error: error?.message ?? "No se pudo generar el enlace" }, { status: 500 });
   }
 
-  // Actualizar nombre/apellido en el perfil usando el UUID de auth (no email)
-  if (nombre?.trim() || apellido?.trim()) {
-    const { data: authList } = await admin.auth.admin.listUsers();
-    const authUser = authList?.users?.find((u) => u.email === email);
-    if (authUser) {
-      await admin.from("usuarios")
-        .update({
-          nombre: nombre?.trim() || null,
-          apellido: apellido?.trim() || null,
-        })
-        .eq("id", authUser.id);
-    }
-  }
-
-  // Extraer token y tipo del action_link para construir URL limpia sin supabase.co
-  const actionUrl = new URL(actionLink);
+  // 6. Construir URL limpia sin supabase.co (evita filtros de Gmail)
+  const actionUrl = new URL(data.properties.action_link);
   const supabaseToken = actionUrl.searchParams.get("token") ?? "";
-  const supabaseType = actionUrl.searchParams.get("type") ?? "invite";
+  const supabaseType = actionUrl.searchParams.get("type") ?? "recovery";
   const enlaceSeguro = `https://www.jorgelorenzo.coach/api/ir?token=${encodeURIComponent(supabaseToken)}&type=${encodeURIComponent(supabaseType)}`;
 
-  // Enviar email con Brevo
+  // 7. Enviar email con Brevo
   const nombreMostrado = nombre?.trim() || "entrenador";
   const year = new Date().getFullYear();
 
