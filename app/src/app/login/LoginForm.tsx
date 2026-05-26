@@ -67,7 +67,7 @@ export default function LoginForm() {
       });
       if (error) {
         const msg = error.message.toLowerCase();
-        if (msg.includes("already registered") || msg.includes("already exists") || msg.includes("user already")) {
+        if (msg.includes("already registered") || msg.includes("already exists") || msg.includes("user already") || msg.includes("database error")) {
           setError("Ya existe una cuenta con ese email. Inicia sesión o usa '¿Olvidaste tu contraseña?'");
         } else {
           setError(error.message);
