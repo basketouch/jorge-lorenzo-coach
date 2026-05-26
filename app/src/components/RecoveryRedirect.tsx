@@ -1,21 +1,20 @@
 "use client";
 
 import { useEffect } from "react";
-import { useRouter } from "next/navigation";
 
 /**
  * Detecta tokens de recovery en el hash de la URL (implicit flow de Supabase)
- * y redirige a /nueva-contrasena preservando el hash para que el SDK lo procese.
+ * y hace una navegación completa a /nueva-contrasena con el hash preservado.
+ * Necesita window.location (no router.replace) para que el SDK de Supabase
+ * se inicialice de cero en la nueva página y detecte el access_token.
  */
 export default function RecoveryRedirect() {
-  const router = useRouter();
-
   useEffect(() => {
     const hash = window.location.hash;
     if (hash.includes("type=recovery") && hash.includes("access_token=")) {
-      router.replace("/nueva-contrasena" + hash);
+      window.location.replace("/nueva-contrasena" + hash);
     }
-  }, [router]);
+  }, []);
 
   return null;
 }
