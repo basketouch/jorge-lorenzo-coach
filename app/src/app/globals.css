@@ -301,6 +301,13 @@ footer { border-top: 1px solid var(--borde); padding: 32px 24px; text-align: cen
   /* ── Admin tabla: ocultar columnas menos importantes ── */
   .admin-col-acceso { display: none !important; }
   .admin-col-lecciones { display: none !important; }
+
+  /* ── Admin layout: sin margen lateral en móvil ── */
+  .admin-main { margin-left: 0 !important; }
+  .admin-main-content { padding: 20px !important; }
+
+  /* ── NavBarPlayer: ocultar título del curso en móvil ── */
+  .player-curso-titulo { display: none !important; }
 }
 
 @media (max-width: 480px) {

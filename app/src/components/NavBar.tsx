@@ -52,11 +52,11 @@ export function NavBarPlayer({
     }}>
       <a href="/cuenta" className="nav-logo">Jorge <span>Lorenzo</span></a>
 
-      <a href={`/ver/${slug}`} style={{ textDecoration: "none", flex: 1, textAlign: "center" }}>
+      <a href={`/ver/${slug}`} className="player-curso-titulo" style={{ textDecoration: "none", flex: 1, textAlign: "center" }}>
         <span className="nav-link">{cursoTitulo}</span>
       </a>
 
-      <a href="/cuenta" className="nav-link">Mi cuenta</a>
+      <a href="/cuenta" className="nav-link" style={{ whiteSpace: "nowrap" }}>Mi cuenta</a>
     </div>
   );
 }
