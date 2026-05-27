@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { createAdminClient } from "@/lib/supabase-admin";
 import { createClient } from "@/lib/supabase-server";
 import Footer from "@/components/Footer";
@@ -162,9 +163,9 @@ export default async function CursoPage({ params }: { params: Promise<{ slug: st
             <div className="curso-sidebar" style={{ position: "sticky", top: 100 }}>
               <div style={{ background: "var(--card)", border: "1px solid var(--borde)", borderRadius: 12, padding: 28, boxShadow: "0 4px 24px rgba(0,0,0,0.3)" }}>
                 {curso.portada_url && (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={curso.portada_url} alt={curso.titulo}
-                    style={{ width: "100%", borderRadius: 8, marginBottom: 20, aspectRatio: "16/9", objectFit: "cover" }} />
+                  <div style={{ position: "relative", width: "100%", aspectRatio: "16/9", borderRadius: 8, overflow: "hidden", marginBottom: 20 }}>
+                    <Image src={curso.portada_url} alt={curso.titulo} fill priority style={{ objectFit: "cover" }} />
+                  </div>
                 )}
 
                 {/* CTA */}
