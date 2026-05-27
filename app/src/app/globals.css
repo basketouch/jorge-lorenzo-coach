@@ -292,6 +292,13 @@ footer { border-top: 1px solid var(--borde); padding: 32px 24px; text-align: cen
   .faq-pregunta { padding: 16px !important; font-size: 14px !important; }
   .faq-respuesta { padding: 0 16px !important; }
   .faq-item.abierto .faq-respuesta { padding: 0 16px 16px !important; }
+
+  /* ── Player: padding reducido en móvil ── */
+  .player-info { padding: 16px !important; }
+
+  /* ── Admin tabla: ocultar columnas menos importantes ── */
+  .admin-col-acceso { display: none !important; }
+  .admin-col-lecciones { display: none !important; }
 }
 
 @media (max-width: 480px) {

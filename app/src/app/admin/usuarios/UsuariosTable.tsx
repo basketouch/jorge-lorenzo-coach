@@ -59,11 +59,12 @@ export default function UsuariosTable({ usuarios, ultimoAccesoMap, progresosMap 
     return 0;
   });
 
-  function Th({ col, label }: { col: Col; label: string }) {
+  function Th({ col, label, className }: { col: Col; label: string; className?: string }) {
     const active = sortCol === col;
     return (
       <th
         onClick={() => handleSort(col)}
+        className={className}
         style={{
           padding: "10px 16px", textAlign: "left", fontSize: 11, fontWeight: 700,
           letterSpacing: "0.08em", textTransform: "uppercase",
@@ -83,8 +84,8 @@ export default function UsuariosTable({ usuarios, ultimoAccesoMap, progresosMap 
           <tr style={{ borderBottom: "1px solid var(--borde)" }}>
             <Th col="nombre" label="Nombre" />
             <Th col="email" label="Email" />
-            <Th col="acceso" label="Último acceso" />
-            <Th col="lecciones" label="Lecciones" />
+            <Th col="acceso" label="Último acceso" className="admin-col-acceso" />
+            <Th col="lecciones" label="Lecciones" className="admin-col-lecciones" />
             <th style={{ padding: "10px 16px" }} />
           </tr>
         </thead>
@@ -104,10 +105,10 @@ export default function UsuariosTable({ usuarios, ultimoAccesoMap, progresosMap 
                     : <span style={{ fontSize: 11, color: "#e06", border: "1px solid #e0666655", borderRadius: 4, padding: "2px 8px" }}>sin email</span>
                   }
                 </td>
-                <td style={{ padding: "14px 16px", color: "var(--texto-suave)", whiteSpace: "nowrap" }}>
+                <td className="admin-col-acceso" style={{ padding: "14px 16px", color: "var(--texto-suave)", whiteSpace: "nowrap" }}>
                   {formatFecha(ultimoAccesoMap[u.id])}
                 </td>
-                <td style={{ padding: "14px 16px", color: "var(--texto-suave)", whiteSpace: "nowrap" }}>
+                <td className="admin-col-lecciones" style={{ padding: "14px 16px", color: "var(--texto-suave)", whiteSpace: "nowrap" }}>
                   {completadas}/{total}
                 </td>
                 <td style={{ padding: "14px 16px" }}>

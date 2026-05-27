@@ -103,10 +103,10 @@ export default async function PlayerLeccion({
           <p style={{ color: "var(--texto-suave)" }}>Vídeo próximamente</p>
         </div>
       )}
-      <div style={{ padding: 32 }}>
-        <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 16, flexWrap: "wrap", marginBottom: 32 }}>
+      <div className="player-info">
+        <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 16, flexWrap: "wrap", marginBottom: 24 }}>
           <div>
-            <h2 style={{ fontSize: "clamp(20px, 3vw, 28px)", marginBottom: 4 }}>{leccion.titulo}</h2>
+            <h2 style={{ fontSize: "clamp(18px, 3vw, 28px)", marginBottom: 4 }}>{leccion.titulo}</h2>
             {leccion.duracion && <p style={{ fontSize: 13, color: "var(--texto-suave)" }}>{leccion.duracion}</p>}
           </div>
           <MarcarCompletada leccionId={leccion.id} completada={!!progreso?.completada} siguienteId={siguiente?.id} slug={slug} />
