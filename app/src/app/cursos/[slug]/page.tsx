@@ -90,7 +90,7 @@ export default async function CursoPage({ params }: { params: Promise<{ slug: st
       {/* CONTENIDO */}
       <section style={{ paddingTop: 60, paddingBottom: 120 }}>
         <div className="container" style={{ maxWidth: 1140 }}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 380px", gap: 64, alignItems: "start" }}>
+          <div className="curso-grid" style={{ display: "grid", gridTemplateColumns: "1fr 380px", gap: 64, alignItems: "start" }}>
 
             {/* IZQUIERDA */}
             <div>
@@ -113,7 +113,7 @@ export default async function CursoPage({ params }: { params: Promise<{ slug: st
               {trabajamos.length > 0 && (
                 <div style={{ marginBottom: 48 }}>
                   <p className="section-label">Lo que trabajamos</p>
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+                  <div className="trabajamos-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
                     {trabajamos.map(({ icono, texto }) => (
                       <div key={texto} style={{ background: "var(--card)", border: "1px solid var(--borde)", borderRadius: 8, padding: "14px 16px", display: "flex", gap: 10, alignItems: "center" }}>
                         <span style={{ fontSize: 18 }}>{icono}</span>
@@ -159,7 +159,7 @@ export default async function CursoPage({ params }: { params: Promise<{ slug: st
             </div>
 
             {/* DERECHA — Card */}
-            <div style={{ position: "sticky", top: 100 }}>
+            <div className="curso-sidebar" style={{ position: "sticky", top: 100 }}>
               <div style={{ background: "var(--card)", border: "1px solid var(--borde)", borderRadius: 12, padding: 28, boxShadow: "0 4px 24px rgba(0,0,0,0.3)" }}>
                 {curso.portada_url && (
                   // eslint-disable-next-line @next/next/no-img-element

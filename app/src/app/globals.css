@@ -270,4 +270,33 @@ footer { border-top: 1px solid var(--borde); padding: 32px 24px; text-align: cen
   .hero-botones { flex-direction: column; }
   .cta-botones { flex-direction: column; align-items: center; }
   .nav-links .nav-link { display: none; }
+
+  /* ── Cursos: grid principal 2col → 1col ── */
+  .curso-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
+  .curso-sidebar { position: static !important; top: auto !important; }
+
+  /* ── Cursos: "Lo que trabajamos" 2col → 1col ── */
+  .trabajamos-grid { grid-template-columns: 1fr !important; }
+
+  /* ── Cursos: padding lecciones reducido ── */
+  .leccion-row { padding-left: 20px !important; padding-right: 16px !important; }
+
+  /* ── Módulo: portada más baja en móvil ── */
+  .modulo-portada { height: 200px !important; }
+  .modulo-portada-texto { left: 16px !important; bottom: 16px !important; }
+
+  /* ── Curso privado: banner overlay padding ── */
+  .curso-banner-overlay { padding: 16px 20px !important; }
+
+  /* ── FAQ ── */
+  .faq-pregunta { padding: 16px !important; font-size: 14px !important; }
+  .faq-respuesta { padding: 0 16px !important; }
+  .faq-item.abierto .faq-respuesta { padding: 0 16px 16px !important; }
+}
+
+@media (max-width: 480px) {
+  /* Palmarés: 4 logros en 1 columna en pantallas muy pequeñas */
+  .palmares { grid-template-columns: 1fr; }
+  /* Container menos padding en pantallas pequeñas */
+  .container { padding: 0 16px; }
 }

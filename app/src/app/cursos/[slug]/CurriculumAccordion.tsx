@@ -122,7 +122,7 @@ function ModuloRow({ modulo, slug, lemonStore }: { modulo: Modulo; slug: string;
           {lecciones.map((leccion, i) => {
             const previewUrl = `/preview/${slug}/${leccion.id}`;
             const row = (
-              <div style={{
+              <div className="leccion-row" style={{
                 padding: "12px 20px 12px 52px", display: "flex", alignItems: "center",
                 justifyContent: "space-between",
                 borderBottom: i < lecciones.length - 1 ? "1px solid var(--borde)" : "none",

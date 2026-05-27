@@ -19,7 +19,7 @@ export default function ModuloAcceso({
 
       {/* Hero portada */}
       {modulo.portada_url && (
-        <div style={{ marginBottom: 40, borderRadius: 12, overflow: "hidden", height: 320, position: "relative" }}>
+        <div className="modulo-portada" style={{ marginBottom: 40, borderRadius: 12, overflow: "hidden", height: 320, position: "relative" }}>
           <Image
             src={modulo.portada_url}
             alt={modulo.titulo}
@@ -28,7 +28,7 @@ export default function ModuloAcceso({
             style={{ objectFit: "cover" }}
           />
           <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 60%)" }} />
-          <div style={{ position: "absolute", bottom: 24, left: 28 }}>
+          <div className="modulo-portada-texto" style={{ position: "absolute", bottom: 24, left: 28 }}>
             <p style={{ fontSize: 11, color: "rgba(255,255,255,0.6)", letterSpacing: 2, textTransform: "uppercase", marginBottom: 6 }}>
               Módulo {String(modulo.orden).padStart(2, "0")}
             </p>
