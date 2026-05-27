@@ -190,6 +190,7 @@ footer { border-top: 1px solid var(--borde); padding: 32px 24px; text-align: cen
 .foto-jugador-label { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,0.8)); padding: 24px 16px 12px; font-size: 13px; font-weight: 600; color: var(--texto-suave); }
 
 .nav-links { display: flex; align-items: center; gap: 24px; }
+.nav-hamburger { display: none; }
 .nav-link { font-size: 13px; color: var(--texto-suave); text-decoration: none; transition: color 0.2s; }
 .nav-link:hover { color: var(--oro); }
 
@@ -270,6 +271,7 @@ footer { border-top: 1px solid var(--borde); padding: 32px 24px; text-align: cen
   .hero-botones { flex-direction: column; }
   .cta-botones { flex-direction: column; align-items: center; }
   .nav-links .nav-link { display: none; }
+  .nav-hamburger { display: flex; }
 
   /* ── Cursos: grid principal 2col → 1col ── */
   .curso-grid { grid-template-columns: 1fr !important; gap: 40px !important; }

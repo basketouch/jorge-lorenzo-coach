@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase-server";
+import NavHamburger from "./NavHamburger";
 
 interface Props {
   /** Enlace del logo. Por defecto "/" */
@@ -8,10 +8,12 @@ interface Props {
   mostrarSalir?: boolean;
 }
 
-export default async function NavBar({ logoHref = "/", links = [], mostrarSalir = false }: Props) {
+export default function NavBar({ logoHref = "/", links = [], mostrarSalir = false }: Props) {
   return (
     <nav>
       <a href={logoHref} className="nav-logo">Jorge <span>Lorenzo</span></a>
+
+      {/* Desktop: links visibles */}
       <div className="nav-links">
         {links.map(({ label, href }) => (
           <a key={href} href={href} className="nav-link">{label}</a>
@@ -25,6 +27,9 @@ export default async function NavBar({ logoHref = "/", links = [], mostrarSalir 
           </form>
         )}
       </div>
+
+      {/* Móvil: hamburguesa */}
+      <NavHamburger links={links} mostrarSalir={mostrarSalir} />
     </nav>
   );
 }
