@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 interface Leccion { id: number; titulo: string; duracion?: string; es_preview: boolean; orden: number; }
 interface Curso { id: number; slug: string; titulo: string; precio: number; lemon_variant_id: string | null; en_venta: boolean; }
 interface Modulo { id: number; titulo: string; orden: number; portada_url?: string | null; }
@@ -17,11 +19,13 @@ export default function ModuloAcceso({
 
       {/* Hero portada */}
       {modulo.portada_url && (
-        <div style={{ marginBottom: 40, borderRadius: 12, overflow: "hidden", maxHeight: 320, position: "relative" }}>
-          <img
+        <div style={{ marginBottom: 40, borderRadius: 12, overflow: "hidden", height: 320, position: "relative" }}>
+          <Image
             src={modulo.portada_url}
             alt={modulo.titulo}
-            style={{ width: "100%", objectFit: "cover", display: "block", maxHeight: 320 }}
+            fill
+            priority
+            style={{ objectFit: "cover" }}
           />
           <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 60%)" }} />
           <div style={{ position: "absolute", bottom: 24, left: 28 }}>

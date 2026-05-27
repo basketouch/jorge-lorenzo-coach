@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import CuentaAtrasVenta from "@/components/CuentaAtrasVenta";
 
@@ -68,8 +69,7 @@ export default function CursosGrid({
               <Link key={item.key} href={`/cursos/${c.slug}`} style={{ textDecoration: "none" }}>
                 <div className="tier-card" style={{ cursor: "pointer", height: "100%" }}>
                   {c.portada_url && (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src={c.portada_url} alt={c.titulo} style={{ width: "100%", borderRadius: 6, marginBottom: 16, aspectRatio: "16/9", objectFit: "cover" }} />
+                    <Image src={c.portada_url} alt={c.titulo} width={640} height={360} style={{ width: "100%", height: "auto", borderRadius: 6, marginBottom: 16, objectFit: "cover" }} />
                   )}
                   <p className="tier-nombre">{c.titulo}</p>
                   {c.descripcion && <p className="tier-desc" style={{ marginTop: 8 }}>{c.descripcion}</p>}
@@ -88,8 +88,7 @@ export default function CursosGrid({
                   En venta
                 </div>
                 {m.portada_url && (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={m.portada_url} alt={m.titulo} style={{ width: "100%", borderRadius: 6, marginBottom: 16, aspectRatio: "16/9", objectFit: "cover" }} />
+                  <Image src={m.portada_url} alt={m.titulo} width={640} height={360} style={{ width: "100%", height: "auto", borderRadius: 6, marginBottom: 16, objectFit: "cover" }} />
                 )}
                 <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--texto-suave)", marginBottom: 6 }}>Módulo individual</p>
                 <p className="tier-nombre">{m.titulo}</p>

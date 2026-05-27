@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { createClient } from "@/lib/supabase-server";
 import Footer from "@/components/Footer";
 
@@ -80,8 +81,7 @@ export default async function Home() {
 
       {/* FOTO MUNDIAL */}
       <div className="foto-banda">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/fotos/Mundial Oro 19.png" alt="Jorge Lorenzo, Campeón del Mundo 2019" />
+        <Image src="/fotos/Mundial Oro 19.png" alt="Jorge Lorenzo, Campeón del Mundo 2019" fill style={{ objectFit: "cover", objectPosition: "center" }} priority />
         <div className="foto-banda-overlay"><span>Campeón del Mundo · China 2019</span></div>
       </div>
 
@@ -124,8 +124,7 @@ export default async function Home() {
               { src: "/fotos/Con Santi Aldama.png", label: "Con Santi Aldama" },
             ].map((foto, i) => (
               <div key={i} className="foto-jugador">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={foto.src} alt={foto.label} />
+                <Image src={foto.src} alt={foto.label} width={600} height={600} style={{ width: "100%", height: "auto", display: "block" }} />
                 <div className="foto-jugador-label">{foto.label}</div>
               </div>
             ))}
