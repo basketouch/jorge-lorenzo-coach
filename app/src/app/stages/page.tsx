@@ -13,6 +13,14 @@ export default function Stages() {
       position: "relative",
       overflow: "hidden",
     }}>
+      <style>{`
+        .cta-button {
+          transition: opacity 0.2s;
+        }
+        .cta-button:hover {
+          opacity: 0.9;
+        }
+      `}</style>
 
       {/* Header */}
       <header style={{ position: "relative", zIndex: 1, padding: "32px 40px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
@@ -117,7 +125,7 @@ export default function Stages() {
           <p style={{ color: "var(--texto-suave)", marginBottom: 32, lineHeight: 1.7 }}>
             Whether you're looking for a pre-season conditioning camp, competitive matches, or specialized coaching clinics, we'll create a custom experience for your team.
           </p>
-          <a href="mailto:coach@jorgelorenzospain.com?subject=Pre-Season%20Tours%20Inquiry" style={{
+          <a href="mailto:coach@jorgelorenzospain.com?subject=Pre-Season%20Tours%20Inquiry" className="cta-button" style={{
             display: "inline-block",
             background: "var(--oro)",
             color: "var(--negro)",
@@ -129,14 +137,7 @@ export default function Stages() {
             transition: "all 0.2s",
             border: "2px solid var(--oro)",
             cursor: "pointer",
-          }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.opacity = "0.9";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.opacity = "1";
-            }}
-          >
+          }}>
             Request Your Custom Program
           </a>
         </div>
