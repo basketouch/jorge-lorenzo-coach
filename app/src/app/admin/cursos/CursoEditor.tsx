@@ -27,6 +27,7 @@ interface CursoData {
   web_precio?: number | null;
   web_precio_original?: number | null;
   fecha_apertura_texto?: string | null;
+  fecha_apertura?: string | null;
 }
 
 export default function CursoEditor({ curso }: { curso: CursoData }) {
@@ -53,6 +54,10 @@ export default function CursoEditor({ curso }: { curso: CursoData }) {
   const [skoolPrecio, setSkoolPrecio] = useState(String((curso.skool_precio ?? 0) / 100));
   const [skoolPrecioOrig, setSkoolPrecioOrig] = useState(String((curso.skool_precio_original ?? 0) / 100));
   const [fechaApertura, setFechaApertura] = useState(curso.fecha_apertura_texto ?? "");
+  // fecha_apertura: ISO datetime local (ej: "2026-06-01T09:00")
+  const [fechaAperturaAuto, setFechaAperturaAuto] = useState(
+    curso.fecha_apertura ? curso.fecha_apertura.slice(0, 16) : ""
+  );
 
   // --- Página ---
   const [descLarga, setDescLarga] = useState(curso.descripcion_larga ?? "");
@@ -82,6 +87,7 @@ export default function CursoEditor({ curso }: { curso: CursoData }) {
       lemon_variant_id: variantId.trim() || null,
       precio: Math.round(parseFloat(precio || "0") * 100),
       en_venta: enVenta,
+      fecha_apertura: fechaAperturaAuto ? new Date(fechaAperturaAuto).toISOString() : null,
       web_precio: webPrecio ? Math.round(parseFloat(webPrecio) * 100) : null,
       web_precio_original: webPrecioOrig ? Math.round(parseFloat(webPrecioOrig) * 100) : null,
       skool_url: skoolUrl.trim() || null,
@@ -166,8 +172,34 @@ export default function CursoEditor({ curso }: { curso: CursoData }) {
         {/* ---- TAB VENTA ---- */}
         {tab === "venta" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-            <Row label="Venta abierta">
-              <Toggle value={enVenta} onChange={setEnVenta} labelOn="Venta activa" labelOff="Próximamente" />
+            <Row label="Fecha de apertura automática">
+              <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                <input
+                  type="datetime-local"
+                  value={fechaAperturaAuto}
+                  onChange={e => setFechaAperturaAuto(e.target.value)}
+                  style={iS}
+                />
+                {fechaAperturaAuto && (() => {
+                  const d = new Date(fechaAperturaAuto);
+                  const ahora = new Date();
+                  const activa = d <= ahora;
+                  return (
+                    <span style={{ fontSize: 11, color: activa ? "#4aa" : "var(--oro)", fontWeight: 600 }}>
+                      {activa
+                        ? `✓ En venta desde ${d.toLocaleDateString("es-ES", { day: "numeric", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit" })}`
+                        : `⏰ Se activará el ${d.toLocaleDateString("es-ES", { day: "numeric", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit" })}`
+                      }
+                    </span>
+                  );
+                })()}
+                {!fechaAperturaAuto && (
+                  <span style={{ fontSize: 11, color: "var(--texto-suave)" }}>Sin fecha → usa el toggle manual de abajo</span>
+                )}
+              </div>
+            </Row>
+            <Row label="Activación manual (override)">
+              <Toggle value={enVenta} onChange={setEnVenta} labelOn="Forzar en venta ya" labelOff="Desactivado" />
             </Row>
             <Row label="Lemon Variant ID">
               <input value={variantId} onChange={e => setVariantId(e.target.value)} style={{ ...iS, fontFamily: "monospace" }} placeholder="ej. 5c1f00a0-..." />

@@ -26,7 +26,7 @@ export async function PATCH(
     "lemon_variant_id", "precio", "titulo", "slug", "descripcion", "activo", "portada_url", "en_venta",
     "descripcion_larga", "duracion_texto", "para_quien", "lo_que_trabajamos", "videos_preview",
     "skool_precio", "skool_precio_original", "skool_url", "web_precio", "web_precio_original",
-    "fecha_apertura_texto",
+    "fecha_apertura_texto", "fecha_apertura",
   ];
   const patch = Object.fromEntries(Object.entries(body).filter(([k]) => allowed.includes(k)));
 

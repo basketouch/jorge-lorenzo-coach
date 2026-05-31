@@ -40,6 +40,10 @@ export default async function CursoPage({ params }: { params: Promise<{ slug: st
     (acc: number, m: { lecciones_curso: unknown[] }) => acc + (m.lecciones_curso?.length ?? 0), 0
   );
 
+  // Venta activa: manual (en_venta) O fecha_apertura ya pasada
+  const enVentaAuto = curso.fecha_apertura ? new Date(curso.fecha_apertura) <= new Date() : false;
+  const enVenta = curso.en_venta || enVentaAuto;
+
   // Precios: usar campos específicos si existen, si no caer a precio base
   const webPrecio = curso.web_precio ?? curso.precio;
   const webPrecioOrig = curso.web_precio_original ?? null;
@@ -177,7 +181,7 @@ export default async function CursoPage({ params }: { params: Promise<{ slug: st
                   <a href="/login" className="btn-primary" style={{ display: "block", textAlign: "center", marginBottom: 20 }}>
                     Acceder al curso →
                   </a>
-                ) : !curso.en_venta ? (
+                ) : !enVenta ? (
                   /* Curso no en venta → Próximamente */
                   <div style={{ marginBottom: 20, textAlign: "center", padding: "24px 16px", background: "rgba(201,168,76,0.04)", border: "1px solid rgba(201,168,76,0.15)", borderRadius: 10 }}>
                     <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--oro)", marginBottom: 8 }}>
