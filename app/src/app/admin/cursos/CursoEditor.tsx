@@ -28,6 +28,7 @@ interface CursoData {
   web_precio_original?: number | null;
   fecha_apertura_texto?: string | null;
   fecha_apertura?: string | null;
+  fecha_cierre?: string | null;
 }
 
 export default function CursoEditor({ curso }: { curso: CursoData }) {
@@ -57,6 +58,9 @@ export default function CursoEditor({ curso }: { curso: CursoData }) {
   // fecha_apertura: ISO datetime local (ej: "2026-06-01T09:00")
   const [fechaAperturaAuto, setFechaAperturaAuto] = useState(
     curso.fecha_apertura ? curso.fecha_apertura.slice(0, 16) : ""
+  );
+  const [fechaCierre, setFechaCierre] = useState(
+    curso.fecha_cierre ? curso.fecha_cierre.slice(0, 16) : ""
   );
 
   // --- Página ---
@@ -88,6 +92,7 @@ export default function CursoEditor({ curso }: { curso: CursoData }) {
       precio: Math.round(parseFloat(precio || "0") * 100),
       en_venta: enVenta,
       fecha_apertura: fechaAperturaAuto ? new Date(fechaAperturaAuto).toISOString() : null,
+      fecha_cierre: fechaCierre ? new Date(fechaCierre).toISOString() : null,
       web_precio: webPrecio ? Math.round(parseFloat(webPrecio) * 100) : null,
       web_precio_original: webPrecioOrig ? Math.round(parseFloat(webPrecioOrig) * 100) : null,
       skool_url: skoolUrl.trim() || null,
@@ -196,6 +201,28 @@ export default function CursoEditor({ curso }: { curso: CursoData }) {
                 {!fechaAperturaAuto && (
                   <span style={{ fontSize: 11, color: "var(--texto-suave)" }}>Sin fecha → usa el toggle manual de abajo</span>
                 )}
+              </div>
+            </Row>
+            <Row label="Fecha de cierre de venta">
+              <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                <input
+                  type="datetime-local"
+                  value={fechaCierre}
+                  onChange={e => setFechaCierre(e.target.value)}
+                  style={iS}
+                />
+                {fechaCierre && (() => {
+                  const d = new Date(fechaCierre);
+                  const cerrado = d <= new Date();
+                  return (
+                    <span style={{ fontSize: 11, color: cerrado ? "#e06" : "var(--texto-suave)", fontWeight: 600 }}>
+                      {cerrado
+                        ? `✗ Venta cerrada desde ${d.toLocaleDateString("es-ES", { day: "numeric", month: "long", hour: "2-digit", minute: "2-digit" })}`
+                        : `Cierra el ${d.toLocaleDateString("es-ES", { day: "numeric", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit" })}`
+                      }
+                    </span>
+                  );
+                })()}
               </div>
             </Row>
             <Row label="Activación manual (override)">

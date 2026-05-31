@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 import CurriculumAccordion from "./CurriculumAccordion";
 import FaqAccordion from "./FaqAccordion";
 import NavBar from "@/components/NavBar";
+import CuentaAtras from "./CuentaAtras";
 
 export const dynamic = "force-dynamic";
 
@@ -40,9 +41,10 @@ export default async function CursoPage({ params }: { params: Promise<{ slug: st
     (acc: number, m: { lecciones_curso: unknown[] }) => acc + (m.lecciones_curso?.length ?? 0), 0
   );
 
-  // Venta activa: manual (en_venta) O fecha_apertura ya pasada
+  // Venta activa: (manual o fecha_apertura pasada) Y fecha_cierre no pasada
   const enVentaAuto = curso.fecha_apertura ? new Date(curso.fecha_apertura) <= new Date() : false;
-  const enVenta = curso.en_venta || enVentaAuto;
+  const cierrePasado = curso.fecha_cierre ? new Date(curso.fecha_cierre) <= new Date() : false;
+  const enVenta = (curso.en_venta || enVentaAuto) && !cierrePasado;
 
   // Precios: usar campos específicos si existen, si no caer a precio base
   const webPrecio = curso.web_precio ?? curso.precio;
@@ -170,6 +172,11 @@ export default async function CursoPage({ params }: { params: Promise<{ slug: st
                   <div style={{ position: "relative", width: "100%", aspectRatio: "16/9", borderRadius: 8, overflow: "hidden", marginBottom: 20 }}>
                     <Image src={curso.portada_url} alt={curso.titulo} fill priority style={{ objectFit: "cover" }} />
                   </div>
+                )}
+
+                {/* Cuenta atrás — solo cuando la venta está activa y hay fecha de cierre */}
+                {enVenta && curso.fecha_cierre && !cierrePasado && (
+                  <CuentaAtras fechaCierre={curso.fecha_cierre} />
                 )}
 
                 {/* CTA */}
