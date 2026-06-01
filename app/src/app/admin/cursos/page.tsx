@@ -71,6 +71,8 @@ export default async function AdminCursos() {
                 web_precio: curso.web_precio,
                 web_precio_original: curso.web_precio_original,
                 fecha_apertura_texto: curso.fecha_apertura_texto,
+                fecha_apertura: curso.fecha_apertura,
+                fecha_cierre: curso.fecha_cierre,
               }} />
 
               {/* Módulos */}
