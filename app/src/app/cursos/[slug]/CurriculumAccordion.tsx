@@ -7,6 +7,7 @@ interface Leccion {
   titulo: string;
   duracion?: string;
   es_preview: boolean;
+  orden: number;
 }
 
 interface Modulo {
