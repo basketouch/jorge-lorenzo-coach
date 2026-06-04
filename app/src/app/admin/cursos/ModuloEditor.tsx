@@ -39,6 +39,7 @@ export default function ModuloEditor({ modulo }: { modulo: Modulo }) {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
+        titulo: data.titulo,
         fecha_apertura: data.fecha_apertura || null,
         fecha_cierre_venta: data.fecha_cierre_venta || null,
         precio: data.precio ?? 0,
@@ -67,6 +68,17 @@ export default function ModuloEditor({ modulo }: { modulo: Modulo }) {
 
   return (
     <div style={{ borderTop: "1px dashed var(--borde)", marginTop: 12, paddingTop: 12 }}>
+      {/* Título editable */}
+      <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
+        <p style={{ fontSize: 10, color: "var(--texto-suave)", flexShrink: 0 }}>Título:</p>
+        <input
+          value={data.titulo}
+          onChange={e => setData({ ...data, titulo: e.target.value })}
+          style={{ ...inputStyle, flex: 1, fontSize: 13 }}
+          placeholder="Nombre del capítulo"
+        />
+      </div>
+
       <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
         <button
           onClick={() => setAbierto(!abierto)}
