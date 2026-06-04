@@ -5,6 +5,7 @@ import AddModuloForm from "./AddModuloForm";
 import AddCursoForm from "./AddCursoForm";
 import CursoEditor from "./CursoEditor";
 import ModuloEditor from "./ModuloEditor";
+import ModuloTitulo from "./ModuloTitulo";
 
 export default async function AdminCursos() {
   const { admin } = await requireAdmin();
@@ -82,9 +83,7 @@ export default async function AdminCursos() {
 
                   return (
                     <div key={modulo.id} style={{ background: "var(--card)", border: "1px solid var(--borde)", borderRadius: 8, padding: 20 }}>
-                      <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--oro)", marginBottom: 12 }}>
-                        Cap. {modulo.orden} — {modulo.titulo}
-                      </p>
+                      <ModuloTitulo id={modulo.id} orden={modulo.orden} titulo={modulo.titulo} />
 
                       <LeccionesOrdenables lecciones={lecciones} cursoSlug={curso.slug} />
 

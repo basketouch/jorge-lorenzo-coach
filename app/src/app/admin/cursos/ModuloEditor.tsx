@@ -26,7 +26,6 @@ export default function ModuloEditor({ modulo }: { modulo: Modulo }) {
   const [loading, setLoading] = useState(false);
   const [guardado, setGuardado] = useState(false);
   const [copiado, setCopiado] = useState(false);
-  const [editandoTitulo, setEditandoTitulo] = useState(false);
 
   function copiarUrl() {
     navigator.clipboard.writeText(`${window.location.origin}/modulos/${modulo.id}`);
@@ -40,7 +39,6 @@ export default function ModuloEditor({ modulo }: { modulo: Modulo }) {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        titulo: data.titulo,
         fecha_apertura: data.fecha_apertura || null,
         fecha_cierre_venta: data.fecha_cierre_venta || null,
         precio: data.precio ?? 0,
@@ -69,32 +67,6 @@ export default function ModuloEditor({ modulo }: { modulo: Modulo }) {
 
   return (
     <div style={{ borderTop: "1px dashed var(--borde)", marginTop: 12, paddingTop: 12 }}>
-      {/* Título editable */}
-      <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
-        {editandoTitulo ? (
-          <input
-            autoFocus
-            value={data.titulo}
-            onChange={e => setData({ ...data, titulo: e.target.value })}
-            onBlur={() => setEditandoTitulo(false)}
-            onKeyDown={e => { if (e.key === "Enter" || e.key === "Escape") setEditandoTitulo(false); }}
-            style={{ ...inputStyle, flex: 1, fontSize: 13 }}
-            placeholder="Nombre del capítulo"
-          />
-        ) : (
-          <>
-            <span style={{ fontSize: 13, color: "var(--texto)", flex: 1 }}>{data.titulo}</span>
-            <button
-              onClick={() => setEditandoTitulo(true)}
-              title="Editar título"
-              style={{ background: "none", border: "none", cursor: "pointer", color: "var(--texto-suave)", fontSize: 13, padding: "2px 4px", lineHeight: 1, flexShrink: 0 }}
-            >
-              ✏️
-            </button>
-          </>
-        )}
-      </div>
-
       <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
         <button
           onClick={() => setAbierto(!abierto)}
