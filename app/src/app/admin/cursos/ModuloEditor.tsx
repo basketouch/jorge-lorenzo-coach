@@ -10,6 +10,7 @@ interface Modulo {
   fecha_cierre_venta?: string | null;
   precio?: number | null;
   lemon_variant_id?: string | null;
+  portada_url?: string | null;
 }
 
 function toInputDate(iso?: string | null) {
@@ -26,6 +27,7 @@ export default function ModuloEditor({ modulo }: { modulo: Modulo }) {
   const [loading, setLoading] = useState(false);
   const [guardado, setGuardado] = useState(false);
   const [copiado, setCopiado] = useState(false);
+  const [subiendo, setSubiendo] = useState(false);
 
   function copiarUrl() {
     navigator.clipboard.writeText(`${window.location.origin}/modulos/${modulo.id}`);
@@ -43,11 +45,25 @@ export default function ModuloEditor({ modulo }: { modulo: Modulo }) {
         fecha_cierre_venta: data.fecha_cierre_venta || null,
         precio: data.precio ?? 0,
         lemon_variant_id: data.lemon_variant_id || null,
+        portada_url: data.portada_url || null,
       }),
     });
     setLoading(false);
     setGuardado(true);
     setTimeout(() => setGuardado(false), 2000);
+  }
+
+  async function subirImagen(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setSubiendo(true);
+    const form = new FormData();
+    form.append("file", file);
+    form.append("bucket", "portadas_modulos");
+    const res = await fetch("/api/admin/upload-imagen", { method: "POST", body: form });
+    const json = await res.json();
+    if (json.url) setData(d => ({ ...d, portada_url: json.url }));
+    setSubiendo(false);
   }
 
   function estado() {
@@ -86,7 +102,30 @@ export default function ModuloEditor({ modulo }: { modulo: Modulo }) {
       </div>
 
       {abierto && (
-        <div style={{ marginTop: 12, display: "flex", gap: 10, flexWrap: "wrap", alignItems: "flex-end" }}>
+        <div style={{ marginTop: 12, display: "flex", flexDirection: "column", gap: 12 }}>
+
+          {/* Portada */}
+          <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
+            {data.portada_url && (
+              <img src={data.portada_url} alt="portada" style={{ width: 80, height: 52, objectFit: "cover", borderRadius: 4, border: "1px solid var(--borde)" }} />
+            )}
+            <label style={{
+              fontSize: 12, fontWeight: 600, padding: "6px 14px",
+              background: "var(--card)", border: "1px solid var(--borde)",
+              borderRadius: 6, cursor: "pointer", color: subiendo ? "var(--texto-suave)" : "var(--texto)",
+            }}>
+              {subiendo ? "Subiendo…" : data.portada_url ? "🖼 Cambiar imagen" : "🖼 Subir imagen"}
+              <input type="file" accept="image/*" onChange={subirImagen} style={{ display: "none" }} disabled={subiendo} />
+            </label>
+            {data.portada_url && (
+              <button onClick={() => setData(d => ({ ...d, portada_url: null }))}
+                style={{ fontSize: 11, background: "none", border: "1px solid var(--borde)", borderRadius: 4, padding: "4px 8px", color: "var(--texto-suave)", cursor: "pointer" }}>
+                ✕ Quitar
+              </button>
+            )}
+          </div>
+
+          <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "flex-end" }}>
           <div>
             <p style={{ fontSize: 10, color: "var(--texto-suave)", marginBottom: 4 }}>Apertura</p>
             <input
@@ -134,6 +173,7 @@ export default function ModuloEditor({ modulo }: { modulo: Modulo }) {
           >
             {loading ? "..." : guardado ? "✓ Guardado" : "Guardar"}
           </button>
+          </div>
         </div>
       )}
     </div>

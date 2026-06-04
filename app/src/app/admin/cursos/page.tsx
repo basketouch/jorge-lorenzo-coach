@@ -96,6 +96,7 @@ export default async function AdminCursos() {
                         fecha_cierre_venta: modulo.fecha_cierre_venta,
                         precio: modulo.precio,
                         lemon_variant_id: modulo.lemon_variant_id,
+                        portada_url: modulo.portada_url,
                       }} />
                     </div>
                   );
