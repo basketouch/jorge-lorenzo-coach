@@ -1,6 +1,9 @@
 import Image from "next/image";
 import { createClient } from "@/lib/supabase-server";
+import { createAdminClient } from "@/lib/supabase-admin";
 import Footer from "@/components/Footer";
+
+export const dynamic = "force-dynamic";
 
 const tecnico = [
   "Estilos de juego del Eurobasket '25",
@@ -25,6 +28,20 @@ const gestion = [
 export default async function Home() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
+
+  // Datos dinámicos del Laboratorio
+  const adminDb = createAdminClient();
+  const { data: lab } = await adminDb
+    .from("cursos")
+    .select("en_venta, fecha_apertura, fecha_cierre, fecha_apertura_texto, web_precio, skool_precio")
+    .eq("slug", "laboratorio-2526")
+    .single();
+
+  const enVentaAuto = lab?.fecha_apertura ? new Date(lab.fecha_apertura) <= new Date() : false;
+  const cierrePasado = lab?.fecha_cierre ? new Date(lab.fecha_cierre) <= new Date() : false;
+  const labEnVenta = (lab?.en_venta || enVentaAuto) && !cierrePasado;
+  const webPrecio = lab?.web_precio ? (lab.web_precio / 100).toFixed(0) : "347";
+  const skoolPrecio = lab?.skool_precio ? (lab.skool_precio / 100).toFixed(0) : "297";
 
   return (
     <>
@@ -308,12 +325,20 @@ export default async function Home() {
                 {/* Standalone */}
                 <div style={{ background: "var(--negro)", border: "1px solid var(--borde)", borderRadius: 10, padding: 24 }}>
                   <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: "var(--texto-suave)", marginBottom: 8 }}>Acceso independiente · Web</p>
-                  <div className="laboratorio-precio">347€</div>
+                  <div className="laboratorio-precio">{webPrecio}€</div>
                   <p style={{ fontSize: 13, color: "var(--texto-suave)", marginTop: 8, lineHeight: 1.5 }}>
-                    El archivo completo · Pago único<br />Acceso permanente a las 50 lecciones
+                    El archivo completo · Pago único<br />Acceso permanente a las 51 lecciones
                   </p>
                   <div style={{ marginTop: 16, padding: "10px 14px", background: "rgba(201,168,76,0.08)", border: "1px solid rgba(201,168,76,0.25)", borderRadius: 6 }}>
-                    <p style={{ fontSize: 12, color: "var(--oro)", fontWeight: 700 }}>⏳ Apertura única · Junio 2026</p>
+                    {labEnVenta ? (
+                      <p style={{ fontSize: 12, color: "#4aa", fontWeight: 700 }}>🔥 En venta ahora · Plazas limitadas</p>
+                    ) : cierrePasado ? (
+                      <p style={{ fontSize: 12, color: "var(--texto-suave)", fontWeight: 700 }}>✕ Venta cerrada hasta la próxima temporada</p>
+                    ) : (
+                      <p style={{ fontSize: 12, color: "var(--oro)", fontWeight: 700 }}>
+                        ⏳ Apertura única{lab?.fecha_apertura_texto ? ` · ${lab.fecha_apertura_texto}` : ""}
+                      </p>
+                    )}
                     <p style={{ fontSize: 11, color: "var(--texto-suave)", marginTop: 4 }}>Ventana de venta limitada. Una vez cerrada, no vuelve a estar disponible hasta la próxima temporada.</p>
                   </div>
                 </div>
@@ -322,7 +347,7 @@ export default async function Home() {
                 <div style={{ background: "var(--negro)", border: "2px solid var(--oro)", borderRadius: 10, padding: 24, position: "relative" }}>
                   <div style={{ position: "absolute", top: -12, left: 20, background: "var(--oro)", color: "var(--negro)", fontSize: 10, fontWeight: 800, padding: "3px 10px", borderRadius: 4, letterSpacing: "0.1em", textTransform: "uppercase" }}>Mejor opción</div>
                   <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: "var(--texto-suave)", marginBottom: 8 }}>Miembro Skool · Cualquier nivel</p>
-                  <div className="laboratorio-precio" style={{ color: "var(--oro)" }}>297€</div>
+                  <div className="laboratorio-precio" style={{ color: "var(--oro)" }}>{skoolPrecio}€</div>
                   <p style={{ fontSize: 13, color: "var(--texto-suave)", marginTop: 8, lineHeight: 1.5 }}>
                     Precio exclusivo para miembros<br />+ comunidad activa toda la temporada
                   </p>
