@@ -64,7 +64,7 @@ export default async function Home() {
           { label: "Comunidad", href: "#niveles" },
           { label: "El Laboratorio", href: "/cursos/laboratorio-2526" },
           { label: "Newsletter", href: "/newsletter" },
-          { label: user ? "Mi cuenta" : "Iniciar sesión", href: user ? "/cuenta" : "/login" },
+          ...(user ? [{ label: "Mi cuenta", href: "/cuenta" }] : []),
         ]} />
       </nav>
 
