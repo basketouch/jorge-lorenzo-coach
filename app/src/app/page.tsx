@@ -2,6 +2,7 @@ import Image from "next/image";
 import { createClient } from "@/lib/supabase-server";
 import { createAdminClient } from "@/lib/supabase-admin";
 import Footer from "@/components/Footer";
+import NavHamburger from "@/components/NavHamburger";
 
 export const dynamic = "force-dynamic";
 
@@ -51,13 +52,20 @@ export default async function Home() {
         <div className="nav-links">
           <a href="#niveles" className="nav-link">Comunidad</a>
           <a href="/cursos/laboratorio-2526" className="nav-link">El Laboratorio</a>
-<a href="/newsletter" className="nav-link">Newsletter</a>
+          <a href="/newsletter" className="nav-link">Newsletter</a>
           {user ? (
             <a href="/cuenta" className="nav-cta">Mi cuenta</a>
           ) : (
             <a href="/login" className="nav-cta">Iniciar sesión</a>
           )}
         </div>
+        {/* Hamburguesa móvil */}
+        <NavHamburger links={[
+          { label: "Comunidad", href: "#niveles" },
+          { label: "El Laboratorio", href: "/cursos/laboratorio-2526" },
+          { label: "Newsletter", href: "/newsletter" },
+          { label: user ? "Mi cuenta" : "Iniciar sesión", href: user ? "/cuenta" : "/login" },
+        ]} />
       </nav>
 
       {/* HERO */}
