@@ -44,14 +44,14 @@ const STATUS_BADGE: Record<string, { label: string; color: string; bg: string }>
   preview:   { label: "Preview",     color: "var(--texto-suave)", bg: "transparent" },
 };
 
-const INITIAL_VISIBLE = 6;
+const CHAPTERS_STEP = 3;
 
 export default function DrillsClient({ drills, userAccessLevel, userViews, freeQuota }: Props) {
   const [search, setSearch] = useState("");
   const [filterChapter, setFilterChapter] = useState("");
   const [filterCategory, setFilterCategory] = useState("");
   const [filterLevel, setFilterLevel] = useState("");
-  const [expandedChapters, setExpandedChapters] = useState<Set<number>>(new Set());
+  const [visibleChapters, setVisibleChapters] = useState(CHAPTERS_STEP);
 
   const chapters = useMemo(() =>
     [...new Set(drills.map(d => d.chapter))].sort((a, b) => a - b).filter(ch => ch >= 2),
@@ -86,14 +86,6 @@ export default function DrillsClient({ drills, userAccessLevel, userViews, freeQ
   }, [filtered]);
 
   const isFiltering = !!(search || filterChapter || filterCategory || filterLevel);
-
-  function toggleExpand(ch: number) {
-    setExpandedChapters(prev => {
-      const next = new Set(prev);
-      next.has(ch) ? next.delete(ch) : next.add(ch);
-      return next;
-    });
-  }
 
   const selectStyle: React.CSSProperties = {
     background: "var(--card)", border: "1px solid var(--borde)", color: "var(--texto)",
@@ -142,76 +134,73 @@ export default function DrillsClient({ drills, userAccessLevel, userViews, freeQ
       </p>
 
       {/* Listado agrupado por capítulo */}
-      {grouped.map(([chapter, { title, drills: capDrills }]) => {
-        const expanded = isFiltering || expandedChapters.has(chapter);
-        const visible = expanded ? capDrills : capDrills.slice(0, INITIAL_VISIBLE);
-        const hidden = capDrills.length - INITIAL_VISIBLE;
+      {grouped.slice(0, isFiltering ? grouped.length : visibleChapters).map(([chapter, { title, drills: capDrills }]) => (
+        <div key={chapter} style={{ marginBottom: 48 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 20, paddingBottom: 12, borderBottom: "1px solid var(--borde)" }}>
+            <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--oro)", minWidth: 56 }}>Cap. {displayNum(chapter)}</span>
+            <h3 style={{ fontSize: 16, fontWeight: 600, color: "var(--texto)" }}>{title}</h3>
+            <span style={{ fontSize: 12, color: "var(--texto-suave)", marginLeft: "auto" }}>{capDrills.length} ejercicios</span>
+          </div>
 
-        return (
-          <div key={chapter} style={{ marginBottom: 48 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 20, paddingBottom: 12, borderBottom: "1px solid var(--borde)" }}>
-              <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--oro)", minWidth: 56 }}>Cap. {displayNum(chapter)}</span>
-              <h3 style={{ fontSize: 16, fontWeight: 600, color: "var(--texto)" }}>{title}</h3>
-              <span style={{ fontSize: 12, color: "var(--texto-suave)", marginLeft: "auto" }}>{capDrills.length} ejercicios</span>
-            </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12 }}>
+            {capDrills.map(drill => {
+              const status = getDrillStatus(drill, userAccessLevel, userViews, freeQuota);
+              const badge = STATUS_BADGE[status];
+              const isLocked = status === "locked" || status === "preview";
 
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12 }}>
-              {visible.map(drill => {
-                const status = getDrillStatus(drill, userAccessLevel, userViews, freeQuota);
-                const badge = STATUS_BADGE[status];
-                const isLocked = status === "locked" || status === "preview";
-
-                return (
-                  <Link key={drill.drill_id} href={`/drills/${drill.slug}`} style={{ textDecoration: "none" }}>
-                    <div
-                      style={{
-                        background: "var(--card)", border: "1px solid var(--borde)",
-                        borderRadius: 8, padding: "18px 20px",
-                        opacity: isLocked ? 0.65 : 1,
-                        transition: "border-color 0.15s, opacity 0.15s",
-                        cursor: "pointer", height: "100%",
-                      }}
-                      onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.borderColor = isLocked ? "var(--borde)" : "var(--oro)"; }}
-                      onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.borderColor = "var(--borde)"; }}
-                    >
-                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10, gap: 8 }}>
-                        <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--texto-suave)" }}>
-                          {drill.category_es}
-                        </span>
-                        <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: badge.color, background: badge.bg, padding: "2px 8px", borderRadius: 3, whiteSpace: "nowrap" }}>
-                          {isLocked ? "🔒" : ""} {badge.label}
+              return (
+                <Link key={drill.drill_id} href={`/drills/${drill.slug}`} style={{ textDecoration: "none" }}>
+                  <div
+                    style={{
+                      background: "var(--card)", border: "1px solid var(--borde)",
+                      borderRadius: 8, padding: "18px 20px",
+                      opacity: isLocked ? 0.65 : 1,
+                      transition: "border-color 0.15s, opacity 0.15s",
+                      cursor: "pointer", height: "100%",
+                    }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.borderColor = isLocked ? "var(--borde)" : "var(--oro)"; }}
+                    onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.borderColor = "var(--borde)"; }}
+                  >
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10, gap: 8 }}>
+                      <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--texto-suave)" }}>
+                        {drill.category_es}
+                      </span>
+                      <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: badge.color, background: badge.bg, padding: "2px 8px", borderRadius: 3, whiteSpace: "nowrap" }}>
+                        {isLocked ? "🔒" : ""} {badge.label}
+                      </span>
+                    </div>
+                    <h4 style={{ fontSize: 15, fontWeight: 600, color: "var(--texto)", marginBottom: 8, lineHeight: 1.3 }}>
+                      {drill.title_es}
+                    </h4>
+                    <p style={{ fontSize: 13, color: "var(--texto-suave)", lineHeight: 1.5, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
+                      {drill.objective_short_es}
+                    </p>
+                    {drill.level && (
+                      <div style={{ marginTop: 12 }}>
+                        <span style={{ fontSize: 11, color: "var(--texto-suave)", background: "var(--oscuro)", padding: "2px 8px", borderRadius: 3 }}>
+                          {LEVEL_LABEL[drill.level] ?? drill.level}
                         </span>
                       </div>
-                      <h4 style={{ fontSize: 15, fontWeight: 600, color: "var(--texto)", marginBottom: 8, lineHeight: 1.3 }}>
-                        {drill.title_es}
-                      </h4>
-                      <p style={{ fontSize: 13, color: "var(--texto-suave)", lineHeight: 1.5, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
-                        {drill.objective_short_es}
-                      </p>
-                      {drill.level && (
-                        <div style={{ marginTop: 12 }}>
-                          <span style={{ fontSize: 11, color: "var(--texto-suave)", background: "var(--oscuro)", padding: "2px 8px", borderRadius: 3 }}>
-                            {LEVEL_LABEL[drill.level] ?? drill.level}
-                          </span>
-                        </div>
-                      )}
-                    </div>
-                  </Link>
-                );
-              })}
-            </div>
-
-            {!isFiltering && hidden > 0 && (
-              <button
-                onClick={() => toggleExpand(chapter)}
-                style={{ marginTop: 16, background: "none", border: "1px solid var(--borde)", color: "var(--texto-suave)", borderRadius: 6, padding: "9px 20px", cursor: "pointer", fontSize: 13 }}
-              >
-                {expanded ? "Ver menos" : `Ver más… (${hidden} ejercicios más)`}
-              </button>
-            )}
+                    )}
+                  </div>
+                </Link>
+              );
+            })}
           </div>
-        );
-      })}
+        </div>
+      ))}
+
+      {/* Ver más capítulos */}
+      {!isFiltering && visibleChapters < grouped.length && (
+        <div style={{ textAlign: "center", marginTop: 16, marginBottom: 48 }}>
+          <button
+            onClick={() => setVisibleChapters(v => v + CHAPTERS_STEP)}
+            style={{ background: "none", border: "1px solid var(--borde)", color: "var(--texto-suave)", borderRadius: 6, padding: "12px 32px", cursor: "pointer", fontSize: 14 }}
+          >
+            Ver más… ({Math.min(CHAPTERS_STEP, grouped.length - visibleChapters)} capítulos más)
+          </button>
+        </div>
+      )}
 
       {filtered.length === 0 && (
         <div style={{ textAlign: "center", padding: "60px 0", color: "var(--texto-suave)" }}>
