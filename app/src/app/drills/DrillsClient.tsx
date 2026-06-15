@@ -59,6 +59,9 @@ export default function DrillsClient({ drills, userAccessLevel, userViews, freeQ
   const currentChapter = activeChapter ?? chapters[0] ?? null;
   const currentIndex = chapters.indexOf(currentChapter ?? 0);
 
+  // Número de display: el cap. 2 de BD se muestra como "1", el 3 como "2", etc.
+  function displayNum(ch: number) { return ch - 1; }
+
   const categories = useMemo(() => {
     const inChapter = drills.filter(d => d.chapter === currentChapter);
     return [...new Set(inChapter.map(d => d.category_es).filter(Boolean))].sort();
@@ -111,7 +114,7 @@ export default function DrillsClient({ drills, userAccessLevel, userViews, freeQ
           style={{ ...selectStyle, flex: 1, minWidth: 200, fontWeight: 600 }}
         >
           {chapters.map(ch => (
-            <option key={ch} value={ch}>Cap. {ch} — {drills.find(d => d.chapter === ch)?.chapter_title_es}</option>
+            <option key={ch} value={ch}>Cap. {displayNum(ch)} — {drills.find(d => d.chapter === ch)?.chapter_title_es}</option>
           ))}
         </select>
 
@@ -123,7 +126,7 @@ export default function DrillsClient({ drills, userAccessLevel, userViews, freeQ
       </div>
 
       <p style={{ fontSize: 12, color: "var(--texto-suave)", marginBottom: 24 }}>
-        Capítulo {currentIndex + 1} de {chapters.length}
+        Capítulo {currentChapter != null ? displayNum(currentChapter) : ""} de {displayNum(chapters[chapters.length - 1] ?? 2)}
       </p>
 
       {/* Filtros dentro del capítulo */}
@@ -222,14 +225,14 @@ export default function DrillsClient({ drills, userAccessLevel, userViews, freeQ
           disabled={currentIndex <= 0}
           style={{ background: "none", border: "1px solid var(--borde)", color: "var(--texto)", borderRadius: 6, padding: "10px 20px", cursor: "pointer", fontSize: 14, opacity: currentIndex <= 0 ? 0.3 : 1 }}
         >
-          ← Cap. {chapters[currentIndex - 1] ?? ""}
+          ← Cap. {chapters[currentIndex - 1] != null ? displayNum(chapters[currentIndex - 1]) : ""}
         </button>
         <button
           onClick={() => currentIndex < chapters.length - 1 && goToChapter(chapters[currentIndex + 1])}
           disabled={currentIndex >= chapters.length - 1}
           style={{ background: "none", border: "1px solid var(--borde)", color: "var(--texto)", borderRadius: 6, padding: "10px 20px", cursor: "pointer", fontSize: 14, opacity: currentIndex >= chapters.length - 1 ? 0.3 : 1 }}
         >
-          Cap. {chapters[currentIndex + 1] ?? ""} →
+          Cap. {chapters[currentIndex + 1] != null ? displayNum(chapters[currentIndex + 1]) : ""} →
         </button>
       </div>
     </div>
