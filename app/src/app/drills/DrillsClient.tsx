@@ -45,6 +45,7 @@ const STATUS_BADGE: Record<string, { label: string; color: string; bg: string }>
 };
 
 const CHAPTERS_STEP = 3;
+const DRILLS_INITIAL = 6;
 
 export default function DrillsClient({ drills, userAccessLevel, userViews, freeQuota }: Props) {
   const [search, setSearch] = useState("");
@@ -52,6 +53,7 @@ export default function DrillsClient({ drills, userAccessLevel, userViews, freeQ
   const [filterCategory, setFilterCategory] = useState("");
   const [filterLevel, setFilterLevel] = useState("");
   const [visibleChapters, setVisibleChapters] = useState(CHAPTERS_STEP);
+  const [expandedChapters, setExpandedChapters] = useState<Set<number>>(new Set());
 
   const chapters = useMemo(() =>
     [...new Set(drills.map(d => d.chapter))].sort((a, b) => a - b).filter(ch => ch >= 2),
@@ -134,7 +136,12 @@ export default function DrillsClient({ drills, userAccessLevel, userViews, freeQ
       </p>
 
       {/* Listado agrupado por capítulo */}
-      {grouped.slice(0, isFiltering ? grouped.length : visibleChapters).map(([chapter, { title, drills: capDrills }]) => (
+      {grouped.slice(0, isFiltering ? grouped.length : visibleChapters).map(([chapter, { title, drills: capDrills }]) => {
+        const chExpanded = isFiltering || expandedChapters.has(chapter);
+        const visibleDrills = chExpanded ? capDrills : capDrills.slice(0, DRILLS_INITIAL);
+        const hiddenDrills = capDrills.length - DRILLS_INITIAL;
+
+        return (
         <div key={chapter} style={{ marginBottom: 48 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 20, paddingBottom: 12, borderBottom: "1px solid var(--borde)" }}>
             <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--oro)", minWidth: 56 }}>Cap. {displayNum(chapter)}</span>
@@ -143,7 +150,7 @@ export default function DrillsClient({ drills, userAccessLevel, userViews, freeQ
           </div>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12 }}>
-            {capDrills.map(drill => {
+            {visibleDrills.map(drill => {
               const status = getDrillStatus(drill, userAccessLevel, userViews, freeQuota);
               const badge = STATUS_BADGE[status];
               const isLocked = status === "locked" || status === "preview";
@@ -187,8 +194,18 @@ export default function DrillsClient({ drills, userAccessLevel, userViews, freeQ
               );
             })}
           </div>
+
+          {!isFiltering && hiddenDrills > 0 && (
+            <button
+              onClick={() => setExpandedChapters(prev => { const n = new Set(prev); chExpanded ? n.delete(chapter) : n.add(chapter); return n; })}
+              style={{ marginTop: 16, background: "none", border: "1px solid var(--borde)", color: "var(--texto-suave)", borderRadius: 6, padding: "9px 20px", cursor: "pointer", fontSize: 13 }}
+            >
+              {chExpanded ? "Ver menos" : `Ver más… (${hiddenDrills} ejercicios más)`}
+            </button>
+          )}
         </div>
-      ))}
+        );
+      })}
 
       {/* Ver más capítulos */}
       {!isFiltering && visibleChapters < grouped.length && (
