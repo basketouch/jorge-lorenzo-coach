@@ -22,11 +22,11 @@ const L = {
   material: "Material", personal: "Personal", objetivo: "Objetivo",
   desarrollo: "Desarrollo", detalles: "Detalles clave", variantes: "Variantes",
   anterior: "Anterior", siguiente: "Siguiente", volver: "← Ver todos los ejercicios",
-  registro: "Regístrate gratis para leer este ejercicio.",
-  registroSub: "Con una cuenta gratuita puedes acceder a 5 ejercicios completos. Sin tarjeta de crédito.",
+  registro: "Crea una cuenta gratis para acceder a 5 ejercicios completos.",
+  registroSub: "Solo necesitas email y contraseña — los mismos que usas en Skool si ya eres miembro.",
   crearCuenta: "Crear cuenta gratis", iniciarSesion: "Iniciar sesión",
-  limite: "Has llegado al límite de 5 ejercicios gratuitos.",
-  limiteSub: "Únete a la comunidad para acceder a los 169 ejercicios completos, con imagen y detalles de ejecución.",
+  limite: "Has visto los 5 ejercicios gratuitos.",
+  limiteSub: "Si eres miembro de Skool, activa tu acceso completo con el enlace que te enviamos al entrar. Si aún no estás en la comunidad, este es el momento.",
   unirse: "Únete a la comunidad",
 };
 
