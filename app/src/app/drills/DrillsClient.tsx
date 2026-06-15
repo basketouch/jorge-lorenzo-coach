@@ -155,7 +155,7 @@ export default function DrillsClient({ drills, userAccessLevel, userViews, freeQ
               <span style={{ fontSize: 12, color: "var(--texto-suave)", marginLeft: "auto" }}>{capDrills.length} ejercicios</span>
             </div>
 
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 12 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12 }}>
               {visible.map(drill => {
                 const status = getDrillStatus(drill, userAccessLevel, userViews, freeQuota);
                 const badge = STATUS_BADGE[status];
