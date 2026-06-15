@@ -1,12 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
 
 type Drill = Record<string, any>;
 type AdjacentDrill = { slug: string; title_es: string } | null;
-type Lang = "es" | "en";
-
 type Props = {
   drill: Drill;
   access: "anonymous" | "preview_only" | "full" | "quota_reached";
@@ -16,34 +13,21 @@ type Props = {
 };
 
 const LEVEL_LABEL: Record<string, string> = {
-  intermediate: "Intermedio / Intermediate",
-  advanced: "Avanzado / Advanced",
-  competitive: "Competición / Competitive",
+  intermediate: "Intermedio",
+  advanced: "Avanzado",
+  competitive: "Competición",
 };
 
-const LABELS = {
-  es: {
-    material: "Material", personal: "Personal", objetivo: "Objetivo",
-    desarrollo: "Desarrollo", detalles: "Detalles clave", variantes: "Variantes",
-    anterior: "Anterior", siguiente: "Siguiente", volver: "← Ver todos los ejercicios",
-    registro: "Regístrate gratis para leer este ejercicio.",
-    registroSub: "Con una cuenta gratuita puedes acceder a 5 ejercicios completos. Sin tarjeta de crédito.",
-    crearCuenta: "Crear cuenta gratis", iniciarSesion: "Iniciar sesión",
-    limite: "Has llegado al límite de 5 ejercicios gratuitos.",
-    limiteSub: "Únete a la comunidad para acceder a los 169 ejercicios completos, con imagen y detalles de ejecución.",
-    unirse: "Únete a la comunidad",
-  },
-  en: {
-    material: "Equipment", personal: "Personnel", objetivo: "Aim",
-    desarrollo: "How to Run", detalles: "Key Details", variantes: "Variations",
-    anterior: "Previous", siguiente: "Next", volver: "← All drills",
-    registro: "Sign up for free to read this drill.",
-    registroSub: "With a free account you can access 5 full drills. No credit card required.",
-    crearCuenta: "Create free account", iniciarSesion: "Sign in",
-    limite: "You've reached the limit of 5 free drills.",
-    limiteSub: "Join the community to access all 169 drills with images and full execution details.",
-    unirse: "Join the community",
-  },
+const L = {
+  material: "Material", personal: "Personal", objetivo: "Objetivo",
+  desarrollo: "Desarrollo", detalles: "Detalles clave", variantes: "Variantes",
+  anterior: "Anterior", siguiente: "Siguiente", volver: "← Ver todos los ejercicios",
+  registro: "Regístrate gratis para leer este ejercicio.",
+  registroSub: "Con una cuenta gratuita puedes acceder a 5 ejercicios completos. Sin tarjeta de crédito.",
+  crearCuenta: "Crear cuenta gratis", iniciarSesion: "Iniciar sesión",
+  limite: "Has llegado al límite de 5 ejercicios gratuitos.",
+  limiteSub: "Únete a la comunidad para acceder a los 169 ejercicios completos, con imagen y detalles de ejecución.",
+  unirse: "Únete a la comunidad",
 };
 
 function Section({ title, content }: { title: string; content: string }) {
@@ -61,9 +45,7 @@ function Section({ title, content }: { title: string; content: string }) {
 }
 
 export default function DrillContent({ drill, access, signedImageUrl, prev, next }: Props) {
-  const [lang, setLang] = useState<Lang>("es");
-  const L = LABELS[lang];
-  const t = (field: string) => drill[`${field}_${lang}`] || drill[`${field}_es`] || "";
+  const t = (field: string) => drill[`${field}_es`] || "";
 
   const isAnonymous = access === "anonymous";
   const isQuotaReached = access === "quota_reached";
@@ -73,31 +55,9 @@ export default function DrillContent({ drill, access, signedImageUrl, prev, next
     <div style={{ maxWidth: 720 }}>
       {/* Cabecera */}
       <div style={{ marginBottom: 32 }}>
-        {/* Toggle idioma */}
-        <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 20 }}>
-          <div style={{ display: "flex", background: "var(--card)", border: "1px solid var(--borde)", borderRadius: 6, overflow: "hidden" }}>
-            {(["es", "en"] as Lang[]).map(l => (
-              <button
-                key={l}
-                onClick={() => setLang(l)}
-                style={{
-                  padding: "6px 16px", fontSize: 12, fontWeight: 700,
-                  letterSpacing: "0.1em", textTransform: "uppercase",
-                  cursor: "pointer", border: "none",
-                  background: lang === l ? "var(--oro)" : "transparent",
-                  color: lang === l ? "var(--negro)" : "var(--texto-suave)",
-                  transition: "background 0.15s, color 0.15s",
-                }}
-              >
-                {l.toUpperCase()}
-              </button>
-            ))}
-          </div>
-        </div>
-
         <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 16, alignItems: "center" }}>
           <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--texto-suave)", background: "var(--card)", border: "1px solid var(--borde)", padding: "3px 10px", borderRadius: 4 }}>
-            {lang === "es" ? drill.category_es : drill.category_en}
+            {drill.category_es}
           </span>
           {drill.level && (
             <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--texto-suave)" }}>
@@ -197,7 +157,7 @@ export default function DrillContent({ drill, access, signedImageUrl, prev, next
           <Link href={`/drills/${prev.slug}`} style={{ textDecoration: "none" }}>
             <div style={{ background: "var(--card)", border: "1px solid var(--borde)", borderRadius: 8, padding: "16px 18px" }}>
               <p style={{ fontSize: 11, color: "var(--texto-suave)", marginBottom: 6, letterSpacing: "0.08em", textTransform: "uppercase" }}>← {L.anterior}</p>
-              <p style={{ fontSize: 14, color: "var(--texto)", lineHeight: 1.3 }}>{lang === "es" ? prev.title_es : (prev as any).title_en ?? prev.title_es}</p>
+              <p style={{ fontSize: 14, color: "var(--texto)", lineHeight: 1.3 }}>{prev.title_es}</p>
             </div>
           </Link>
         ) : <div />}
@@ -206,7 +166,7 @@ export default function DrillContent({ drill, access, signedImageUrl, prev, next
           <Link href={`/drills/${next.slug}`} style={{ textDecoration: "none" }}>
             <div style={{ background: "var(--card)", border: "1px solid var(--borde)", borderRadius: 8, padding: "16px 18px", textAlign: "right" }}>
               <p style={{ fontSize: 11, color: "var(--texto-suave)", marginBottom: 6, letterSpacing: "0.08em", textTransform: "uppercase" }}>{L.siguiente} →</p>
-              <p style={{ fontSize: 14, color: "var(--texto)", lineHeight: 1.3 }}>{lang === "es" ? next.title_es : (next as any).title_en ?? next.title_es}</p>
+              <p style={{ fontSize: 14, color: "var(--texto)", lineHeight: 1.3 }}>{next.title_es}</p>
             </div>
           </Link>
         ) : <div />}
