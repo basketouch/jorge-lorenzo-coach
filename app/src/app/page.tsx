@@ -52,6 +52,7 @@ export default async function Home() {
         <div className="nav-links">
           <a href="#niveles" className="nav-link">Comunidad</a>
           <a href="/cursos/laboratorio-2526" className="nav-link">El Laboratorio</a>
+          <a href="/drills" className="nav-link">Drill Lab</a>
           <a href="/newsletter" className="nav-link">Newsletter</a>
           {user ? (
             <a href="/cuenta" className="nav-cta">Mi cuenta</a>
@@ -63,6 +64,7 @@ export default async function Home() {
         <NavHamburger links={[
           { label: "Comunidad", href: "#niveles" },
           { label: "El Laboratorio", href: "/cursos/laboratorio-2526" },
+          { label: "Drill Lab", href: "/drills" },
           { label: "Newsletter", href: "/newsletter" },
           ...(user ? [{ label: "Mi cuenta", href: "/cuenta" }] : []),
         ]} />
@@ -371,6 +373,33 @@ export default async function Home() {
             <div style={{ display: "flex", gap: 16, marginTop: 32, paddingTop: 32, borderTop: "1px solid var(--borde)", flexWrap: "wrap", alignItems: "stretch" }}>
               <a href="/cursos/laboratorio-2526" className="btn-secondary" style={{ flex: 1, textAlign: "center", display: "flex", alignItems: "center", justifyContent: "center" }}>Ver el programa completo</a>
               <a href="https://www.skool.com/jorge-lorenzo-coach/plans" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ flex: 1, textAlign: "center", display: "flex", alignItems: "center", justifyContent: "center" }}>Acceder en Skool</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* DRILL LAB */}
+      <section>
+        <div className="container">
+          <div style={{
+            background: "var(--negro)", border: "1px solid var(--borde)", borderRadius: 12,
+            padding: "40px 48px", display: "flex", gap: 48, alignItems: "center",
+            flexWrap: "wrap",
+          }}>
+            <div style={{ flex: 1, minWidth: 260 }}>
+              <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: "var(--oro)", marginBottom: 12 }}>Nuevo · Drill Lab</p>
+              <h2 style={{ fontSize: "clamp(22px, 3vw, 32px)", marginBottom: 16 }}>Ejercicios de entrenamiento, explicados.</h2>
+              <p style={{ fontSize: 15, color: "var(--texto-suave)", lineHeight: 1.7, marginBottom: 24 }}>
+                Una biblioteca de drills con contexto real: por qué funciona, cuándo usarlo y cómo adaptarlo a tu equipo. Cada ejercicio, con vídeo y análisis.
+              </p>
+              <a href="/drills" className="btn-primary" style={{ display: "inline-block" }}>Ver los drills</a>
+            </div>
+            <div style={{ flex: "0 0 auto", display: "flex", flexDirection: "column", gap: 10 }}>
+              {["🏀 Técnica individual", "📋 Sistemas ofensivos", "🛡️ Defensa y transición", "⚡ Situaciones de partido"].map((item) => (
+                <div key={item} style={{ fontSize: 14, color: "var(--texto-suave)", display: "flex", alignItems: "center", gap: 10 }}>
+                  <span style={{ color: "var(--oro)" }}>✓</span> {item}
+                </div>
+              ))}
             </div>
           </div>
         </div>

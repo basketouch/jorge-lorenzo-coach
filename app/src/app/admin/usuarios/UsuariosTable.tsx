@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import QuickEmailBtn from "./QuickEmailBtn";
+import BdlToggle from "./BdlToggle";
 
 type Usuario = {
   id: string;
@@ -14,6 +15,7 @@ type Props = {
   usuarios: Usuario[];
   ultimoAccesoMap: Record<string, string>;
   progresosMap: Record<string, { completadas: number; total: number }>;
+  bdlAccesoMap: Record<string, boolean>;
 };
 
 type Col = "nombre" | "email" | "acceso" | "lecciones";
@@ -23,7 +25,7 @@ function formatFecha(iso?: string) {
   return new Date(iso).toLocaleDateString("es-ES", { day: "2-digit", month: "short", year: "numeric" });
 }
 
-export default function UsuariosTable({ usuarios, ultimoAccesoMap, progresosMap }: Props) {
+export default function UsuariosTable({ usuarios, ultimoAccesoMap, progresosMap, bdlAccesoMap }: Props) {
   const [sortCol, setSortCol] = useState<Col>("nombre");
   const [sortAsc, setSortAsc] = useState(true);
 
@@ -86,6 +88,7 @@ export default function UsuariosTable({ usuarios, ultimoAccesoMap, progresosMap 
             <Th col="email" label="Email" />
             <Th col="acceso" label="Último acceso" className="admin-col-acceso" />
             <Th col="lecciones" label="Lecciones" className="admin-col-lecciones" />
+            <th style={{ padding: "10px 16px", fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--texto-suave)", whiteSpace: "nowrap" }}>Drill Lab</th>
             <th style={{ padding: "10px 16px" }} />
           </tr>
         </thead>
@@ -110,6 +113,9 @@ export default function UsuariosTable({ usuarios, ultimoAccesoMap, progresosMap 
                 </td>
                 <td className="admin-col-lecciones" style={{ padding: "14px 16px", color: "var(--texto-suave)", whiteSpace: "nowrap" }}>
                   {completadas}/{total}
+                </td>
+                <td style={{ padding: "14px 16px" }}>
+                  <BdlToggle userId={u.id} tieneAcceso={!!bdlAccesoMap[u.id]} />
                 </td>
                 <td style={{ padding: "14px 16px" }}>
                   {u.email && (
