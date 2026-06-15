@@ -3,6 +3,10 @@
     {
       "path": "/api/cron/enviar-campanas",
       "schedule": "0 * * * *"
+    },
+    {
+      "path": "/api/cron/bdl-trial-check",
+      "schedule": "0 9 * * *"
     }
   ]
 }
