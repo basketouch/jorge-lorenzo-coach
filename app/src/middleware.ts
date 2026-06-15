@@ -11,12 +11,7 @@ const PROTECTED_PATHS = [
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
-  // Si no es una ruta protegida, dejar pasar directamente
-  if (!PROTECTED_PATHS.some((p) => pathname.startsWith(p))) {
-    return NextResponse.next();
-  }
-
-  // Comprobar sesión Supabase
+  // Siempre refrescar el token de sesión para que getUser() funcione en todas las páginas
   const res = NextResponse.next();
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -37,8 +32,8 @@ export async function middleware(req: NextRequest) {
   let user = null;
   try { const { data } = await supabase.auth.getUser(); user = data.user; } catch {}
 
-  // Si no está logueado → login (con redirect de vuelta)
-  if (!user) {
+  // Solo redirigir a login en rutas protegidas
+  if (!user && PROTECTED_PATHS.some((p) => pathname.startsWith(p))) {
     const loginUrl = new URL("/login", req.url);
     loginUrl.searchParams.set("redirect", pathname);
     return NextResponse.redirect(loginUrl);
