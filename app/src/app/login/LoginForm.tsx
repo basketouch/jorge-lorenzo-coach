@@ -140,8 +140,23 @@ export default function LoginForm() {
     );
   }
 
+  const esDesdeSkool = redirect.includes("/drills/activar");
+
   return (
     <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+      {esDesdeSkool && (
+        <div style={{
+          background: "rgba(201,168,76,0.08)", border: "1px solid rgba(201,168,76,0.35)",
+          borderRadius: 8, padding: "14px 16px", marginBottom: 4,
+        }}>
+          <p style={{ fontSize: 13, color: "var(--oro)", fontWeight: 700, marginBottom: 4 }}>
+            Acceso Drill Lab · Skool
+          </p>
+          <p style={{ fontSize: 13, color: "var(--texto-suave)", lineHeight: 1.6 }}>
+            Usa el mismo email y contraseña que tienes en Skool. Si es tu primera vez aquí, crea la cuenta con esos mismos datos.
+          </p>
+        </div>
+      )}
       {modo === "registro" && (
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
           <input
