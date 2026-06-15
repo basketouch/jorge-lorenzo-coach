@@ -8,12 +8,13 @@ export default function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirect = searchParams.get("redirect") ?? "/cuenta";
+  const esDesdeSkool = redirect.includes("/drills/activar");
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [nombre, setNombre] = useState("");
   const [apellido, setApellido] = useState("");
-  const [modo, setModo] = useState<"login" | "registro" | "recovery">("login");
+  const [modo, setModo] = useState<"login" | "registro" | "recovery">(esDesdeSkool ? "registro" : "login");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [enviado, setEnviado] = useState(false);
@@ -139,8 +140,6 @@ export default function LoginForm() {
       </form>
     );
   }
-
-  const esDesdeSkool = redirect.includes("/drills/activar");
 
   return (
     <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
