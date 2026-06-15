@@ -395,7 +395,7 @@ export default async function Home() {
               <a href="/drills" className="btn-primary" style={{ display: "inline-block" }}>Ver los drills</a>
             </div>
             <div style={{ flex: "0 0 auto", display: "flex", flexDirection: "column", gap: 10 }}>
-              {["🏀 Técnica individual", "📋 Sistemas ofensivos", "🛡️ Defensa y transición", "⚡ Situaciones de partido"].map((item) => (
+              {["Técnica individual", "Sistemas ofensivos", "Defensa y transición", "Situaciones de partido"].map((item) => (
                 <div key={item} style={{ fontSize: 14, color: "var(--texto-suave)", display: "flex", alignItems: "center", gap: 10 }}>
                   <span style={{ color: "var(--oro)" }}>✓</span> {item}
                 </div>
