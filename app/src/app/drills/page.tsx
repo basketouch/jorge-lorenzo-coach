@@ -53,7 +53,7 @@ export default async function DrillsPage() {
           <p className="section-label">Biblioteca</p>
           <h2 style={{ marginBottom: 8 }}>169 ejercicios de baloncesto.</h2>
           <p className="lead" style={{ marginBottom: 8 }}>
-            Del libro <em>The Complete Book of Offensive Drills</em>. Adaptados al español.
+            Organizados por capítulo, categoría y nivel. Con contexto real de aplicación en pista.
           </p>
 
           {/* Estado de acceso */}
