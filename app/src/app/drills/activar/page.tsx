@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase-server";
+import { createAdminClient } from "@/lib/supabase-admin";
 import { redirect } from "next/navigation";
 
 export default async function ActivarTrialPage({
@@ -15,24 +16,43 @@ export default async function ActivarTrialPage({
     redirect(`/login?redirect=${encodeURIComponent(returnUrl)}`);
   }
 
-  // Activar trial via API
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://jorgelorenzo.coach";
-  const res = await fetch(`${siteUrl}/api/drills/activar-trial`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ token }),
-    cache: "no-store",
-  });
-  const data = await res.json();
+  // Validar token
+  const tokenValido = token && token === process.env.SKOOL_DRILL_TOKEN;
 
-  const mensajes: Record<string, { titulo: string; sub: string }> = {
-    trial_activado:   { titulo: "Acceso activado.", sub: "Tienes 7 días de acceso completo al Drill Lab. Disfrútalo." },
-    trial_activo:     { titulo: "Tu prueba ya está activa.", sub: "Ya tienes acceso al Drill Lab. Sigue explorando." },
-    ya_tiene_acceso:  { titulo: "Ya tienes acceso.", sub: "Tu cuenta ya tiene acceso completo al Drill Lab." },
+  let status = "token_invalido";
+
+  if (tokenValido) {
+    const admin = createAdminClient();
+    const { data: perfil } = await admin
+      .from("usuarios")
+      .select("bdl_acceso, bdl_trial_start")
+      .eq("id", user.id)
+      .single();
+
+    if (perfil?.bdl_acceso && !perfil?.bdl_trial_start) {
+      status = "ya_tiene_acceso";
+    } else if (perfil?.bdl_trial_start) {
+      status = "trial_activo";
+    } else {
+      await admin
+        .from("usuarios")
+        .update({ bdl_trial_start: new Date().toISOString(), bdl_acceso: true })
+        .eq("id", user.id);
+      await admin
+        .from("bdl_user_access")
+        .upsert({ user_id: user.id, access_level: "member" }, { onConflict: "user_id" });
+      status = "trial_activado";
+    }
+  }
+
+  const mensajes: Record<string, { titulo: string; sub: string; ok: boolean }> = {
+    trial_activado:  { titulo: "Acceso activado.", sub: "Tienes 7 días de acceso completo al Drill Lab. Disfrútalo.", ok: true },
+    trial_activo:    { titulo: "Tu prueba ya está activa.", sub: "Ya tienes acceso al Drill Lab. Sigue explorando.", ok: true },
+    ya_tiene_acceso: { titulo: "Ya tienes acceso.", sub: "Tu cuenta ya tiene acceso completo al Drill Lab.", ok: true },
+    token_invalido:  { titulo: "Enlace no válido.", sub: "El enlace no es correcto o ha caducado.", ok: false },
   };
 
-  const { titulo, sub } = mensajes[data.status] ?? { titulo: "Enlace no válido.", sub: "El token no es correcto o ha caducado." };
-  const ok = !!data.ok;
+  const { titulo, sub, ok } = mensajes[status];
 
   return (
     <>
