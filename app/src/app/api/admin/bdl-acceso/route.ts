@@ -22,5 +22,16 @@ export async function POST(req: NextRequest) {
     .update({ bdl_acceso: action === "grant" })
     .eq("id", userId);
 
+  if (action === "grant") {
+    await admin
+      .from("bdl_user_access")
+      .upsert({ user_id: userId, access_level: "member" }, { onConflict: "user_id" });
+  } else {
+    await admin
+      .from("bdl_user_access")
+      .delete()
+      .eq("user_id", userId);
+  }
+
   return NextResponse.json({ ok: true });
 }
