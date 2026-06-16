@@ -15,6 +15,42 @@ interface Concept {
   say: string | null;
   note: string | null;
   audio_url: string | null;
+  context: string | null;
+  command: string | null;
+}
+
+interface DrillRow {
+  en: string;
+  es: string;
+}
+interface DrillStep {
+  en: string;
+  es: string;
+  audio_url: string | null;
+}
+interface DrillCue {
+  en: string;
+  es: string;
+  audio_url: string | null;
+}
+interface Drill {
+  id: string;
+  en: string;
+  es: string;
+  meta: string;
+  goal_en: string | null;
+  goal_es: string | null;
+  setup_en: string;
+  setup_es: string;
+  setup_audio: string | null;
+  steps: DrillStep[];
+  cues: DrillCue[];
+  coach_lang: DrillRow[];
+  corrections: DrillRow[];
+  coaching: DrillRow[];
+  mistakes: DrillRow[];
+  progression: DrillRow[];
+  order_index: number;
 }
 
 interface Progress {
@@ -32,186 +68,8 @@ interface Props {
   userAccessLevel: "free" | "member";
   concepts: Concept[];
   initialProgress: Progress[];
+  drills: Drill[];
 }
-
-// ─── Static drills data ──────────────────────────────────────────────────────
-
-const BASE = "https://otsbpiukzftacmvmkajy.supabase.co/storage/v1/object/public/ec-audio/drills";
-
-const DRILLS = [
-  {
-    id: "three-man-weave", en: "Three-man weave", es: "Tres en zigzag (onda)", meta: "Calentamiento · 5–8 min",
-    setup: { en: "Three lines on the baseline. Middle line has the ball.", es: "Tres filas en la línea de fondo. La del medio con balón.", audio: `${BASE}/three-man-weave-setup.mp3` },
-    steps: [
-      { en: "Middle player starts with the ball.", es: "El jugador del medio empieza con balón.", audio: `${BASE}/three-man-weave-step-0.mp3` },
-      { en: "Pass, then run behind the player you passed to.", es: "Pasa y corre por detrás del jugador que recibe.", audio: `${BASE}/three-man-weave-step-1.mp3` },
-      { en: "Fill the outside lane, catch, and pass again.", es: "Ocupa el carril exterior, recibe y vuelve a pasar.", audio: `${BASE}/three-man-weave-step-2.mp3` },
-      { en: "Two dribbles maximum - keep it moving.", es: "Máximo dos botes - mantenedlo fluido.", audio: `${BASE}/three-man-weave-step-3.mp3` },
-      { en: "Finish with a layup.", es: "Terminad con una bandeja.", audio: `${BASE}/three-man-weave-step-4.mp3` },
-      { en: "Grab the rebound and bring it back the other way.", es: "Coged el rebote y volved por el otro lado.", audio: `${BASE}/three-man-weave-step-5.mp3` },
-    ],
-    cues: [
-      { en: "Follow your pass!", es: "¡Sigue tu pase!", audio: `${BASE}/three-man-weave-cue-0.mp3` },
-      { en: "Sharp passes!", es: "¡Pases precisos!", audio: `${BASE}/three-man-weave-cue-1.mp3` },
-      { en: "Keep wide lanes!", es: "¡Mantened las calles abiertas!", audio: `${BASE}/three-man-weave-cue-2.mp3` },
-    ],
-    coaching: [
-      { en: "The passer always runs behind the receiver.", es: "El que pasa siempre corre por detrás del que recibe." },
-      { en: "Three lanes must stay wide — don't bunch up.", es: "Las tres calles deben mantenerse abiertas — no os juntéis." },
-      { en: "Two dribbles maximum — push the pace.", es: "Máximo dos botes — subid el ritmo." },
-      { en: "Finish with a proper layup — not just a toss.", es: "Terminad con una bandeja real — no un simple lanzamiento." },
-    ],
-    mistakes: [
-      { en: "Running in front of the pass instead of behind.", es: "Correr por delante del pase en vez de por detrás." },
-      { en: "Lanes too narrow — three players too close together.", es: "Calles demasiado estrechas — los tres muy juntos." },
-      { en: "Too many dribbles — slows down the drill.", es: "Demasiados botes — ralentiza el ejercicio." },
-      { en: "Stopping after the pass instead of sprinting.", es: "Pararse después de pasar en vez de esprintar." },
-    ],
-    progression: [
-      { en: "Walk-through first to fix the pattern.", es: "Primero a paso lento para fijar el patrón." },
-      { en: "Half speed with the correct paths.", es: "A medio gas con los recorridos correctos." },
-      { en: "Full speed — two dribble limit.", es: "A tope — límite de dos botes." },
-      { en: "Add a second ball from the other baseline.", es: "Añadir un segundo balón desde el otro lado." },
-    ],
-  },
-  {
-    id: "shell-drill", en: "Shell drill (4-on-4)", es: "Defensivo 4x4 (shell)", meta: "Defensa · 10 min",
-    setup: { en: "Four on offense around the perimeter, four on defense matched up.", es: "Cuatro en ataque por el perímetro, cuatro en defensa emparejados.", audio: `${BASE}/shell-drill-setup.mp3` },
-    steps: [
-      { en: "Offense, pass the ball around - no dribble yet.", es: "Ataque, moved el balón - todavía sin bote.", audio: `${BASE}/shell-drill-step-0.mp3` },
-      { en: "On every pass, defense jumps to the ball.", es: "En cada pase, la defensa salta hacia el balón.", audio: `${BASE}/shell-drill-step-1.mp3` },
-      { en: "On the ball: pressure. One pass away: deny.", es: "Al balón: presión. A un pase: negar.", audio: `${BASE}/shell-drill-step-2.mp3` },
-      { en: "Two passes away: drop and help.", es: "A dos pases: bajar y ayudar.", audio: `${BASE}/shell-drill-step-3.mp3` },
-      { en: "Talk on every screen - call it out.", es: "Hablad en cada bloqueo - avisadlo.", audio: `${BASE}/shell-drill-step-4.mp3` },
-      { en: "On the whistle, we go live.", es: "Al silbato, se juega libre.", audio: `${BASE}/shell-drill-step-5.mp3` },
-    ],
-    cues: [
-      { en: "Jump to the ball!", es: "¡Salta al balón!", audio: `${BASE}/shell-drill-cue-0.mp3` },
-      { en: "Talk to each other!", es: "¡Comunicaos!", audio: `${BASE}/shell-drill-cue-1.mp3` },
-      { en: "Close out under control.", es: "Bascula controlado.", audio: `${BASE}/shell-drill-cue-2.mp3` },
-    ],
-    coaching: [
-      { en: "On every pass, the whole defense must move together.", es: "En cada pase, toda la defensa se mueve a la vez." },
-      { en: "Ball pressure is key — make the offense uncomfortable.", es: "La presión al balón es clave — incomodad al ataque." },
-      { en: "Deny the direct pass — one arm's length from your player.", es: "Negad el pase directo — a un brazo de distancia de vuestro jugador." },
-      { en: "Help-side defense: see ball and man at all times.", es: "Defensa de ayuda: ved siempre balón y jugador." },
-      { en: "Communicate on screens before they happen, not after.", es: "Comunicad los bloqueos antes de que lleguen, no después." },
-    ],
-    mistakes: [
-      { en: "Standing still after a pass — not jumping to the ball.", es: "Quedarse parado tras el pase — no saltar al balón." },
-      { en: "Losing sight of the ball when denying.", es: "Perder de vista el balón mientras se niega el pase." },
-      { en: "Help defense too close — not giving enough cushion.", es: "Defensa de ayuda demasiado cerca — sin dar suficiente colchón." },
-      { en: "Not calling out screens — silent defense gets broken down.", es: "No avisar los bloqueos — la defensa silenciosa se rompe." },
-    ],
-    progression: [
-      { en: "Start with no dribble — force ball movement only.", es: "Empezad sin bote — solo movimiento de balón." },
-      { en: "Add one dribble allowed per possession.", es: "Añadid un bote permitido por posesión." },
-      { en: "Add screens — offense sets one off-ball screen.", es: "Añadid bloqueos — el ataque pone uno sin balón." },
-      { en: "Go live — full defense, full offense.", es: "A jugar libre — defensa y ataque completos." },
-    ],
-  },
-  {
-    id: "closeout-1v1", en: "Closeout 1-on-1", es: "Basculación y 1x1", meta: "Defensa · 8 min",
-    setup: { en: "Defender starts under the rim with the ball. Attacker waits on the wing.", es: "El defensor empieza bajo el aro con balón. El atacante espera en el ala.", audio: `${BASE}/closeout-1v1-setup.mp3` },
-    steps: [
-      { en: "Defender passes out to the attacker and closes out.", es: "El defensor pasa al atacante y sale a puntear.", audio: `${BASE}/closeout-1v1-step-0.mp3` },
-      { en: "Close out high, short steps, hand up.", es: "Sal alto, pasos cortos, mano arriba.", audio: `${BASE}/closeout-1v1-step-1.mp3` },
-      { en: "Attacker reads it: shoot or drive.", es: "El atacante lee: tira o penetra.", audio: `${BASE}/closeout-1v1-step-2.mp3` },
-      { en: "Live until a stop or a basket.", es: "Se juega hasta parada o canasta.", audio: `${BASE}/closeout-1v1-step-3.mp3` },
-      { en: "Then switch roles.", es: "Después, cambiad de rol.", audio: `${BASE}/closeout-1v1-step-4.mp3` },
-    ],
-    cues: [
-      { en: "Break down - don't fly by!", es: "¡Frena - no te pases de largo!", audio: `${BASE}/closeout-1v1-cue-0.mp3` },
-      { en: "Contest, don't foul.", es: "Disputa, sin falta.", audio: `${BASE}/closeout-1v1-cue-1.mp3` },
-    ],
-    coaching: [
-      { en: "Sprint the first three steps, then break down into short choppy steps.", es: "Esprintar los primeros tres pasos, luego frenar con pasos cortos y rápidos." },
-      { en: "Hand up to take away the shot — not both hands.", es: "Una mano arriba para quitar el tiro — no las dos." },
-      { en: "Keep your feet moving — don't go for pump fakes.", es: "Moved los pies — no os dejéis engañar por los amagos." },
-      { en: "Stay between the attacker and the basket at all times.", es: "Siempre entre el atacante y el aro." },
-    ],
-    mistakes: [
-      { en: "Flying past the attacker — giving up open layup.", es: "Pasarse de largo — dejando bandeja libre." },
-      { en: "Closing out straight — attacker drives easily.", es: "Basculando recto — el atacante penetra sin problema." },
-      { en: "Both hands up — fouling on a shot attempt.", es: "Las dos manos arriba — faltando en el intento de tiro." },
-      { en: "Standing upright — no leverage to move laterally.", es: "De pie erguido — sin palanca para moverse lateralmente." },
-    ],
-    progression: [
-      { en: "Defender walks the closeout — focus on footwork.", es: "El defensor bascula andando — foco en los apoyos." },
-      { en: "Half speed closeout — attacker chooses one option only.", es: "Basculación a medio gas — el atacante elige solo una opción." },
-      { en: "Full speed — attacker has both options open.", es: "A tope — el atacante tiene las dos opciones abiertas." },
-      { en: "Add a kick-out: help defender must close out too.", es: "Añadir un pase de descarga: el defensor de ayuda también bascula." },
-    ],
-  },
-  {
-    id: "layup-lines", en: "Layup lines", es: "Filas de bandejas", meta: "Calentamiento · 5 min",
-    setup: { en: "Two lines: one to shoot, one to rebound.", es: "Dos filas: una tira, otra rebotea.", audio: `${BASE}/layup-lines-setup.mp3` },
-    steps: [
-      { en: "Shooting line starts on the wing.", es: "La fila de tiro empieza en el ala.", audio: `${BASE}/layup-lines-step-0.mp3` },
-      { en: "Drive in and finish with a layup.", es: "Penetra y termina con bandeja.", audio: `${BASE}/layup-lines-step-1.mp3` },
-      { en: "Rebound line grabs it before it hits the floor.", es: "La fila de rebote la coge antes de que toque el suelo.", audio: `${BASE}/layup-lines-step-2.mp3` },
-      { en: "Pass out to the next shooter.", es: "Pasa al siguiente tirador.", audio: `${BASE}/layup-lines-step-3.mp3` },
-      { en: "Then go to the back of the other line.", es: "Luego, al final de la otra fila.", audio: `${BASE}/layup-lines-step-4.mp3` },
-    ],
-    cues: [
-      { en: "Use the backboard!", es: "¡Usa el tablero!", audio: `${BASE}/layup-lines-cue-0.mp3` },
-      { en: "High off the glass.", es: "Alto contra el tablero.", audio: `${BASE}/layup-lines-cue-1.mp3` },
-      { en: "Finish strong!", es: "¡Termina con convicción!", audio: `${BASE}/layup-lines-cue-2.mp3` },
-    ],
-    coaching: [
-      { en: "Approach at an angle — not straight at the basket.", es: "Acercaos en diagonal — no recto al aro." },
-      { en: "Use the correct foot: right side = right foot up.", es: "Pie correcto: lado derecho = pie derecho arriba." },
-      { en: "Aim at the top corner of the square on the backboard.", es: "Apuntad a la esquina superior del cuadrado del tablero." },
-      { en: "Soft touch — let the glass do the work.", es: "Toque suave — dejad que el tablero haga el trabajo." },
-    ],
-    mistakes: [
-      { en: "Going straight to the basket — no angle.", es: "Ir recto al aro — sin diagonal." },
-      { en: "Wrong foot — two-foot jump instead of one.", es: "Pie equivocado — salto con los dos pies en vez de uno." },
-      { en: "Shooting too hard — bounces off instead of going in.", es: "Tiro demasiado fuerte — rebota en vez de entrar." },
-      { en: "Rebounders waiting too long — ball hits the floor.", es: "Los reboteadores esperan demasiado — el balón toca el suelo." },
-    ],
-    progression: [
-      { en: "Right side only — dominant hand focus.", es: "Solo por el lado derecho — foco en la mano dominante." },
-      { en: "Both sides alternating.", es: "Los dos lados alternando." },
-      { en: "Add a pass before the drive — catch and go.", es: "Añadir un pase antes de penetrar — recibe y va." },
-      { en: "Power layup: two feet, body contact simulation.", es: "Bandeja de fuerza: dos pies, simulando contacto." },
-    ],
-  },
-  {
-    id: "defensive-slides", en: "Defensive slides", es: "Desplazamientos defensivos", meta: "Físico · 4 min",
-    setup: { en: "Players spread out, low in a defensive stance.", es: "Jugadores repartidos, abajo en postura defensiva.", audio: `${BASE}/defensive-slides-setup.mp3` },
-    steps: [
-      { en: "Get low - wide stance, hands up.", es: "Abajo - postura ancha, manos arriba.", audio: `${BASE}/defensive-slides-step-0.mp3` },
-      { en: "Slide on my hand: left, right.", es: "Deslizaos según mi mano: izquierda, derecha.", audio: `${BASE}/defensive-slides-step-1.mp3` },
-      { en: "Don't cross your feet.", es: "No crucéis los pies.", audio: `${BASE}/defensive-slides-step-2.mp3` },
-      { en: "Stay on the balls of your feet.", es: "Apoyaos en la parte delantera de los pies.", audio: `${BASE}/defensive-slides-step-3.mp3` },
-      { en: "Thirty seconds - push through it.", es: "Treinta segundos - apretad hasta el final.", audio: `${BASE}/defensive-slides-step-4.mp3` },
-    ],
-    cues: [
-      { en: "Lower!", es: "¡Más abajo!", audio: `${BASE}/defensive-slides-cue-0.mp3` },
-      { en: "Don't stand up!", es: "¡No os levantéis!", audio: `${BASE}/defensive-slides-cue-1.mp3` },
-      { en: "Move your feet!", es: "¡Moved los pies!", audio: `${BASE}/defensive-slides-cue-2.mp3` },
-    ],
-    coaching: [
-      { en: "Hips low — knees bent, back straight.", es: "Caderas bajas — rodillas dobladas, espalda recta." },
-      { en: "Lead foot slides first, trail foot follows immediately.", es: "El pie líder se desliza primero, el otro le sigue de inmediato." },
-      { en: "Keep hands active — mirrors the ball.", es: "Manos activas — siguen el balón." },
-      { en: "Weight on the balls of the feet — never flat-footed.", es: "Peso en la parte delantera del pie — nunca apoyados en toda la planta." },
-    ],
-    mistakes: [
-      { en: "Crossing feet — loses balance and recovers slowly.", es: "Cruzar los pies — se pierde el equilibrio y la reacción." },
-      { en: "Standing up when tired — gives up leverage.", es: "Levantarse cuando se cansa — se pierde la palanca." },
-      { en: "Flat-footed — slow to react to change of direction.", es: "Apoyo plano — lento para reaccionar al cambio de dirección." },
-      { en: "Leaning too far forward — off balance.", es: "Inclinarse demasiado hacia delante — desequilibrio." },
-    ],
-    progression: [
-      { en: "Stationary stance hold — 10 seconds.", es: "Postura estática aguantando — 10 segundos." },
-      { en: "Slow slides — coach calls direction verbally.", es: "Deslizamientos lentos — el entrenador da dirección verbal." },
-      { en: "Fast slides — coach uses hand signals.", es: "Deslizamientos rápidos — el entrenador usa señales con la mano." },
-      { en: "30-second push — max effort.", es: "30 segundos al máximo esfuerzo." },
-    ],
-  },
-];
 
 // ─── Icons ───────────────────────────────────────────────────────────────────
 
@@ -416,6 +274,7 @@ function VocabScreen({ speak, concepts }: { speak: ReturnType<typeof useSpeak>; 
                 <div className="bb-row-en">{t.en}</div>
                 <div className="bb-row-es">{t.es}</div>
                 {t.say && <div className="bb-say">{t.say}</div>}
+                {t.command && <div className="bb-command"><span>→</span> {t.command}</div>}
                 {t.note && <div className="bb-note">{t.note}</div>}
               </div>
               <SpeakBtn text={t.en} speak={speak} />
@@ -474,6 +333,7 @@ function PhrasesScreen({ speak, concepts }: { speak: ReturnType<typeof useSpeak>
                   <div className="bb-row-main">
                     <div className="bb-row-en sm">{p.en}</div>
                     <div className="bb-row-es">{p.es}</div>
+                    {p.context && <div className="bb-context">{p.context}</div>}
                   </div>
                   <SpeakBtn text={p.en} speak={speak} />
                 </div>
@@ -486,10 +346,13 @@ function PhrasesScreen({ speak, concepts }: { speak: ReturnType<typeof useSpeak>
   );
 }
 
-function DrillScript({ drill, speak, back }: { drill: typeof DRILLS[0]; speak: ReturnType<typeof useSpeak>; back: () => void }) {
+function DrillScript({ drill, speak, back }: { drill: Drill; speak: ReturnType<typeof useSpeak>; back: () => void }) {
   const [playing, setPlaying] = useState(false);
   const [idx, setIdx] = useState(-1);
-  const seq = useMemo(() => [{ en: "Setup. " + drill.setup.en, audio: drill.setup.audio }, ...drill.steps], [drill]);
+  const seq = useMemo(() => [
+    { en: "Setup. " + drill.setup_en, audio: drill.setup_audio },
+    ...drill.steps.map(s => ({ en: s.en, audio: s.audio_url })),
+  ], [drill]);
 
   const stop = useCallback(() => {
     if (typeof window !== "undefined") speechSynthesis?.cancel();
@@ -503,7 +366,7 @@ function DrillScript({ drill, speak, back }: { drill: typeof DRILLS[0]; speak: R
     const next = () => {
       if (i >= seq.length) { setPlaying(false); setIdx(-1); return; }
       setIdx(i);
-      speak(seq[i].en, { onend: () => { i++; setTimeout(next, 420); }, audioUrl: seq[i].audio });
+      speak(seq[i].en, { onend: () => { i++; setTimeout(next, 420); }, audioUrl: seq[i].audio ?? undefined });
     };
     next();
   };
@@ -519,15 +382,22 @@ function DrillScript({ drill, speak, back }: { drill: typeof DRILLS[0]; speak: R
         <div className="bb-h1-sub">{drill.es}</div>
       </header>
       <div className="bb-pad">
+        {(drill.goal_en || drill.goal_es) && (
+          <div className="bb-goal">
+            <div className="bb-goal-label">Objetivo</div>
+            {drill.goal_en && <div className="bb-goal-en">{drill.goal_en}</div>}
+            {drill.goal_es && <div className="bb-goal-es">{drill.goal_es}</div>}
+          </div>
+        )}
         <button className={"bb-cta playall" + (playing ? " on" : "")} onClick={playAll}>
           <span><Icon name={playing ? "pause" : "play"} size={18}/> {playing ? "Parar" : "Leer todo en voz alta"}</span>
           <span className="bb-cta-sub">{seq.length} pasos</span>
         </button>
         <div className={"bb-step bb-card setup" + (idx === 0 ? " active" : "")}>
           <div className="bb-step-tag">Montaje</div>
-          <div className="bb-row-en sm">{drill.setup.en}</div>
-          <div className="bb-row-es">{drill.setup.es}</div>
-          <div className="bb-step-speak"><SpeakBtn text={drill.setup.en} speak={speak} audioUrl={drill.setup.audio} /></div>
+          <div className="bb-row-en sm">{drill.setup_en}</div>
+          <div className="bb-row-es">{drill.setup_es}</div>
+          <div className="bb-step-speak"><SpeakBtn text={drill.setup_en} speak={speak} audioUrl={drill.setup_audio ?? undefined} /></div>
         </div>
         {drill.steps.map((s, i) => (
           <div key={i} className={"bb-step bb-card" + (idx === i + 1 ? " active" : "")}>
@@ -536,19 +406,47 @@ function DrillScript({ drill, speak, back }: { drill: typeof DRILLS[0]; speak: R
               <div className="bb-row-en sm">{s.en}</div>
               <div className="bb-row-es">{s.es}</div>
             </div>
-            <div className="bb-step-speak"><SpeakBtn text={s.en} speak={speak} audioUrl={s.audio} /></div>
+            <div className="bb-step-speak"><SpeakBtn text={s.en} speak={speak} audioUrl={s.audio_url ?? undefined} /></div>
           </div>
         ))}
         <div className="bb-cues">
           <div className="bb-cues-head"><Icon name="whistle" size={18}/> Para corregir en marcha</div>
           {drill.cues.map((c, i) => (
-            <button key={i} className="bb-cue" onClick={() => speak(c.en, { audioUrl: c.audio })}>
+            <button key={i} className="bb-cue" onClick={() => speak(c.en, { audioUrl: c.audio_url ?? undefined })}>
               <span className="bb-cue-en">"{c.en}"</span>
               <span className="bb-cue-es">{c.es}</span>
             </button>
           ))}
         </div>
-        {drill.coaching && (
+        {drill.coach_lang?.length > 0 && (
+          <div className="bb-drill-section">
+            <div className="bb-drill-section-head">Lenguaje de coach</div>
+            {drill.coach_lang.map((row, i) => (
+              <div key={i} className="bb-drill-row">
+                <span className="bb-drill-dot"/>
+                <div>
+                  <div className="bb-drill-en">{row.en}</div>
+                  <div className="bb-drill-es">{row.es}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+        {drill.corrections?.length > 0 && (
+          <div className="bb-drill-section">
+            <div className="bb-drill-section-head">No hagas</div>
+            {drill.corrections.map((row, i) => (
+              <div key={i} className="bb-drill-row">
+                <span className="bb-drill-dot warn"/>
+                <div>
+                  <div className="bb-drill-en">{row.en}</div>
+                  <div className="bb-drill-es">{row.es}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+        {drill.coaching?.length > 0 && (
           <div className="bb-drill-section">
             <div className="bb-drill-section-head">Coaching points</div>
             {drill.coaching.map((row, i) => (
@@ -562,7 +460,7 @@ function DrillScript({ drill, speak, back }: { drill: typeof DRILLS[0]; speak: R
             ))}
           </div>
         )}
-        {drill.mistakes && (
+        {drill.mistakes?.length > 0 && (
           <div className="bb-drill-section">
             <div className="bb-drill-section-head">Errores comunes</div>
             {drill.mistakes.map((row, i) => (
@@ -576,7 +474,7 @@ function DrillScript({ drill, speak, back }: { drill: typeof DRILLS[0]; speak: R
             ))}
           </div>
         )}
-        {drill.progression && (
+        {drill.progression?.length > 0 && (
           <div className="bb-drill-section">
             <div className="bb-drill-section-head">Progresión</div>
             {drill.progression.map((row, i) => (
@@ -595,9 +493,9 @@ function DrillScript({ drill, speak, back }: { drill: typeof DRILLS[0]; speak: R
   );
 }
 
-function DrillsScreen({ speak, isMember }: { speak: ReturnType<typeof useSpeak>; isMember: boolean }) {
+function DrillsScreen({ speak, isMember, drills }: { speak: ReturnType<typeof useSpeak>; isMember: boolean; drills: Drill[] }) {
   const [open, setOpen] = useState<string | null>(null);
-  const drill = DRILLS.find(d => d.id === open);
+  const drill = drills.find(d => d.id === open);
 
   if (!isMember) {
     return (
@@ -626,7 +524,7 @@ function DrillsScreen({ speak, isMember }: { speak: ReturnType<typeof useSpeak>;
       </header>
       <div className="bb-pad">
         <p className="bb-lead">Explica un ejercicio entero en inglés, paso a paso. Pulsa <strong>Leer todo</strong> y sígueme.</p>
-        {DRILLS.map(d => (
+        {drills.map(d => (
           <button key={d.id} className="bb-row bb-card drill" onClick={() => setOpen(d.id)}>
             <div className="bb-drill-icon"><Icon name="drills" size={22}/></div>
             <div className="bb-row-main">
@@ -821,7 +719,7 @@ const TABS = [
   { id: "practice", label: "Práctica", icon: "practice" },
 ];
 
-export default function EnglishClient({ userId, userAccessLevel, concepts, initialProgress }: Props) {
+export default function EnglishClient({ userId, userAccessLevel, concepts, initialProgress, drills }: Props) {
   const [tab, setTab] = useState("home");
   const [progressMap, setProgressMap] = useState<Map<string, Progress>>(() => {
     const m = new Map<string, Progress>();
@@ -848,7 +746,7 @@ export default function EnglishClient({ userId, userAccessLevel, concepts, initi
     home: <HomeScreen go={setTab} speak={speak} terms={terms} phrases={phrases} />,
     vocab: <VocabScreen speak={speak} concepts={concepts} />,
     phrases: <PhrasesScreen speak={speak} concepts={concepts} />,
-    drills: <DrillsScreen speak={speak} isMember={isMember} />,
+    drills: <DrillsScreen speak={speak} isMember={isMember} drills={drills} />,
     practice: <PracticeScreen speak={speak} terms={terms} progressMap={progressMap} onProgress={handleProgress} isMember={isMember} />,
   };
 

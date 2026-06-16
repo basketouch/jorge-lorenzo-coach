@@ -97,9 +97,8 @@ export default async function CuentaPage() {
               {/* Drill Lab */}
               <Link href="/drills" style={{ textDecoration: "none" }}>
                 <div style={{ background: "var(--card)", border: drillLabAccess === "member" ? "1px solid var(--oro)" : "1px solid var(--borde)", borderRadius: 12, overflow: "hidden", cursor: "pointer" }}>
-                  <div style={{ width: "100%", aspectRatio: "16/9", background: "linear-gradient(135deg, rgba(201,168,76,0.15), rgba(201,168,76,0.05))", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <span style={{ fontSize: 48 }}>🏀</span>
-                  </div>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src="https://otsbpiukzftacmvmkajy.supabase.co/storage/v1/object/public/portadas/Drill%20Lab.png" alt="Biblioteca de Ejercicios" style={{ width: "100%", aspectRatio: "16/9", objectFit: "cover", display: "block" }} />
                   <div style={{ padding: "20px 24px" }}>
                     <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: drillLabAccess === "member" ? "var(--oro)" : "var(--texto-suave)", marginBottom: 6 }}>
                       {drillLabAccess === "member" ? "Acceso completo" : `${FREE_QUOTA - Math.min(drillViewsUsed, FREE_QUOTA)} de ${FREE_QUOTA} ejercicios disponibles`}
@@ -171,9 +170,8 @@ export default async function CuentaPage() {
               {/* Drill Lab — siempre visible aunque no haya cursos */}
               <Link href="/drills" style={{ textDecoration: "none" }}>
                 <div style={{ background: "var(--card)", border: drillLabAccess === "member" ? "1px solid var(--oro)" : "1px solid var(--borde)", borderRadius: 12, overflow: "hidden", cursor: "pointer" }}>
-                  <div style={{ width: "100%", aspectRatio: "16/9", background: "linear-gradient(135deg, rgba(201,168,76,0.15), rgba(201,168,76,0.05))", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <span style={{ fontSize: 48 }}>🏀</span>
-                  </div>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src="https://otsbpiukzftacmvmkajy.supabase.co/storage/v1/object/public/portadas/Drill%20Lab.png" alt="Biblioteca de Ejercicios" style={{ width: "100%", aspectRatio: "16/9", objectFit: "cover", display: "block" }} />
                   <div style={{ padding: "20px 24px" }}>
                     <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: drillLabAccess === "member" ? "var(--oro)" : "var(--texto-suave)", marginBottom: 6 }}>
                       {drillLabAccess === "member" ? "Acceso completo" : `${FREE_QUOTA - Math.min(drillViewsUsed, FREE_QUOTA)} de ${FREE_QUOTA} ejercicios disponibles`}

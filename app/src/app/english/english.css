@@ -397,6 +397,37 @@
 .bb-drill-en { font-size: 14px; font-weight: 600; color: #F3F4F7; line-height: 1.4; }
 .bb-drill-es { font-size: 12.5px; color: #6C7382; margin-top: 2px; line-height: 1.35; }
 
+/* ── Command (vocab) ───────────────────────────────────── */
+.bb-command {
+  display: flex; align-items: center; gap: 6px;
+  margin-top: 6px;
+  font-size: 13px; font-weight: 600;
+  color: #F97316; letter-spacing: 0.01em;
+}
+.bb-command span { font-size: 15px; }
+
+/* ── Context (phrases) ─────────────────────────────────── */
+.bb-context {
+  margin-top: 4px;
+  font-size: 12px; color: #6C7382;
+  font-style: italic; line-height: 1.4;
+}
+
+/* ── Goal (drills) ─────────────────────────────────────── */
+.bb-goal {
+  background: rgba(249, 115, 22, 0.08);
+  border: 1px solid rgba(249, 115, 22, 0.2);
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 16px;
+}
+.bb-goal-label {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.08em;
+  text-transform: uppercase; color: #F97316; margin-bottom: 6px;
+}
+.bb-goal-en { font-size: 14px; font-weight: 600; color: #F3F4F7; line-height: 1.4; }
+.bb-goal-es { font-size: 12.5px; color: #9CA3AF; margin-top: 3px; line-height: 1.35; }
+
 /* ── Mobile adjustments ────────────────────────────────── */
 @media (max-width: 430px) {
   .bb-top { padding: 20px 18px 10px; }

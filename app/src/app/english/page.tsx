@@ -78,10 +78,17 @@ export default async function EnglishPage() {
   // Load base concepts
   const { data: concepts } = await admin
     .from("ec_concepts")
-    .select("id, type, category, en, es, say, note, audio_url")
+    .select("id, type, category, en, es, say, note, audio_url, context, command")
     .is("user_id", null)
     .eq("status", "approved")
     .order("created_at");
+
+  // Load drills
+  const { data: drills } = await admin
+    .from("ec_drills")
+    .select("id, en, es, meta, goal_en, goal_es, setup_en, setup_es, setup_audio, steps, cues, coach_lang, corrections, coaching, mistakes, progression")
+    .eq("status", "approved")
+    .order("order_index");
 
   // Load progress for members
   let initialProgress: any[] = [];
@@ -109,6 +116,7 @@ export default async function EnglishPage() {
         userAccessLevel={userAccessLevel}
         concepts={concepts ?? []}
         initialProgress={initialProgress}
+        drills={(drills ?? []) as any}
       />
     </>
   );
