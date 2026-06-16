@@ -15,11 +15,17 @@ export default async function CuentaPage() {
   if (!user) redirect("/login");
 
   const admin = createAdminClient();
-  const [{ data: compras }, { data: perfil }, { data: accesoModulos }] = await Promise.all([
+  const [{ data: compras }, { data: perfil }, { data: accesoModulos }, { data: bdlAccess }, { count: bdlViews }] = await Promise.all([
     supabase.from("compras").select("*, cursos(slug, titulo, portada_url)").eq("user_id", user.id),
     supabase.from("usuarios").select("nombre, apellido, is_admin").eq("id", user.id).single(),
     admin.from("accesos_modulo").select("modulo_id, modulos(id, titulo, portada_url)").eq("user_id", user.id),
+    admin.from("bdl_user_access").select("access_level").eq("user_id", user.id).single(),
+    admin.from("bdl_user_drill_views").select("*", { count: "exact", head: true }).eq("user_id", user.id),
   ]);
+
+  const FREE_QUOTA = 5;
+  const drillLabAccess = bdlAccess?.access_level === "member" ? "member" : "free";
+  const drillViewsUsed = bdlViews ?? 0;
 
   const nombre = perfil?.nombre ? `${perfil.nombre}${perfil.apellido ? ` ${perfil.apellido}` : ""}` : null;
 
@@ -88,6 +94,23 @@ export default async function CuentaPage() {
 
           {((compras && compras.length > 0) || (accesoModulos && accesoModulos.length > 0)) ? (
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 24 }}>
+              {/* Drill Lab */}
+              <Link href="/drills" style={{ textDecoration: "none" }}>
+                <div style={{ background: "var(--card)", border: drillLabAccess === "member" ? "1px solid var(--oro)" : "1px solid var(--borde)", borderRadius: 12, overflow: "hidden", cursor: "pointer" }}>
+                  <div style={{ width: "100%", aspectRatio: "16/9", background: "linear-gradient(135deg, rgba(201,168,76,0.15), rgba(201,168,76,0.05))", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <span style={{ fontSize: 48 }}>🏀</span>
+                  </div>
+                  <div style={{ padding: "20px 24px" }}>
+                    <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: drillLabAccess === "member" ? "var(--oro)" : "var(--texto-suave)", marginBottom: 6 }}>
+                      {drillLabAccess === "member" ? "Acceso completo" : `${FREE_QUOTA - Math.min(drillViewsUsed, FREE_QUOTA)} de ${FREE_QUOTA} ejercicios disponibles`}
+                    </p>
+                    <p style={{ fontSize: 17, fontWeight: 700, color: "var(--blanco)", marginBottom: 16 }}>Biblioteca de Ejercicios</p>
+                    <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: drillLabAccess === "member" ? "var(--oro)" : "var(--card)", border: drillLabAccess === "member" ? "none" : "1px solid var(--borde)", color: drillLabAccess === "member" ? "var(--negro)" : "var(--texto)", padding: "9px 20px", borderRadius: 6, fontSize: 13, fontWeight: 700 }}>
+                      Abrir biblioteca →
+                    </div>
+                  </div>
+                </div>
+              </Link>
               {/* Cursos completos */}
               {compras?.filter((c) => !!c.cursos).map((compra) => (
                 <Link key={compra.id} href={`/ver/${compra.cursos.slug}`} style={{ textDecoration: "none" }}>
@@ -144,13 +167,32 @@ export default async function CuentaPage() {
               })}
             </div>
           ) : (
-            <div style={{ background: "var(--card)", border: "1px solid var(--borde)", borderRadius: 12, padding: "48px 40px", textAlign: "center" }}>
-              <p style={{ fontSize: 40, marginBottom: 16 }}>📚</p>
-              <p style={{ fontSize: 18, fontWeight: 600, color: "var(--texto)", marginBottom: 8 }}>Todavía no tienes ningún curso.</p>
-              <p style={{ color: "var(--texto-suave)", marginBottom: 28, fontSize: 14 }}>Accede al Laboratorio del Entrenador o únete a la comunidad en Skool.</p>
-              <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-                <Link href="/cursos/laboratorio-2526" className="btn-primary">Ver el Laboratorio</Link>
-                <a href="https://www.skool.com/jorge-lorenzo-coach/plans" target="_blank" rel="noopener noreferrer" className="btn-secondary">Unirse a Skool</a>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 24 }}>
+              {/* Drill Lab — siempre visible aunque no haya cursos */}
+              <Link href="/drills" style={{ textDecoration: "none" }}>
+                <div style={{ background: "var(--card)", border: drillLabAccess === "member" ? "1px solid var(--oro)" : "1px solid var(--borde)", borderRadius: 12, overflow: "hidden", cursor: "pointer" }}>
+                  <div style={{ width: "100%", aspectRatio: "16/9", background: "linear-gradient(135deg, rgba(201,168,76,0.15), rgba(201,168,76,0.05))", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <span style={{ fontSize: 48 }}>🏀</span>
+                  </div>
+                  <div style={{ padding: "20px 24px" }}>
+                    <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: drillLabAccess === "member" ? "var(--oro)" : "var(--texto-suave)", marginBottom: 6 }}>
+                      {drillLabAccess === "member" ? "Acceso completo" : `${FREE_QUOTA - Math.min(drillViewsUsed, FREE_QUOTA)} de ${FREE_QUOTA} ejercicios disponibles`}
+                    </p>
+                    <p style={{ fontSize: 17, fontWeight: 700, color: "var(--blanco)", marginBottom: 16 }}>Biblioteca de Ejercicios</p>
+                    <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: drillLabAccess === "member" ? "var(--oro)" : "var(--card)", border: drillLabAccess === "member" ? "none" : "1px solid var(--borde)", color: drillLabAccess === "member" ? "var(--negro)" : "var(--texto)", padding: "9px 20px", borderRadius: 6, fontSize: 13, fontWeight: 700 }}>
+                      Abrir biblioteca →
+                    </div>
+                  </div>
+                </div>
+              </Link>
+              {/* Placeholder — sin cursos */}
+              <div style={{ background: "var(--card)", border: "1px solid var(--borde)", borderRadius: 12, padding: "40px 32px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "flex-start" }}>
+                <p style={{ fontSize: 18, fontWeight: 600, color: "var(--texto)", marginBottom: 8 }}>Sin cursos todavía.</p>
+                <p style={{ color: "var(--texto-suave)", marginBottom: 24, fontSize: 14, lineHeight: 1.6 }}>Accede al Laboratorio del Entrenador o únete a la comunidad en Skool.</p>
+                <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+                  <Link href="/cursos/laboratorio-2526" className="btn-primary" style={{ fontSize: 13 }}>Ver el Laboratorio</Link>
+                  <a href="https://www.skool.com/jorge-lorenzo-coach/plans" target="_blank" rel="noopener noreferrer" className="btn-secondary" style={{ fontSize: 13 }}>Unirse a Skool</a>
+                </div>
               </div>
             </div>
           )}
