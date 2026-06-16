@@ -14,6 +14,7 @@ interface Concept {
   es: string;
   say: string | null;
   note: string | null;
+  audio_url: string | null;
 }
 
 interface Progress {
@@ -127,14 +128,30 @@ function Icon({ name, size = 22, stroke = 2 }: { name: string; size?: number; st
 
 // ─── Audio ───────────────────────────────────────────────────────────────────
 
+// audioUrl map: concept text → URL (populated from DB)
+const audioMap = new Map<string, string>();
+
 function useSpeak() {
-  const ready = useRef(false);
-  useEffect(() => {
-    if (typeof window === "undefined" || !window.speechSynthesis) return;
-    const warm = () => { ready.current = true; };
-    speechSynthesis.onvoiceschanged = warm; warm();
-  }, []);
+  const currentAudio = useRef<HTMLAudioElement | null>(null);
+
   return useCallback((text: string, opts: { onend?: () => void } = {}) => {
+    // Stop any playing audio
+    if (currentAudio.current) {
+      currentAudio.current.pause();
+      currentAudio.current = null;
+    }
+
+    const url = audioMap.get(text);
+    if (url) {
+      const audio = new Audio(url);
+      currentAudio.current = audio;
+      audio.onended = () => { currentAudio.current = null; opts.onend?.(); };
+      audio.onerror = () => { currentAudio.current = null; opts.onend?.(); };
+      audio.play().catch(() => opts.onend?.());
+      return;
+    }
+
+    // Fallback: speechSynthesis (for drills steps that have no audio_url)
     if (typeof window === "undefined" || !window.speechSynthesis) { opts.onend?.(); return; }
     speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(text);
@@ -654,6 +671,11 @@ export default function EnglishClient({ userId, userAccessLevel, concepts, initi
     initialProgress.forEach(p => m.set(p.concept_id, p));
     return m;
   });
+
+  // Populate audio map from concepts
+  useEffect(() => {
+    concepts.forEach(c => { if (c.audio_url) audioMap.set(c.en, c.audio_url); });
+  }, [concepts]);
 
   const speak = useSpeak();
   const isMember = userAccessLevel === "member";

@@ -78,7 +78,7 @@ export default async function EnglishPage() {
   // Load base concepts
   const { data: concepts } = await admin
     .from("ec_concepts")
-    .select("id, type, category, en, es, say, note")
+    .select("id, type, category, en, es, say, note, audio_url")
     .is("user_id", null)
     .eq("status", "approved")
     .order("created_at");
