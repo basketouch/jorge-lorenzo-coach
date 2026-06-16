@@ -1,6 +1,15 @@
 import { createClient } from "@/lib/supabase-server";
 import { createAdminClient } from "@/lib/supabase-admin";
+import NavHamburger from "@/components/NavHamburger";
 import EnglishClient from "./EnglishClient";
+
+const NAV_LINKS = [
+  { label: "Comunidad", href: "/#niveles" },
+  { label: "El Laboratorio", href: "/cursos/laboratorio-2526" },
+  { label: "Drill Lab", href: "/drills" },
+  { label: "English Coach", href: "/english" },
+  { label: "Newsletter", href: "/newsletter" },
+];
 
 export const metadata = {
   title: "English Coach — Jorge Lorenzo",
@@ -23,9 +32,10 @@ export default async function EnglishPage() {
         <nav>
           <a href="/" className="nav-logo">Jorge <span>Lorenzo</span></a>
           <div className="nav-links">
-            <a href="/drills" className="nav-link">Drill Lab</a>
+            {NAV_LINKS.map(l => <a key={l.href} href={l.href} className="nav-link">{l.label}</a>)}
             <a href="/login?redirect=/english" className="nav-cta">Iniciar sesión</a>
           </div>
+          <NavHamburger links={[...NAV_LINKS]} />
         </nav>
         <section style={{ paddingTop: 120, paddingBottom: 80, minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
           <div style={{ textAlign: "center", maxWidth: 400, padding: "0 24px" }}>
@@ -77,9 +87,10 @@ export default async function EnglishPage() {
       <nav>
         <a href="/" className="nav-logo">Jorge <span>Lorenzo</span></a>
         <div className="nav-links">
-          <a href="/drills" className="nav-link">Drill Lab</a>
+          {NAV_LINKS.map(l => <a key={l.href} href={l.href} className="nav-link">{l.label}</a>)}
           <a href="/cuenta" className="nav-cta">Mi cuenta</a>
         </div>
+        <NavHamburger links={[...NAV_LINKS, { label: "Mi cuenta", href: "/cuenta" }]} />
       </nav>
       <EnglishClient
         userId={user.id}
