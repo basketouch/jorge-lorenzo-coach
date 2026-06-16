@@ -663,7 +663,11 @@ function FlashMode({ speak, terms, progressMap, onProgress }: {
     if (correct) setKnown(k => k + 1);
     try { await saveEcProgress(card.id, updated); } catch {}
     setFading(true);
-    setTimeout(() => { setFlip(false); setI(v => v + 1); setFading(false); }, 160);
+    setTimeout(() => {
+      setFlip(false);
+      setI(v => v + 1);
+      requestAnimationFrame(() => requestAnimationFrame(() => setFading(false)));
+    }, 160);
   };
 
   if (!card) return null;
