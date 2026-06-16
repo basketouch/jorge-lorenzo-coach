@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase-server";
 import { createAdminClient } from "@/lib/supabase-admin";
 import NavHamburger from "@/components/NavHamburger";
 import EnglishClient from "./EnglishClient";
+import PwaRegister from "./PwaRegister";
 
 const NAV_LINKS = [
   { label: "Comunidad", href: "/#niveles" },
@@ -14,6 +15,15 @@ const NAV_LINKS = [
 export const metadata = {
   title: "English Coach — Jorge Lorenzo",
   description: "Aprende el inglés que necesitas para dirigir entrenamientos de baloncesto. Vocabulario, frases y ejercicios con audio.",
+  manifest: "/english-manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "English Coach",
+  },
+  icons: {
+    apple: "/icons/english-apple-touch.png",
+  },
 };
 
 export const dynamic = "force-dynamic";
@@ -29,6 +39,7 @@ export default async function EnglishPage() {
   if (!user) {
     return (
       <>
+        <PwaRegister />
         <nav>
           <a href="/" className="nav-logo">Jorge <span>Lorenzo</span></a>
           <div className="nav-links">
@@ -84,6 +95,7 @@ export default async function EnglishPage() {
 
   return (
     <>
+      <PwaRegister />
       <nav>
         <a href="/" className="nav-logo">Jorge <span>Lorenzo</span></a>
         <div className="nav-links">
