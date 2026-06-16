@@ -740,7 +740,7 @@ function ListenMode({ speak, terms, progressMap, onProgress }: {
   return (
     <div className="bb-practice">
       <div className="bb-listen-q">
-        <div className="bb-flash-tag">¿Qué he dicho? (Nivel {progress.level}/4)</div>
+        <div className="bb-flash-tag">¿Qué he dicho?</div>
         <button className="bb-listen-play" onClick={() => speak(correct.en)}>
           <Icon name="speaker" size={30}/> <span>Escuchar de nuevo</span>
         </button>
