@@ -22,11 +22,6 @@ export default function NavHamburger({ links, mostrarSalir }: Props) {
     return () => document.removeEventListener("mousedown", onClickFuera);
   }, [abierto]);
 
-  // Cerrar al navegar
-  useEffect(() => {
-    setAbierto(false);
-  }, []);
-
   return (
     <div ref={ref} className="nav-hamburger" style={{ position: "relative" }}>
       <button
