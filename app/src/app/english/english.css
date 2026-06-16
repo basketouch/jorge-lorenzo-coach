@@ -367,6 +367,36 @@
   text-decoration: none;
 }
 
+/* drill sections (coaching / mistakes / progression) */
+.bb-drill-section {
+  margin-top: 20px;
+  background: #1A1C23;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.bb-drill-section-head {
+  font-size: 11px; font-weight: 700; letter-spacing: .10em; text-transform: uppercase;
+  color: #6C7382; padding: 10px 14px 8px; border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.bb-drill-row {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 10px 14px; border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.bb-drill-row:last-child { border-bottom: none; }
+.bb-drill-dot {
+  flex-shrink: 0; width: 7px; height: 7px; border-radius: 50%;
+  background: #FF6B2C; margin-top: 6px;
+}
+.bb-drill-dot.warn { background: #F5A623; }
+.bb-drill-num {
+  flex-shrink: 0; width: 20px; height: 20px; border-radius: 50%;
+  background: #262932; color: #A6ACB8; font-size: 11px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center; margin-top: 2px;
+}
+.bb-drill-en { font-size: 14px; font-weight: 600; color: #F3F4F7; line-height: 1.4; }
+.bb-drill-es { font-size: 12.5px; color: #6C7382; margin-top: 2px; line-height: 1.35; }
+
 /* ── Mobile adjustments ────────────────────────────────── */
 @media (max-width: 430px) {
   .bb-top { padding: 20px 18px 10px; }
