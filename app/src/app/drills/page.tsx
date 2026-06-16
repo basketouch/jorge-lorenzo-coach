@@ -2,6 +2,7 @@ import { createAdminClient } from "@/lib/supabase-admin";
 import { createClient } from "@/lib/supabase-server";
 import Footer from "@/components/Footer";
 import DrillsClient from "./DrillsClient";
+import NavHamburger from "@/components/NavHamburger";
 
 export const metadata = {
   title: "Biblioteca de Ejercicios — Jorge Lorenzo",
@@ -46,6 +47,12 @@ export default async function DrillsPage() {
           <a href="/cuenta" className="nav-link">Mi cuenta</a>
           <a href="https://www.skool.com/jorge-lorenzo-coach/plans" target="_blank" rel="noopener noreferrer" className="nav-cta">Comunidad</a>
         </div>
+        <NavHamburger links={[
+          { label: "Mi cuenta", href: "/cuenta" },
+          { label: "Drill Lab", href: "/drills" },
+          { label: "English Coach", href: "/english" },
+          { label: "Comunidad", href: "https://www.skool.com/jorge-lorenzo-coach/plans" },
+        ]} />
       </nav>
 
       <section style={{ paddingTop: 120, paddingBottom: 80 }}>

@@ -2,6 +2,15 @@
 
 import { useState } from "react";
 import Footer from "@/components/Footer";
+import NavHamburger from "@/components/NavHamburger";
+
+const NAV_LINKS = [
+  { label: "Comunidad", href: "/#niveles" },
+  { label: "El Laboratorio", href: "/cursos/laboratorio-2526" },
+  { label: "Drill Lab", href: "/drills" },
+  { label: "English Coach", href: "/english" },
+  { label: "Newsletter", href: "/newsletter" },
+];
 
 export default function HistoriaPage() {
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
@@ -12,11 +21,10 @@ export default function HistoriaPage() {
       <nav>
         <a href="/" className="nav-logo">Jorge <span>Lorenzo</span></a>
         <div className="nav-links">
-          <a href="/#niveles" className="nav-link">Comunidad</a>
-          <a href="/cursos/laboratorio-2526" className="nav-link">El Laboratorio</a>
-          <a href="/newsletter" className="nav-link">Newsletter</a>
+          {NAV_LINKS.map(l => <a key={l.href} href={l.href} className="nav-link">{l.label}</a>)}
           <a href="/login" className="nav-cta">Iniciar sesión</a>
         </div>
+        <NavHamburger links={[...NAV_LINKS, { label: "Iniciar sesión", href: "/login" }]} />
       </nav>
 
       {/* HERO */}
