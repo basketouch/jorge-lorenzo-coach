@@ -263,6 +263,7 @@
 .bb-flash {
   width: 100%; aspect-ratio: 1 / 1.18; border: none; background: none; cursor: pointer;
   perspective: 1400px; padding: 0; margin-bottom: 16px; position: relative;
+  transition: opacity .15s ease;
 }
 .bb-flash-inner {
   position: absolute; inset: 0;
@@ -270,6 +271,7 @@
   transition: transform .5s cubic-bezier(.4,.1,.2,1);
 }
 .bb-flash.flipped .bb-flash-inner { transform: rotateY(180deg); }
+.bb-flash.fading { opacity: 0; pointer-events: none; }
 .bb-flash-face {
   position: absolute; inset: 0; border-radius: 18px;
   border: 1px solid rgba(255,255,255,0.10); background: #1E2027;

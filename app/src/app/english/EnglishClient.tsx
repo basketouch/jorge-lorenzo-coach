@@ -651,6 +651,7 @@ function FlashMode({ speak, terms, progressMap, onProgress }: {
   const deck = useMemo(() => shuffle(terms).slice(0, 20), [terms]);
   const [i, setI] = useState(0);
   const [flip, setFlip] = useState(false);
+  const [fading, setFading] = useState(false);
   const [known, setKnown] = useState(0);
 
   const card = deck[i % deck.length];
@@ -660,9 +661,9 @@ function FlashMode({ speak, terms, progressMap, onProgress }: {
     const updated = applyAnswer(progress, correct);
     onProgress(card.id, updated);
     if (correct) setKnown(k => k + 1);
-    setFlip(false);
     try { await saveEcProgress(card.id, updated); } catch {}
-    setTimeout(() => setI(v => v + 1), 520);
+    setFading(true);
+    setTimeout(() => { setFlip(false); setI(v => v + 1); setFading(false); }, 160);
   };
 
   if (!card) return null;
@@ -671,7 +672,7 @@ function FlashMode({ speak, terms, progressMap, onProgress }: {
     <div className="bb-practice">
       <div className="bb-prog"><span style={{ width: `${((i % deck.length) / deck.length) * 100}%` }}/></div>
       <div className="bb-prog-label">{(i % deck.length) + 1} / {deck.length} · {known} acertadas</div>
-      <div className={"bb-flash" + (flip ? " flipped" : "")} role="button" onClick={() => { if (!flip) { setFlip(true); speak(card.en); } }}>
+      <div className={"bb-flash" + (flip ? " flipped" : "") + (fading ? " fading" : "")} role="button" onClick={() => { if (!flip && !fading) { setFlip(true); speak(card.en); } }}>
         <div className="bb-flash-inner">
           <div className="bb-flash-face front">
             <div className="bb-flash-tag">Dilo en inglés</div>
