@@ -661,8 +661,8 @@ function FlashMode({ speak, terms, progressMap, onProgress }: {
     onProgress(card.id, updated);
     if (correct) setKnown(k => k + 1);
     setFlip(false);
-    setI(v => v + 1);
     try { await saveEcProgress(card.id, updated); } catch {}
+    setTimeout(() => setI(v => v + 1), 520);
   };
 
   if (!card) return null;
