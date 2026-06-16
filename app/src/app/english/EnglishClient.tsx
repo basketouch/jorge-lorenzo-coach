@@ -209,7 +209,10 @@ function HomeScreen({ go, speak, terms, phrases }: {
   return (
     <div className="bb-scroll">
       <header className="bb-top">
-        <div className="bb-kicker">Hoy en la pista</div>
+        <div className="bb-kicker" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <span>Hoy en la pista</span>
+          <span style={{ fontWeight: 500, letterSpacing: "0.02em", color: "#6C7382", textTransform: "none", fontSize: 11 }}>by Jorge Lorenzo Coach</span>
+        </div>
         <h1 className="bb-h1">Buenos días,<br/>coach.</h1>
       </header>
       <div className="bb-pad">
