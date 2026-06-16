@@ -1,4 +1,6 @@
 import { createClient } from "@/lib/supabase-server";
+import { createAdminClient } from "@/lib/supabase-admin";
+import EnglishClient from "./EnglishClient";
 
 export const metadata = {
   title: "English Coach — Jorge Lorenzo",
@@ -7,12 +9,68 @@ export const metadata = {
 
 export const dynamic = "force-dynamic";
 
-const ENGLISH_COACH_URL = "https://english-coach-basketouch.vercel.app";
-
 export default async function EnglishPage() {
   const supabase = await createClient();
+  const admin = createAdminClient();
+
   let user = null;
   try { const { data } = await supabase.auth.getUser(); user = data.user; } catch {}
+
+  // Gate: require login
+  if (!user) {
+    return (
+      <>
+        <nav>
+          <a href="/" className="nav-logo">Jorge <span>Lorenzo</span></a>
+          <div className="nav-links">
+            <a href="/drills" className="nav-link">Drill Lab</a>
+            <a href="/login?redirect=/english" className="nav-cta">Iniciar sesión</a>
+          </div>
+        </nav>
+        <section style={{ paddingTop: 120, paddingBottom: 80, minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <div style={{ textAlign: "center", maxWidth: 400, padding: "0 24px" }}>
+            <div style={{ fontSize: 56, marginBottom: 24 }}>🏀</div>
+            <h1 style={{ fontSize: 32, fontFamily: "var(--font-display)", marginBottom: 16 }}>English Coach</h1>
+            <p style={{ color: "var(--texto-suave)", fontSize: 17, lineHeight: 1.6, marginBottom: 32 }}>
+              Aprende el inglés que necesitas para dirigir entrenamientos de baloncesto. Vocabulario, frases y ejercicios con audio.
+            </p>
+            <a href="/login?redirect=/english" className="btn-primary" style={{ display: "inline-block" }}>
+              Iniciar sesión
+            </a>
+          </div>
+        </section>
+      </>
+    );
+  }
+
+  // Check access level
+  let userAccessLevel: "free" | "member" = "free";
+  try {
+    const { data: access } = await admin
+      .from("bdl_user_access")
+      .select("access_level")
+      .eq("user_id", user.id)
+      .single();
+    if (access?.access_level === "member") userAccessLevel = "member";
+  } catch {}
+
+  // Load base concepts
+  const { data: concepts } = await admin
+    .from("ec_concepts")
+    .select("id, type, category, en, es, say, note")
+    .is("user_id", null)
+    .eq("status", "approved")
+    .order("created_at");
+
+  // Load progress for members
+  let initialProgress: any[] = [];
+  if (userAccessLevel === "member") {
+    const { data: prog } = await admin
+      .from("ec_progress")
+      .select("concept_id, level, streak, attempts, correct_count, next_review, last_seen")
+      .eq("user_id", user.id);
+    initialProgress = prog ?? [];
+  }
 
   return (
     <>
@@ -20,46 +78,15 @@ export default async function EnglishPage() {
         <a href="/" className="nav-logo">Jorge <span>Lorenzo</span></a>
         <div className="nav-links">
           <a href="/drills" className="nav-link">Drill Lab</a>
-          {user ? (
-            <a href="/cuenta" className="nav-link">Mi cuenta</a>
-          ) : (
-            <a href="/login" className="nav-link">Iniciar sesión</a>
-          )}
-          <a
-            href={ENGLISH_COACH_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="nav-cta"
-          >
-            Abrir app
-          </a>
+          <a href="/cuenta" className="nav-cta">Mi cuenta</a>
         </div>
       </nav>
-
-      <div style={{
-        position: "fixed",
-        top: 61,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "stretch",
-        background: "#14151A",
-      }}>
-        <iframe
-          src={ENGLISH_COACH_URL}
-          style={{
-            width: "100%",
-            maxWidth: 430,
-            height: "100%",
-            border: "none",
-            display: "block",
-          }}
-          title="English Coach"
-          allow="autoplay; microphone"
-        />
-      </div>
+      <EnglishClient
+        userId={user.id}
+        userAccessLevel={userAccessLevel}
+        concepts={concepts ?? []}
+        initialProgress={initialProgress}
+      />
     </>
   );
 }
