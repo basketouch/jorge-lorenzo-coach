@@ -674,14 +674,14 @@ export default function EnglishClient({ userId, userAccessLevel, concepts, initi
     <div className="bb-wrap">
       <div className="bb-app">
         <div className="bb-app-body">{screen[tab]}</div>
-        <nav className="bb-tabs">
+        <div className="bb-tabs" role="tablist">
           {TABS.map(t => (
             <button key={t.id} className={"bb-tab" + (tab === t.id ? " on" : "")} onClick={() => setTab(t.id)}>
               <Icon name={t.icon} size={23} stroke={tab === t.id ? 2.4 : 1.9} />
               <span>{t.label}</span>
             </button>
           ))}
-        </nav>
+        </div>
       </div>
     </div>
   );

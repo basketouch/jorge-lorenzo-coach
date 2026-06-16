@@ -2,6 +2,12 @@
 
 * { box-sizing: border-box; }
 
+/* Reset global site styles that leak into the English Coach container */
+.bb-wrap, .bb-wrap * {
+  letter-spacing: normal;
+  line-height: normal;
+}
+
 .bb-wrap {
   position: fixed;
   top: 61px;
