@@ -66,19 +66,22 @@ export default function CursosGrid({
 
   const DrillLabCard = () => (
     <Link href="/drills" style={{ textDecoration: "none" }}>
-      <div className="tier-card" style={{ cursor: "pointer", height: "100%", position: "relative", display: "flex", flexDirection: "column" }}>
+      <div className="tier-card" style={{ cursor: "pointer", height: "100%", position: "relative" }}>
         {drillLabAccess === "member" && (
-          <div style={{ position: "absolute", top: 12, right: 12, background: "var(--oro)", color: "var(--negro)", fontSize: 10, fontWeight: 800, padding: "3px 8px", borderRadius: 4, letterSpacing: "0.08em", textTransform: "uppercase" }}>
+          <div style={{ position: "absolute", top: 12, right: 12, background: "var(--oro)", color: "var(--negro)", fontSize: 10, fontWeight: 800, padding: "3px 8px", borderRadius: 4, letterSpacing: "0.08em", textTransform: "uppercase", zIndex: 1 }}>
             Acceso total
           </div>
         )}
-        <div style={{ width: 40, height: 40, borderRadius: 8, background: "rgba(201,168,76,0.12)", border: "1px solid rgba(201,168,76,0.3)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20, marginBottom: 16 }}>
-          🏀
-        </div>
+        <Image
+          src="https://otsbpiukzftacmvmkajy.supabase.co/storage/v1/object/public/portadas/Drill%20Lab.png"
+          alt="Drill Lab"
+          width={640} height={360}
+          style={{ width: "100%", height: "auto", borderRadius: 6, marginBottom: 16, objectFit: "cover" }}
+        />
         <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--texto-suave)", marginBottom: 6 }}>Biblioteca digital</p>
-        <p className="tier-nombre" style={{ marginBottom: 8 }}>Drill Lab</p>
-        <p className="tier-desc" style={{ marginBottom: 16, flex: 1 }}>169 ejercicios de baloncesto. Del libro <em>The Complete Book of Offensive Drills</em>.</p>
-        <div style={{ fontSize: 12, fontWeight: 700, color: drillLabBadge.color, marginBottom: 12 }}>
+        <p className="tier-nombre">Drill Lab</p>
+        <p className="tier-desc" style={{ marginTop: 8 }}>169 ejercicios de baloncesto. Del libro <em>The Complete Book of Offensive Drills</em>.</p>
+        <div style={{ fontSize: 12, fontWeight: 700, color: drillLabBadge.color, marginTop: 16, marginBottom: 12 }}>
           {drillLabBadge.label}
         </div>
         <span className="tier-cta tier-cta-primary" style={{ display: "block", textAlign: "center" }}>
