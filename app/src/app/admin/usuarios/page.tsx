@@ -17,10 +17,10 @@ export default async function AdminUsuarios() {
 
   const userIds = usuarios.map((u) => u.id);
 
-  const [{ data: accesos }, { data: progresos }, { data: bdlUsuarios }] = await Promise.all([
+  const [{ data: accesos }, { data: progresos }, { data: bdlAccesos }] = await Promise.all([
     admin.from("accesos").select("user_id, created_at").in("user_id", userIds).order("created_at", { ascending: false }),
     admin.from("progreso").select("user_id, completada").in("user_id", userIds),
-    admin.from("usuarios").select("id, bdl_acceso").in("id", userIds),
+    admin.from("bdl_user_access").select("user_id, access_level").in("user_id", userIds),
   ]);
 
   const ultimoAccesoMap: Record<string, string> = {};
@@ -38,7 +38,7 @@ export default async function AdminUsuarios() {
   });
 
   const bdlAccesoMap: Record<string, boolean> = {};
-  bdlUsuarios?.forEach((u) => { if (u.bdl_acceso) bdlAccesoMap[u.id] = true; });
+  bdlAccesos?.forEach((a) => { if (a.access_level === "member") bdlAccesoMap[a.user_id] = true; });
 
   return (
     <>

@@ -17,11 +17,6 @@ export async function POST(req: NextRequest) {
   const { userId, action } = await req.json();
   const admin = createAdminClient();
 
-  await admin
-    .from("usuarios")
-    .update({ bdl_acceso: action === "grant" })
-    .eq("id", userId);
-
   if (action === "grant") {
     await admin
       .from("bdl_user_access")
