@@ -779,7 +779,7 @@ function PracticeScreen({ speak, terms, progressMap, onProgress, isMember }: {
     return (
       <div className="bb-scroll">
         <header className="bb-top">
-          <div className="bb-kicker">Que se quede</div>
+          <div className="bb-kicker">Tu sesión de inglés</div>
           <h1 className="bb-h1">Práctica</h1>
         </header>
         <div className="bb-locked">
@@ -795,7 +795,7 @@ function PracticeScreen({ speak, terms, progressMap, onProgress, isMember }: {
   return (
     <div className="bb-scroll">
       <header className="bb-top">
-        <div className="bb-kicker">Que se quede</div>
+        <div className="bb-kicker">Tu sesión de inglés</div>
         <h1 className="bb-h1">Práctica</h1>
       </header>
       <div className="bb-pad">
