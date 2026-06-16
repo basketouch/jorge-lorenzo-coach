@@ -34,9 +34,13 @@ interface Item {
 export default function CursosGrid({
   cursos,
   modulosEnVenta,
+  drillLabAccess = "anonymous",
+  drillViewsUsed = 0,
 }: {
   cursos: Curso[];
   modulosEnVenta: ModuloEnVenta[];
+  drillLabAccess?: "anonymous" | "free" | "member";
+  drillViewsUsed?: number;
 }) {
   const [visibles, setVisibles] = useState(PAGE_SIZE);
 
@@ -50,18 +54,54 @@ export default function CursosGrid({
   const hayMas = visibles < items.length;
   const quedan = items.length - visibles;
 
+  const FREE_QUOTA = 5;
+
+  const drillLabBadge = drillLabAccess === "member"
+    ? { label: "Acceso completo", color: "var(--oro)" }
+    : drillLabAccess === "free" && drillViewsUsed < FREE_QUOTA
+    ? { label: `${FREE_QUOTA - drillViewsUsed} ejercicio${FREE_QUOTA - drillViewsUsed !== 1 ? "s" : ""} disponible${FREE_QUOTA - drillViewsUsed !== 1 ? "s" : ""}`, color: "var(--texto-suave)" }
+    : drillLabAccess === "free"
+    ? { label: "Límite alcanzado", color: "#e57373" }
+    : { label: "Gratis — 5 ejercicios", color: "var(--texto-suave)" };
+
+  const DrillLabCard = () => (
+    <Link href="/drills" style={{ textDecoration: "none" }}>
+      <div className="tier-card" style={{ cursor: "pointer", height: "100%", position: "relative", display: "flex", flexDirection: "column" }}>
+        {drillLabAccess === "member" && (
+          <div style={{ position: "absolute", top: 12, right: 12, background: "var(--oro)", color: "var(--negro)", fontSize: 10, fontWeight: 800, padding: "3px 8px", borderRadius: 4, letterSpacing: "0.08em", textTransform: "uppercase" }}>
+            Acceso total
+          </div>
+        )}
+        <div style={{ width: 40, height: 40, borderRadius: 8, background: "rgba(201,168,76,0.12)", border: "1px solid rgba(201,168,76,0.3)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20, marginBottom: 16 }}>
+          🏀
+        </div>
+        <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--texto-suave)", marginBottom: 6 }}>Biblioteca digital</p>
+        <p className="tier-nombre" style={{ marginBottom: 8 }}>Drill Lab</p>
+        <p className="tier-desc" style={{ marginBottom: 16, flex: 1 }}>169 ejercicios de baloncesto. Del libro <em>The Complete Book of Offensive Drills</em>.</p>
+        <div style={{ fontSize: 12, fontWeight: 700, color: drillLabBadge.color, marginBottom: 12 }}>
+          {drillLabBadge.label}
+        </div>
+        <span className="tier-cta tier-cta-primary" style={{ display: "block", textAlign: "center" }}>
+          {drillLabAccess === "anonymous" ? "Ver ejercicios" : "Abrir biblioteca"}
+        </span>
+      </div>
+    </Link>
+  );
+
   if (items.length === 0) {
     return (
-      <div style={{ gridColumn: "1/-1", textAlign: "center", padding: "80px 0", color: "var(--texto-suave)" }}>
-        <p style={{ fontSize: 32, marginBottom: 16 }}>🏀</p>
-        <p style={{ fontSize: 18 }}>Próximamente — los primeros cursos llegan antes del inicio de temporada.</p>
-      </div>
+      <>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 24, marginTop: 48 }}>
+          <DrillLabCard />
+        </div>
+      </>
     );
   }
 
   return (
     <>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 24, marginTop: 48 }}>
+        <DrillLabCard />
         {mostrados.map(item => {
           if (item.tipo === "curso") {
             const c = item.data as Curso;
