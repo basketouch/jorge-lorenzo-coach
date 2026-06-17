@@ -109,7 +109,7 @@ export default function DrillsClient({ drills, userAccessLevel, userViews, freeQ
         <select value={filterChapter} onChange={e => setFilterChapter(e.target.value)} style={{ ...selectStyle, minWidth: 160 }}>
           <option value="">Todos los capítulos</option>
           {chapters.map(ch => (
-            <option key={ch} value={ch}>Cap. {displayNum(ch)} — {drills.find(d => d.chapter === ch)?.chapter_title_es?.split(" ").slice(0, 3).join(" ")}</option>
+            <option key={ch} value={ch}>Cap. {displayNum(ch)} — {drills.find(d => d.chapter === ch)?.chapter_title_es}</option>
           ))}
         </select>
         <select value={filterCategory} onChange={e => setFilterCategory(e.target.value)} style={{ ...selectStyle, minWidth: 180 }}>
