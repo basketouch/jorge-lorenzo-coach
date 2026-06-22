@@ -28,7 +28,14 @@ export default function VideoPage() {
       <section style={{ paddingTop: 140, paddingBottom: 80, textAlign: "center" }}>
         <div className="container">
           <p className="section-label" style={{ textAlign: "center" }}>El ejercicio del bote</p>
-          <h1 style={{ fontSize: "clamp(28px, 5vw, 48px)", marginBottom: 16 }}>
+          <h1 style={{
+            fontSize: "clamp(28px, 5vw, 48px)",
+            fontWeight: 800,
+            lineHeight: 1.1,
+            letterSpacing: "-0.02em",
+            color: "var(--blanco)",
+            marginBottom: 16,
+          }}>
             El ejercicio que te comentaba <span style={{ color: "var(--oro)" }}>por correo.</span>
           </h1>
           <p className="lead" style={{ margin: "0 auto 48px", textAlign: "center" }}>
