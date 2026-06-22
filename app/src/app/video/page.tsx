@@ -39,7 +39,7 @@ export default function VideoPage() {
             El ejercicio que te comentaba <span style={{ color: "var(--oro)" }}>por correo.</span>
           </h1>
           <p className="lead" style={{ margin: "0 auto 48px", textAlign: "center" }}>
-            Así es como trabajamos el bote — uno de los muchos ejercicios que comparto cada semana dentro de la comunidad.
+            Así es como trabajamos el bote — uno de los muchos ejercicios que comparto con la comunidad.
           </p>
 
           <div className="video-wrapper" style={{ maxWidth: 760, margin: "0 auto" }}>
@@ -55,9 +55,12 @@ export default function VideoPage() {
 
       <section style={{ borderTop: "1px solid var(--borde)", paddingTop: 80, paddingBottom: 80 }}>
         <div className="container">
-          <p className="section-label">Dentro de la comunidad</p>
+          <p className="section-label">La comunidad</p>
           <h2 style={{ fontSize: "clamp(26px, 4vw, 38px)", marginBottom: 24 }}>Esto es solo una muestra.</h2>
-          <p className="lead">Dentro de la comunidad encuentras ejercicios como este cada semana, además de:</p>
+          <p className="lead">
+            La comunidad es el espacio donde comparto ejercicios, reflexiones, recursos y conversaciones con entrenadores durante todo el año.
+            Además, como miembro tienes acceso a estos proyectos de la web:
+          </p>
 
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, marginTop: 40 }}>
             <div style={{ background: "var(--card)", border: "1px solid var(--borde)", borderRadius: 10, padding: 28 }}>
