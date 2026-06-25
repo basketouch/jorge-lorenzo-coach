@@ -154,6 +154,16 @@ export default async function HerramientasPage() {
           ))}
         </section>
 
+        {/* TESTIMONIOS */}
+        <section className="herramientas-testimonios">
+          <p className="section-label" style={{ textAlign: "center" }}>Lo que dicen otros entrenadores</p>
+          <div className="testimonios-grid">
+            {testimonios.map((t) => (
+              <TestimonioCard key={t.nombre} testimonio={t} />
+            ))}
+          </div>
+        </section>
+
         {/* GARANTÍA */}
         <section className="herramientas-garantia">
           <p className="herramientas-garantia-text">
@@ -164,6 +174,45 @@ export default async function HerramientasPage() {
 
       <Footer />
     </>
+  );
+}
+
+interface Testimonio {
+  texto: string;
+  nombre: string;
+  cargo: string;
+}
+
+const testimonios: Testimonio[] = [
+  {
+    texto:
+      "An excellent app for studying the game at any level. Built for a coach's daily workflow who uses video as a coaching tool. Tag, organize, draw, and share in one place—fast, intuitive, and professional.",
+    nombre: "Joan Rubio",
+    cargo: "Analytical Coach · Uni Girona (Liga Femenina Endesa · EuroLeague)",
+  },
+  {
+    texto:
+      "Intuitive and easy-to-use program. Now it's much faster to work with games. The ability to draw on the video while watching it is extremely useful. The price is reasonable for all the features and capabilities it offers.",
+    nombre: "JLombi",
+    cargo: "Head Coach · Estudiantes Madrid / Zentro Basket Madrid",
+  },
+  {
+    texto:
+      "DrawSports is an easy and intuitive tool for cutting video clips and annotating them. It makes teaching tactical and technical concepts visually to your players simple—just an iPad needed.",
+    nombre: "José Antonio López Hervella",
+    cargo: "Coach · Madrid",
+  },
+];
+
+function TestimonioCard({ testimonio: t }: { testimonio: Testimonio }) {
+  return (
+    <article className="testimonio-card">
+      <p className="testimonio-texto">&ldquo;{t.texto}&rdquo;</p>
+      <div className="testimonio-autor">
+        <p className="testimonio-nombre">{t.nombre}</p>
+        <p className="testimonio-cargo">{t.cargo}</p>
+      </div>
+    </article>
   );
 }
 

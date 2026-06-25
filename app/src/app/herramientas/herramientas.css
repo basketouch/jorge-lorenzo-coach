@@ -56,6 +56,17 @@
 .waitlist-btn:disabled { opacity: 0.5; cursor: default; }
 .waitlist-error { font-size: 11px; color: #e06; margin: 0; }
 
+/* TESTIMONIOS */
+.herramientas-testimonios { margin-bottom: 64px; }
+.testimonios-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 8px; }
+@media (max-width: 900px) { .testimonios-grid { grid-template-columns: 1fr; } }
+
+.testimonio-card { border: 1px solid var(--borde); border-radius: 12px; padding: 24px; background: var(--card); display: flex; flex-direction: column; gap: 16px; }
+.testimonio-texto { font-size: 13px; color: var(--texto); line-height: 1.65; margin: 0; flex: 1; }
+.testimonio-autor { padding-top: 12px; border-top: 1px solid var(--borde); }
+.testimonio-nombre { font-size: 13px; font-weight: 700; color: var(--blanco); margin: 0; }
+.testimonio-cargo { font-size: 11px; color: var(--texto-suave); margin: 3px 0 0; line-height: 1.4; }
+
 /* GARANTÍA */
 .herramientas-garantia { text-align: center; padding: 40px 0 0; border-top: 1px solid var(--borde); }
 .herramientas-garantia-text { font-size: 14px; color: var(--texto-suave); font-style: italic; }
