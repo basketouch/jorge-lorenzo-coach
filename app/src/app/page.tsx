@@ -54,6 +54,7 @@ export default async function Home() {
           <a href="/cursos/laboratorio-2526" className="nav-link">El Laboratorio</a>
           <a href="/drills" className="nav-link">Drill Lab</a>
           <a href="/english" className="nav-link">English Coach</a>
+          <a href="/herramientas" className="nav-link">Herramientas</a>
           <a href="/newsletter" className="nav-link">Newsletter</a>
           {user ? (
             <a href="/cuenta" className="nav-cta">Mi cuenta</a>
@@ -67,6 +68,7 @@ export default async function Home() {
           { label: "El Laboratorio", href: "/cursos/laboratorio-2526" },
           { label: "Drill Lab", href: "/drills" },
           { label: "English Coach", href: "/english" },
+          { label: "Herramientas", href: "/herramientas" },
           { label: "Newsletter", href: "/newsletter" },
           ...(user ? [{ label: "Mi cuenta", href: "/cuenta" }] : []),
         ]} />

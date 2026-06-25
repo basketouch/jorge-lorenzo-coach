@@ -1,0 +1,60 @@
+.herramientas-page { max-width: 1140px; margin: 0 auto; padding: 0 24px 100px; }
+
+/* HERO */
+.herramientas-hero { padding: 64px 0 48px; text-align: center; }
+.herramientas-h1 { font-size: clamp(28px, 5vw, 48px); line-height: 1.15; margin-bottom: 20px; }
+.herramientas-h1-accent { color: var(--oro); }
+.herramientas-intro { font-size: 16px; color: var(--texto-suave); line-height: 1.7; max-width: 560px; margin: 0 auto; }
+
+/* GRID */
+.herramientas-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 64px; }
+@media (max-width: 640px) { .herramientas-grid { grid-template-columns: 1fr; } }
+
+/* CARD */
+.producto-card { position: relative; border: 1px solid var(--borde); border-radius: 12px; padding: 28px 24px; background: var(--card); display: flex; flex-direction: column; gap: 12px; }
+.producto-card--proximamente { opacity: 0.55; }
+
+.producto-badge { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 10px; border-radius: 20px; width: fit-content; }
+.producto-badge--waitlist { background: rgba(201,168,76,0.1); color: var(--oro); border: 1px solid rgba(201,168,76,0.3); }
+.producto-badge--proximamente { background: var(--oscuro); color: var(--texto-suave); border: 1px solid var(--borde); }
+
+.producto-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.producto-nombre { font-size: 19px; font-weight: 700; color: var(--blanco); margin: 0; }
+.producto-plataforma { font-size: 12px; color: var(--texto-suave); margin: 4px 0 0; }
+
+.producto-precio-wrap { text-align: right; flex-shrink: 0; }
+.producto-precio { font-size: 21px; font-weight: 800; color: var(--oro); }
+.producto-periodo { font-size: 12px; color: var(--texto-suave); }
+
+.producto-tagline { font-size: 14px; font-weight: 600; color: var(--texto); line-height: 1.4; margin: 0; }
+.producto-descripcion { font-size: 13px; color: var(--texto-suave); line-height: 1.6; margin: 0; flex: 1; }
+.producto-precio-mes { font-size: 12px; color: var(--texto-suave); margin: 0; }
+
+/* CTAs */
+.producto-ctas { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
+.producto-cta { display: block; text-align: center; padding: 11px 16px; border-radius: 6px; font-size: 13px; font-weight: 700; text-decoration: none; transition: all 0.2s; cursor: pointer; }
+.producto-cta--primary { background: var(--oro); color: var(--negro); }
+.producto-cta--primary:hover { background: var(--oro-claro); }
+.producto-cta--secondary { background: transparent; color: var(--texto); border: 1px solid var(--borde); }
+.producto-cta--secondary:hover { border-color: var(--oro); color: var(--oro); }
+.producto-cta--waitlist { background: transparent; color: var(--oro); border: 1px solid var(--oro); }
+.producto-cta--waitlist:hover { background: var(--oro); color: var(--negro); }
+.producto-cta--disabled { background: var(--oscuro); color: var(--texto-suave); cursor: default; border: 1px solid var(--borde); }
+
+/* WAITLIST */
+.herramientas-waitlist { margin-bottom: 48px; }
+.waitlist-wrap { border: 1px solid var(--borde); border-radius: 12px; padding: 32px; max-width: 520px; margin: 0 auto; background: var(--card); }
+.waitlist-titulo { font-size: 17px; font-weight: 700; margin: 0 0 8px; color: var(--blanco); }
+.waitlist-desc { font-size: 14px; color: var(--texto-suave); line-height: 1.5; margin: 0 0 20px; }
+.waitlist-form { display: flex; flex-direction: column; gap: 10px; }
+.waitlist-input { width: 100%; padding: 11px 14px; border: 1px solid var(--borde); border-radius: 6px; font-size: 14px; background: var(--negro); color: var(--texto); outline: none; font-family: inherit; }
+.waitlist-input:focus { border-color: var(--oro); }
+.waitlist-btn { padding: 12px; background: var(--oro); color: var(--negro); border: none; border-radius: 6px; font-size: 14px; font-weight: 700; cursor: pointer; transition: opacity 0.15s; font-family: inherit; }
+.waitlist-btn:hover { opacity: 0.85; }
+.waitlist-btn:disabled { opacity: 0.5; cursor: default; }
+.waitlist-success { font-size: 14px; font-weight: 600; color: #4aa; padding: 16px 0; }
+.waitlist-error { font-size: 12px; color: #e06; margin: 0; }
+
+/* GARANTÍA */
+.herramientas-garantia { text-align: center; padding: 40px 0 0; border-top: 1px solid var(--borde); }
+.herramientas-garantia-text { font-size: 14px; color: var(--texto-suave); font-style: italic; }
