@@ -164,12 +164,6 @@ export default async function HerramientasPage() {
           </div>
         </section>
 
-        {/* GARANTÍA */}
-        <section className="herramientas-garantia">
-          <p className="herramientas-garantia-text">
-            Si en 7 días no ves el valor, te devuelvo el dinero. Sin preguntas.
-          </p>
-        </section>
       </main>
 
       <Footer />
