@@ -22,13 +22,18 @@
 .producto-nombre { font-size: 19px; font-weight: 700; color: var(--blanco); margin: 0; }
 .producto-plataforma { font-size: 12px; color: var(--texto-suave); margin: 4px 0 0; }
 
-.producto-precio-wrap { text-align: right; flex-shrink: 0; }
-.producto-precio { font-size: 21px; font-weight: 800; color: var(--oro); }
-.producto-periodo { font-size: 12px; color: var(--texto-suave); }
-
 .producto-tagline { font-size: 14px; font-weight: 600; color: var(--texto); line-height: 1.4; margin: 0; }
 .producto-descripcion { font-size: 13px; color: var(--texto-suave); line-height: 1.6; margin: 0; flex: 1; }
-.producto-precio-mes { font-size: 12px; color: var(--texto-suave); margin: 0; }
+
+.producto-precio-bloque {
+  display: flex; flex-direction: column; gap: 2px;
+  padding: 14px 16px; margin: 4px 0;
+  background: rgba(201,168,76,0.06);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 8px;
+}
+.producto-precio-destacado { font-size: 28px; font-weight: 800; color: var(--oro); line-height: 1.1; }
+.producto-precio-nota { font-size: 12px; color: var(--texto-suave); }
 
 /* CTAs */
 .producto-ctas { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
@@ -41,19 +46,15 @@
 .producto-cta--waitlist:hover { background: var(--oro); color: var(--negro); }
 .producto-cta--disabled { background: var(--oscuro); color: var(--texto-suave); cursor: default; border: 1px solid var(--borde); }
 
-/* WAITLIST */
-.herramientas-waitlist { margin-bottom: 48px; }
-.waitlist-wrap { border: 1px solid var(--borde); border-radius: 12px; padding: 32px; max-width: 520px; margin: 0 auto; background: var(--card); }
-.waitlist-titulo { font-size: 17px; font-weight: 700; margin: 0 0 8px; color: var(--blanco); }
-.waitlist-desc { font-size: 14px; color: var(--texto-suave); line-height: 1.5; margin: 0 0 20px; }
-.waitlist-form { display: flex; flex-direction: column; gap: 10px; }
-.waitlist-input { width: 100%; padding: 11px 14px; border: 1px solid var(--borde); border-radius: 6px; font-size: 14px; background: var(--negro); color: var(--texto); outline: none; font-family: inherit; }
+/* WAITLIST — inline dentro de la tarjeta */
+.waitlist-inline-form { display: flex; flex-direction: column; gap: 8px; }
+.waitlist-inline-success { font-size: 13px; font-weight: 600; color: #4aa; text-align: center; padding: 10px 0; }
+.waitlist-input { width: 100%; padding: 10px 12px; border: 1px solid var(--borde); border-radius: 6px; font-size: 13px; background: var(--negro); color: var(--texto); outline: none; font-family: inherit; box-sizing: border-box; }
 .waitlist-input:focus { border-color: var(--oro); }
-.waitlist-btn { padding: 12px; background: var(--oro); color: var(--negro); border: none; border-radius: 6px; font-size: 14px; font-weight: 700; cursor: pointer; transition: opacity 0.15s; font-family: inherit; }
+.waitlist-btn { padding: 11px; background: var(--oro); color: var(--negro); border: none; border-radius: 6px; font-size: 13px; font-weight: 700; cursor: pointer; transition: opacity 0.15s; font-family: inherit; }
 .waitlist-btn:hover { opacity: 0.85; }
 .waitlist-btn:disabled { opacity: 0.5; cursor: default; }
-.waitlist-success { font-size: 14px; font-weight: 600; color: #4aa; padding: 16px 0; }
-.waitlist-error { font-size: 12px; color: #e06; margin: 0; }
+.waitlist-error { font-size: 11px; color: #e06; margin: 0; }
 
 /* GARANTÍA */
 .herramientas-garantia { text-align: center; padding: 40px 0 0; border-top: 1px solid var(--borde); }
