@@ -87,7 +87,7 @@ const productos: Producto[] = [
     plataforma: "Web · App",
     tagline: "Mide el esfuerzo defensivo. Lo que el box score no te cuenta.",
     descripcion:
-      "Herramienta de análisis del esfuerzo defensivo. Cuantifica lo que siempre has visto pero nunca has podido medir: cargas, recuperaciones, presión en bola.",
+      "Herramienta de análisis del esfuerzo defensivo. Cuantifica lo que siempre has visto pero nunca has podido medir: deflections, recuperaciones, fifty fifty actions.",
     precio_destacado: "29,99€/mes",
     precio_nota: "Sin permanencia",
     estado: "waitlist",
