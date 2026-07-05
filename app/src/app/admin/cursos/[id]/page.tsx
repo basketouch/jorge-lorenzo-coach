@@ -37,6 +37,18 @@ export default async function AdminCursoDetalle({ params }: { params: Promise<{ 
               {modulos.length} módulos
             </p>
           </div>
+          <a
+            href={`/cursos/${curso.slug}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              fontSize: 12, fontWeight: 600, padding: "6px 14px", borderRadius: 6,
+              border: "1px solid var(--borde)", color: "var(--texto-suave)",
+              textDecoration: "none", whiteSpace: "nowrap",
+            }}
+          >
+            ↗ Ver curso
+          </a>
           <span style={{
             fontSize: 11, fontWeight: 700, padding: "4px 12px", borderRadius: 4,
             background: curso.activo ? "rgba(74,170,100,0.1)" : "rgba(200,80,80,0.1)",
