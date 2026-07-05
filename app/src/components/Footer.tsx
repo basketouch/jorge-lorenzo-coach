@@ -3,7 +3,7 @@ export default function Footer() {
     <footer style={{ borderTop: "1px solid var(--borde)", padding: "32px 0" }}>
       <div className="container" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
         <p style={{ fontSize: 13, color: "var(--texto-suave)" }}>
-          © 2025 Jorge Lorenzo · Comunidad de Entrenadores · Baloncesto
+          © 2025 Jorge Lorenzo
         </p>
         <div style={{ display: "flex", gap: 20, alignItems: "center" }}>
           <a
