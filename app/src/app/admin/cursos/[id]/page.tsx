@@ -52,7 +52,7 @@ export default async function AdminCursoDetalle({ params }: { params: Promise<{ 
         titulo: curso.titulo,
         descripcion: curso.descripcion,
         precio: curso.precio,
-        lemon_variant_id: curso.lemon_variant_id,
+        paddle_price_id: curso.paddle_price_id,
         en_venta: curso.en_venta,
         activo: curso.activo,
         portada_url: curso.portada_url,
@@ -89,7 +89,7 @@ export default async function AdminCursoDetalle({ params }: { params: Promise<{ 
                 fecha_apertura: modulo.fecha_apertura,
                 fecha_cierre_venta: modulo.fecha_cierre_venta,
                 precio: modulo.precio,
-                lemon_variant_id: modulo.lemon_variant_id,
+                paddle_price_id: modulo.paddle_price_id,
                 portada_url: modulo.portada_url,
               }} />
             </div>

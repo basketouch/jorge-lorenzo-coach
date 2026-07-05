@@ -101,7 +101,7 @@ export default async function UsuarioPerfil({ params }: { params: Promise<{ user
                   {cursos?.find((cur) => cur.id === c.curso_id)?.titulo ?? "—"}
                 </p>
                 <p style={{ fontSize: 11, color: "var(--texto-suave)", marginTop: 2 }}>
-                  {c.lemon_order_id?.startsWith("admin-") ? "Acceso manual" : `Orden: ${c.lemon_order_id}`}
+                  {c.paddle_transaction_id?.startsWith("admin-") ? "Acceso manual" : `Orden: ${c.paddle_transaction_id}`}
                 </p>
               </div>
               <span style={{ fontSize: 12, color: "var(--texto-suave)", flexShrink: 0 }}>{formatFecha(c.created_at)}</span>
@@ -137,7 +137,7 @@ export default async function UsuarioPerfil({ params }: { params: Promise<{ user
                   {comprasCurso.length > 0 ? comprasCurso.map((c) => (
                     <div key={c.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 0", borderBottom: "1px solid var(--borde)" }}>
                       <p style={{ fontSize: 12, color: "var(--texto-suave)" }}>
-                        {c.lemon_order_id?.startsWith("admin-") ? "Acceso manual" : `Orden: ${c.lemon_order_id}`}
+                        {c.paddle_transaction_id?.startsWith("admin-") ? "Acceso manual" : `Orden: ${c.paddle_transaction_id}`}
                       </p>
                       <span style={{ fontSize: 12, color: "var(--texto-suave)" }}>{formatFecha(c.created_at)}</span>
                     </div>

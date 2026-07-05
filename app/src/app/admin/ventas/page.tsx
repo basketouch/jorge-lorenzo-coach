@@ -57,7 +57,7 @@ export default async function AdminVentas() {
                     </span>
                   </td>
                   <td style={{ padding: "14px 20px", color: "var(--texto-suave)", fontFamily: "monospace", fontSize: 12 }}>
-                    {compra.lemon_order_id ?? <span style={{ color: "var(--borde)" }}>acceso manual</span>}
+                    {compra.paddle_transaction_id ?? <span style={{ color: "var(--borde)" }}>acceso manual</span>}
                   </td>
                   <td style={{ padding: "14px 20px", color: "var(--texto-suave)" }}>
                     {fecha}
