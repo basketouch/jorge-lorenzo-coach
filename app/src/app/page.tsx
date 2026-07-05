@@ -167,7 +167,7 @@ export default async function Home() {
       <section id="niveles">
         <div className="container">
           <p className="section-label">Elige tu nivel</p>
-          <h2>Tres maneras de trabajar conmigo.</h2>
+          <h2>Tres niveles de acceso.</h2>
           <p className="lead">Cada nivel responde a una necesidad distinta. No hay una opción incorrecta — hay la que encaja con lo que necesitas ahora.</p>
           <div className="tiers-grid">
             <div className="tier-card">
@@ -206,14 +206,14 @@ export default async function Home() {
             </div>
             <div className="tier-card">
               <p className="tier-nivel">VIP</p>
-              <p className="tier-nombre">Acompañamiento</p>
+              <p className="tier-nombre">Análisis Personalizado</p>
               <div className="tier-precio">117€ <span>/mes</span></div>
               <p className="tier-precio-anual">$129/mes · Plazas limitadas</p>
-              <p className="tier-desc">Trabajamos directamente sobre tu equipo. Tus partidos, tus decisiones, tu realidad.</p>
+              <p className="tier-desc">Análisis detallado de tus partidos y sesiones con feedback directo sobre tu sistema de juego.</p>
               <ul className="tier-lista">
                 <li>Todo lo del plan Premium</li>
-                <li>3 sesiones individuales al mes · 45 min</li>
-                <li>Te ayudo a leer tus partidos y tomar mejores decisiones</li>
+                <li>3 análisis de vídeo al mes · tus partidos y entrenamientos</li>
+                <li>Feedback escrito y en vídeo sobre tus decisiones tácticas</li>
                 <li>Prioridad total en respuestas</li>
                 <li>Archivo completo del Laboratorio al final de temporada*</li>
                 <li>Plazas limitadas</li>
@@ -247,7 +247,7 @@ export default async function Home() {
       {/* LABORATORIO */}
       <section>
         <div className="container">
-          <p className="section-label">Producto independiente</p>
+          <p className="section-label">Curso online grabado · 51 lecciones en vídeo</p>
           <h2>El Laboratorio del Entrenador.</h2>
           <p className="lead">Un programa intensivo que sigue el ritmo de la temporada: septiembre a junio, más post-temporada en julio y pre-temporada en agosto. Cada mes: mínimo 3 vídeos y una charla — técnica, táctica y gestión.</p>
           <div className="laboratorio-ciclo">
