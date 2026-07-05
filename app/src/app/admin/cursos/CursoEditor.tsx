@@ -32,7 +32,7 @@ interface CursoData {
 }
 
 export default function CursoEditor({ curso }: { curso: CursoData }) {
-  const [abierto, setAbierto] = useState(false);
+  const [abierto, setAbierto] = useState(true);
   const [tab, setTab] = useState<"info" | "venta" | "pagina">("info");
   const [guardando, setGuardando] = useState(false);
   const [ok, setOk] = useState(false);

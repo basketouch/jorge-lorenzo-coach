@@ -26,7 +26,8 @@ export default function AddCursoForm() {
     });
     setLoading(false);
     if (res.ok) {
-      window.location.reload();
+      const { data } = await res.json();
+      window.location.href = `/admin/cursos/${data.id}`;
     } else {
       const d = await res.json();
       setError(d.error ?? "Error al crear");
