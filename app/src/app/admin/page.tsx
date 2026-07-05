@@ -1,7 +1,7 @@
 import { requireAdmin } from "@/lib/admin-guard";
 
 export default async function AdminDashboard() {
-  const { admin } = await requireAdmin();
+  const { admin, user } = await requireAdmin();
 
   const [
     { count: totalUsuarios },
@@ -58,7 +58,7 @@ export default async function AdminDashboard() {
         ))}
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginTop: 32 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 16, marginTop: 32 }}>
         <a href="/admin/usuarios" style={{ textDecoration: "none" }}>
           <div style={{ background: "var(--card)", border: "1px solid var(--borde)", borderRadius: 10, padding: 28, cursor: "pointer" }}>
             <p style={{ fontSize: 20, marginBottom: 8 }}>👥</p>
@@ -71,6 +71,13 @@ export default async function AdminDashboard() {
             <p style={{ fontSize: 20, marginBottom: 8 }}>📚</p>
             <p style={{ fontWeight: 700, color: "var(--blanco)", marginBottom: 4 }}>Gestionar contenido</p>
             <p style={{ fontSize: 13, color: "var(--texto-suave)" }}>Editar lecciones, añadir módulos y vídeos de Vimeo.</p>
+          </div>
+        </a>
+        <a href={`/admin/usuarios/${user.id}`} style={{ textDecoration: "none" }}>
+          <div style={{ background: "var(--card)", border: "1px solid var(--borde)", borderRadius: 10, padding: 28, cursor: "pointer" }}>
+            <p style={{ fontSize: 20, marginBottom: 8 }}>🎓</p>
+            <p style={{ fontWeight: 700, color: "var(--blanco)", marginBottom: 4 }}>Ver como alumno</p>
+            <p style={{ fontSize: 13, color: "var(--texto-suave)" }}>Darte acceso a cursos/módulos y verlos en tu perfil.</p>
           </div>
         </a>
       </div>
