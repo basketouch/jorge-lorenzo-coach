@@ -6,6 +6,7 @@ import CursoEditor from "../CursoEditor";
 import LeccionesOrdenables from "../LeccionesOrdenables";
 import ModuloEditor from "../ModuloEditor";
 import ModuloTitulo from "../ModuloTitulo";
+import ImportarTemario from "./ImportarTemario";
 
 export default async function AdminCursoDetalle({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -70,6 +71,8 @@ export default async function AdminCursoDetalle({ params }: { params: Promise<{ 
         fecha_apertura: curso.fecha_apertura,
         fecha_cierre: curso.fecha_cierre,
       }} />
+
+      <ImportarTemario cursoId={curso.id} nextOrdenModulo={modulos.length + 1} />
 
       <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
         {modulos.map((modulo) => {
