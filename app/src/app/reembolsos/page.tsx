@@ -21,20 +21,20 @@ export default function ReembolsosPage() {
       </nav>
 
       <div style={{ paddingTop: 64 }}>
-        <div className="container" style={{ maxWidth: 740, paddingTop: 64, paddingBottom: 100 }}>
-          <a href="/" style={{ color: "var(--texto-suave)", fontSize: 13, textDecoration: "none", display: "inline-block", marginBottom: 32 }}>
+        <div className="container" style={{ maxWidth: 740, paddingTop: 32, paddingBottom: 64 }}>
+          <a href="/" style={{ color: "var(--texto-suave)", fontSize: 13, textDecoration: "none", display: "inline-block", marginBottom: 20 }}>
             ← Volver
           </a>
 
           <p className="section-label">Legal</p>
-          <h1 style={{ marginBottom: 8 }}>Política de Reembolsos</h1>
-          <p style={{ color: "var(--texto-suave)", fontSize: 13, marginBottom: 48 }}>Jorge Lorenzo Coach — jorgelorenzo.coach</p>
+          <h1 style={{ marginBottom: 4 }}>Política de Reembolsos</h1>
+          <p style={{ color: "var(--texto-suave)", fontSize: 13, marginBottom: 32 }}>Jorge Lorenzo Coach — jorgelorenzo.coach</p>
 
           <p style={pStyle}>
             En jorgelorenzo.coach queremos que estés completamente satisfecho con los contenidos adquiridos. Esta política describe cómo funcionan los reembolsos.
           </p>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: 36, marginTop: 36 }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 24, marginTop: 24 }}>
 
             <section>
               <h2 style={h2Style}>1. Política de reembolso</h2>
@@ -90,7 +90,7 @@ export default function ReembolsosPage() {
 
           </div>
 
-          <p style={{ fontSize: 12, color: "var(--texto-suave)", marginTop: 48 }}>
+          <p style={{ fontSize: 12, color: "var(--texto-suave)", marginTop: 32 }}>
             Última actualización: julio de 2025
           </p>
         </div>

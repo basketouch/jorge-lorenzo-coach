@@ -20,15 +20,15 @@ export default function TerminosPage() {
       </nav>
 
       <div style={{ paddingTop: 64 }}>
-        <div className="container" style={{ maxWidth: 740, paddingTop: 64, paddingBottom: 100 }}>
-          <a href="/newsletter" style={{ color: "var(--texto-suave)", fontSize: 13, textDecoration: "none", display: "inline-block", marginBottom: 32 }}>
+        <div className="container" style={{ maxWidth: 740, paddingTop: 32, paddingBottom: 64 }}>
+          <a href="/" style={{ color: "var(--texto-suave)", fontSize: 13, textDecoration: "none", display: "inline-block", marginBottom: 20 }}>
             ← Volver
           </a>
 
           <p className="section-label">Legal</p>
-          <h1 style={{ marginBottom: 48 }}>Términos y Condiciones</h1>
+          <h1 style={{ marginBottom: 32 }}>Términos y Condiciones</h1>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: 36 }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
 
             <section>
               <h2 style={h2Style}>1. Introducción</h2>
@@ -131,7 +131,7 @@ export default function TerminosPage() {
 
           </div>
 
-          <p style={{ fontSize: 12, color: "var(--texto-suave)", marginTop: 48 }}>
+          <p style={{ fontSize: 12, color: "var(--texto-suave)", marginTop: 32 }}>
             Última actualización: mayo 2025
           </p>
         </div>
