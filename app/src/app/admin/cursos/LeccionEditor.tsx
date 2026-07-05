@@ -16,6 +16,14 @@ export default function LeccionEditor({ leccion, cursoSlug }: { leccion: Leccion
   const [data, setData] = useState(leccion);
   const [loading, setLoading] = useState(false);
   const [copiado, setCopiado] = useState(false);
+  const [eliminando, setEliminando] = useState(false);
+
+  async function eliminar() {
+    if (!confirm(`¿Eliminar la lección "${data.titulo}"? Esta acción no se puede deshacer.`)) return;
+    setEliminando(true);
+    await fetch(`/api/admin/leccion/${data.id}`, { method: "DELETE" });
+    window.location.reload();
+  }
 
   function copiarUrlPreview() {
     const url = `${window.location.origin}/preview/${cursoSlug}/${leccion.id}`;
@@ -62,6 +70,9 @@ export default function LeccionEditor({ leccion, cursoSlug }: { leccion: Leccion
         )}
         <button onClick={() => setEditando(true)} style={{ fontSize: 12, color: "var(--texto-suave)", background: "none", border: "1px solid var(--borde)", borderRadius: 4, padding: "4px 10px", cursor: "pointer" }}>
           Editar
+        </button>
+        <button onClick={eliminar} disabled={eliminando} style={{ fontSize: 12, color: "#e06", background: "none", border: "1px solid #e06", borderRadius: 4, padding: "4px 10px", cursor: "pointer" }}>
+          {eliminando ? "…" : "🗑"}
         </button>
       </div>
     );

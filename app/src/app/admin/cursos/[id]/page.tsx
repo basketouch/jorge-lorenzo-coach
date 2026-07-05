@@ -6,6 +6,7 @@ import CursoEditor from "../CursoEditor";
 import LeccionesOrdenables from "../LeccionesOrdenables";
 import ModuloEditor from "../ModuloEditor";
 import ModuloTitulo from "../ModuloTitulo";
+import EliminarCurso from "./EliminarCurso";
 import ImportarTemario from "./ImportarTemario";
 
 export default async function AdminCursoDetalle({ params }: { params: Promise<{ id: string }> }) {
@@ -44,6 +45,7 @@ export default async function AdminCursoDetalle({ params }: { params: Promise<{ 
           }}>
             {curso.activo ? "Activo" : "Inactivo"}
           </span>
+          <EliminarCurso cursoId={curso.id} titulo={curso.titulo} />
         </div>
       </div>
 

@@ -40,3 +40,29 @@ export async function PATCH(
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
   return NextResponse.json({ ok: true, data });
 }
+
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  if (!await isAdmin()) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+
+  const { id } = await params;
+  const admin = createAdminClient();
+
+  const { count } = await admin
+    .from("compras")
+    .select("*", { count: "exact", head: true })
+    .eq("curso_id", id);
+
+  if (count && count > 0) {
+    return NextResponse.json({
+      error: `Este curso tiene ${count} compra(s) registrada(s) y no se puede eliminar. Márcalo como inactivo en su lugar.`,
+    }, { status: 409 });
+  }
+
+  const { error } = await admin.from("cursos").delete().eq("id", id);
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+
+  return NextResponse.json({ ok: true });
+}

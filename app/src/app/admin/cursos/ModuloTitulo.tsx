@@ -6,6 +6,7 @@ export default function ModuloTitulo({ id, orden, titulo }: { id: number; orden:
   const [editando, setEditando] = useState(false);
   const [valor, setValor] = useState(titulo);
   const [guardando, setGuardando] = useState(false);
+  const [eliminando, setEliminando] = useState(false);
 
   async function guardar() {
     if (valor.trim() === titulo) { setEditando(false); return; }
@@ -17,6 +18,13 @@ export default function ModuloTitulo({ id, orden, titulo }: { id: number; orden:
     });
     setGuardando(false);
     setEditando(false);
+  }
+
+  async function eliminar() {
+    if (!confirm(`¿Eliminar el módulo "${titulo}" y TODAS sus lecciones? Esta acción no se puede deshacer.`)) return;
+    setEliminando(true);
+    await fetch(`/api/admin/modulo/${id}`, { method: "DELETE" });
+    window.location.reload();
   }
 
   return (
@@ -63,6 +71,14 @@ export default function ModuloTitulo({ id, orden, titulo }: { id: number; orden:
             style={{ background: "none", border: "none", cursor: "pointer", fontSize: 12, padding: "2px 4px", color: "var(--texto-suave)", lineHeight: 1 }}
           >
             ✏️
+          </button>
+          <button
+            onClick={eliminar}
+            disabled={eliminando}
+            title="Eliminar módulo"
+            style={{ background: "none", border: "none", cursor: "pointer", fontSize: 12, padding: "2px 4px", color: "#e06", lineHeight: 1 }}
+          >
+            {eliminando ? "…" : "🗑"}
           </button>
         </>
       )}
