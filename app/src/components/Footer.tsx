@@ -13,6 +13,18 @@ export default function Footer() {
             Bio &amp; enlaces
           </a>
           <a
+            href="/privacidad"
+            style={{ fontSize: 13, color: "var(--texto-suave)", textDecoration: "none", borderBottom: "1px solid var(--borde)", paddingBottom: 1 }}
+          >
+            Privacidad
+          </a>
+          <a
+            href="/reembolsos"
+            style={{ fontSize: 13, color: "var(--texto-suave)", textDecoration: "none", borderBottom: "1px solid var(--borde)", paddingBottom: 1 }}
+          >
+            Reembolsos
+          </a>
+          <a
             href="/pages/aceptacion-de-terminos-y-condiciones"
             style={{ fontSize: 13, color: "var(--texto-suave)", textDecoration: "none", borderBottom: "1px solid var(--borde)", paddingBottom: 1 }}
           >
