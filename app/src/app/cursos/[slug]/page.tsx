@@ -7,6 +7,7 @@ import CurriculumAccordion from "./CurriculumAccordion";
 import FaqAccordion from "./FaqAccordion";
 import NavBar from "@/components/NavBar";
 import CuentaAtras from "./CuentaAtras";
+import PaddleCheckoutButton from "@/components/PaddleCheckoutButton";
 
 export const dynamic = "force-dynamic";
 
@@ -16,7 +17,7 @@ export default async function CursoPage({ params }: { params: Promise<{ slug: st
   const adminDb = createAdminClient();
   const { data: curso } = await adminDb
     .from("cursos")
-    .select("*, modulos(id, titulo, orden, fecha_apertura, fecha_cierre_venta, precio, lemon_variant_id, portada_url, lecciones_curso(id, titulo, duracion, es_preview, orden))")
+    .select("*, modulos(id, titulo, orden, fecha_apertura, fecha_cierre_venta, precio, paddle_price_id, portada_url, lecciones_curso(id, titulo, duracion, es_preview, orden))")
     .eq("slug", slug)
     .eq("activo", true)
     .single();
@@ -59,7 +60,6 @@ export default async function CursoPage({ params }: { params: Promise<{ slug: st
   const trabajamos: { icono: string; texto: string }[] = curso.lo_que_trabajamos ?? [];
   const videosPreview: { id: string; titulo: string }[] = curso.videos_preview ?? [];
 
-  const lemonStore = process.env.NEXT_PUBLIC_LEMON_STORE ?? "basketouch.lemonsqueezy.com";
 
   return (
     <>
@@ -161,7 +161,7 @@ export default async function CursoPage({ params }: { params: Promise<{ slug: st
               {/* Temario */}
               <div>
                 <p className="section-label">Temario completo</p>
-                <CurriculumAccordion modulos={modulos} slug={slug} lemonStore={lemonStore} />
+                <CurriculumAccordion modulos={modulos} slug={slug} />
               </div>
             </div>
 
@@ -251,7 +251,7 @@ export default async function CursoPage({ params }: { params: Promise<{ slug: st
                     )}
 
                     {/* Compra directa */}
-                    {curso.lemon_variant_id && (
+                    {curso.paddle_price_id && (
                       <div style={{ background: "var(--card)", border: "1px solid var(--borde)", borderRadius: 10, padding: "16px 20px", marginBottom: 10 }}>
                         <div style={{ marginBottom: 12 }}>
                           <div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
@@ -266,13 +266,13 @@ export default async function CursoPage({ params }: { params: Promise<{ slug: st
                           </div>
                           <p style={{ fontSize: 11, color: "var(--texto-suave)", marginTop: 3 }}>Acceso directo · Pago único</p>
                         </div>
-                        <a
-                          href={`https://${lemonStore}/checkout/buy/${curso.lemon_variant_id}?checkout[custom][slug]=${curso.slug}`}
-                          target="_blank" rel="noopener noreferrer"
-                          style={{ display: "block", textAlign: "center", fontSize: 13, padding: "10px", border: "1px solid var(--borde)", borderRadius: 6, color: "var(--texto)", textDecoration: "none" }}
+                        <PaddleCheckoutButton
+                          priceId={curso.paddle_price_id}
+                          customData={{ slug: curso.slug }}
+                          style={{ display: "block", textAlign: "center", fontSize: 13, padding: "10px", border: "1px solid var(--borde)", borderRadius: 6, color: "var(--texto)", background: "transparent", cursor: "pointer", width: "100%" }}
                         >
                           Comprar — {(webPrecio / 100).toFixed(0)}€ →
-                        </a>
+                        </PaddleCheckoutButton>
                       </div>
                     )}
                   </div>

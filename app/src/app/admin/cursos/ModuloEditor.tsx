@@ -9,7 +9,7 @@ interface Modulo {
   fecha_apertura?: string | null;
   fecha_cierre_venta?: string | null;
   precio?: number | null;
-  lemon_variant_id?: string | null;
+  paddle_price_id?: string | null;
   portada_url?: string | null;
 }
 
@@ -44,7 +44,7 @@ export default function ModuloEditor({ modulo }: { modulo: Modulo }) {
         fecha_apertura: data.fecha_apertura || null,
         fecha_cierre_venta: data.fecha_cierre_venta || null,
         precio: data.precio ?? 0,
-        lemon_variant_id: data.lemon_variant_id || null,
+        paddle_price_id: data.paddle_price_id || null,
         portada_url: data.portada_url || null,
       }),
     });
@@ -159,8 +159,8 @@ export default function ModuloEditor({ modulo }: { modulo: Modulo }) {
           <div>
             <p style={{ fontSize: 10, color: "var(--texto-suave)", marginBottom: 4 }}>Lemon Variant ID</p>
             <input
-              value={data.lemon_variant_id ?? ""}
-              onChange={(e) => setData({ ...data, lemon_variant_id: e.target.value })}
+              value={data.paddle_price_id ?? ""}
+              onChange={(e) => setData({ ...data, paddle_price_id: e.target.value })}
               placeholder="uuid"
               style={{ ...inputStyle, width: 220 }}
             />

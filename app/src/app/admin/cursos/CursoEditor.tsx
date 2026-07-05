@@ -12,7 +12,7 @@ interface CursoData {
   titulo: string;
   descripcion?: string | null;
   precio: number;
-  lemon_variant_id?: string | null;
+  paddle_price_id?: string | null;
   en_venta?: boolean;
   activo: boolean;
   portada_url?: string | null;
@@ -46,7 +46,7 @@ export default function CursoEditor({ curso }: { curso: CursoData }) {
   const [activo, setActivo] = useState(curso.activo);
 
   // --- Venta ---
-  const [variantId, setVariantId] = useState(curso.lemon_variant_id ?? "");
+  const [variantId, setVariantId] = useState(curso.paddle_price_id ?? "");
   const [precio, setPrecio] = useState(String((curso.precio ?? 0) / 100));
   const [enVenta, setEnVenta] = useState(curso.en_venta ?? false);
   const [webPrecio, setWebPrecio] = useState(String((curso.web_precio ?? 0) / 100));
@@ -76,9 +76,8 @@ export default function CursoEditor({ curso }: { curso: CursoData }) {
     curso.videos_preview ?? []
   );
 
-  const lemonStore = process.env.NEXT_PUBLIC_LEMON_STORE ?? "basketouch.lemonsqueezy.com";
   const checkoutUrl = variantId
-    ? `https://${lemonStore}/checkout/buy/${variantId}?checkout[custom][slug]=${slug}`
+    ? `https://buy.paddle.com/product/${variantId}?custom_data[slug]=${slug}`
     : null;
 
   async function guardar() {
@@ -88,7 +87,7 @@ export default function CursoEditor({ curso }: { curso: CursoData }) {
       titulo: titulo.trim(), slug: slug.trim(), descripcion: descripcion.trim() || null,
       portada_url: portada.trim() || null, activo,
       // venta
-      lemon_variant_id: variantId.trim() || null,
+      paddle_price_id: variantId.trim() || null,
       precio: Math.round(parseFloat(precio || "0") * 100),
       en_venta: enVenta,
       fecha_apertura: fechaAperturaAuto ? new Date(fechaAperturaAuto).toISOString() : null,
@@ -228,8 +227,8 @@ export default function CursoEditor({ curso }: { curso: CursoData }) {
             <Row label="Activación manual (override)">
               <Toggle value={enVenta} onChange={setEnVenta} labelOn="Forzar en venta ya" labelOff="Desactivado" />
             </Row>
-            <Row label="Lemon Variant ID">
-              <input value={variantId} onChange={e => setVariantId(e.target.value)} style={{ ...iS, fontFamily: "monospace" }} placeholder="ej. 5c1f00a0-..." />
+            <Row label="Paddle Price ID">
+              <input value={variantId} onChange={e => setVariantId(e.target.value)} style={{ ...iS, fontFamily: "monospace" }} placeholder="ej. pri_01kwshd9..." />
             </Row>
             {checkoutUrl && (
               <Row label="URL checkout">

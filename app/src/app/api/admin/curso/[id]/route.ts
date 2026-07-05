@@ -23,7 +23,7 @@ export async function PATCH(
 
   // Solo permitir campos seguros
   const allowed = [
-    "lemon_variant_id", "precio", "titulo", "slug", "descripcion", "activo", "portada_url", "en_venta",
+    "paddle_price_id", "precio", "titulo", "slug", "descripcion", "activo", "portada_url", "en_venta",
     "descripcion_larga", "duracion_texto", "para_quien", "lo_que_trabajamos", "videos_preview",
     "skool_precio", "skool_precio_original", "skool_url", "web_precio", "web_precio_original",
     "fecha_apertura_texto", "fecha_apertura", "fecha_cierre",

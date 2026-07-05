@@ -13,10 +13,9 @@ export default async function ModuloPage({ params }: { params: Promise<{ moduloI
 
   const { data: { user } } = await supabase.auth.getUser();
 
-  // Fetch módulo con curso y lecciones (admin para no depender de RLS)
   const { data: modulo } = await admin
     .from("modulos")
-    .select("*, lecciones_curso(id, titulo, duracion, es_preview, orden), cursos(id, slug, titulo, precio, lemon_variant_id, en_venta)")
+    .select("*, lecciones_curso(id, titulo, duracion, es_preview, orden), cursos(id, slug, titulo, precio, paddle_price_id, en_venta)")
     .eq("id", parseInt(moduloId))
     .single();
 
@@ -24,12 +23,11 @@ export default async function ModuloPage({ params }: { params: Promise<{ moduloI
 
   const curso = modulo.cursos as {
     id: number; slug: string; titulo: string;
-    precio: number; lemon_variant_id: string | null; en_venta: boolean;
+    precio: number; paddle_price_id: string | null; en_venta: boolean;
   };
   const moduloData = modulo as typeof modulo & { portada_url?: string | null };
   const lecciones = [...(modulo.lecciones_curso ?? [])].sort((a: { orden: number }, b: { orden: number }) => a.orden - b.orden);
 
-  // Comprobar acceso
   let tieneAcceso = false;
   if (user) {
     const [{ data: accesoCurso }, { data: accesoModulo }] = await Promise.all([
@@ -38,8 +36,6 @@ export default async function ModuloPage({ params }: { params: Promise<{ moduloI
     ]);
     tieneAcceso = !!accesoCurso || !!accesoModulo;
   }
-
-  const lemonStore = process.env.NEXT_PUBLIC_LEMON_STORE ?? "";
 
   return (
     <>
@@ -56,14 +52,12 @@ export default async function ModuloPage({ params }: { params: Promise<{ moduloI
             modulo={{ ...moduloData, portada_url: moduloData.portada_url }}
             lecciones={lecciones}
             curso={curso}
-            lemonStore={lemonStore}
           />
         ) : (
           <ModuloGate
             modulo={{ ...moduloData, portada_url: moduloData.portada_url }}
             lecciones={lecciones}
             curso={curso}
-            lemonStore={lemonStore}
             isLoggedIn={!!user}
           />
         )}

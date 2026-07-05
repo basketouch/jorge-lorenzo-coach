@@ -1,13 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import PaddleCheckoutButton from "@/components/PaddleCheckoutButton";
 
 interface Leccion { id: number; titulo: string; duracion?: string; es_preview: boolean; }
-interface Curso { id: number; slug: string; titulo: string; precio: number; lemon_variant_id: string | null; en_venta: boolean; }
+interface Curso { id: number; slug: string; titulo: string; precio: number; paddle_price_id: string | null; en_venta: boolean; }
 interface Modulo {
   id: number; titulo: string; orden: number;
   fecha_apertura?: string | null; fecha_cierre_venta?: string | null;
-  precio?: number | null; lemon_variant_id?: string | null;
+  precio?: number | null; paddle_price_id?: string | null;
   portada_url?: string | null;
 }
 
@@ -34,9 +35,9 @@ function CuentaAtras({ fecha }: { fecha: string }) {
 }
 
 export default function ModuloGate({
-  modulo, lecciones, curso, lemonStore, isLoggedIn,
+  modulo, lecciones, curso, isLoggedIn,
 }: {
-  modulo: Modulo; lecciones: Leccion[]; curso: Curso; lemonStore: string; isLoggedIn: boolean;
+  modulo: Modulo; lecciones: Leccion[]; curso: Curso; isLoggedIn: boolean;
 }) {
   const ahora = new Date();
   const apertura = modulo.fecha_apertura ? new Date(modulo.fecha_apertura) : null;
@@ -146,7 +147,7 @@ export default function ModuloGate({
               <p style={{ fontSize: 13, color: "#888", marginBottom: 4 }}>Ventana de venta cerrada</p>
               <p style={{ fontSize: 12, color: "var(--texto-suave)" }}>Este módulo ya no está disponible por separado.</p>
             </div>
-          ) : enVenta && modulo.precio && modulo.lemon_variant_id ? (
+          ) : enVenta && modulo.precio && modulo.paddle_price_id ? (
             <div style={{
               background: "var(--card)", border: "2px solid rgba(201,168,76,0.5)",
               borderRadius: 12, padding: 24, marginBottom: 16,
@@ -167,14 +168,14 @@ export default function ModuloGate({
               <p style={{ fontSize: 12, color: "var(--texto-suave)", marginBottom: 16, lineHeight: 1.5 }}>
                 Acceso permanente a las {lecciones.length} lecciones de este módulo.
               </p>
-              <a
-                href={`https://${lemonStore}/checkout/buy/${modulo.lemon_variant_id}?checkout[custom][modulo_id]=${modulo.id}`}
-                target="_blank" rel="noopener noreferrer"
+              <PaddleCheckoutButton
+                priceId={modulo.paddle_price_id!}
+                customData={{ modulo_id: modulo.id }}
                 className="btn-primary"
-                style={{ display: "block", textAlign: "center", fontSize: 14, textDecoration: "none" }}
+                style={{ display: "block", textAlign: "center", fontSize: 14, width: "100%" }}
               >
                 Comprar módulo →
-              </a>
+              </PaddleCheckoutButton>
               {!isLoggedIn && (
                 <p style={{ fontSize: 11, color: "var(--texto-suave)", marginTop: 10, textAlign: "center" }}>
                   <a href="/login" style={{ color: "var(--oro)" }}>Inicia sesión</a> si ya tienes cuenta.
@@ -218,24 +219,24 @@ export default function ModuloGate({
             </a>
             <p style={{ fontSize: 11, color: "var(--texto-suave)", textAlign: "center" }}>desde $20/mes</p>
 
-            {curso.en_venta && curso.lemon_variant_id && (
+            {curso.en_venta && curso.paddle_price_id && (
               <>
                 <div style={{ display: "flex", alignItems: "center", gap: 8, margin: "12px 0" }}>
                   <div style={{ flex: 1, height: 1, background: "var(--borde)" }} />
                   <span style={{ fontSize: 11, color: "var(--texto-suave)" }}>o</span>
                   <div style={{ flex: 1, height: 1, background: "var(--borde)" }} />
                 </div>
-                <a
-                  href={`https://${lemonStore}/checkout/buy/${curso.lemon_variant_id}?checkout[custom][slug]=${curso.slug}`}
-                  target="_blank" rel="noopener noreferrer"
+                <PaddleCheckoutButton
+                  priceId={curso.paddle_price_id}
+                  customData={{ slug: curso.slug }}
                   style={{
                     display: "block", textAlign: "center", fontSize: 12, padding: "9px",
                     border: "1px solid var(--borde)", borderRadius: 6,
-                    color: "var(--texto)", textDecoration: "none",
+                    color: "var(--texto)", background: "transparent", cursor: "pointer", width: "100%",
                   }}
                 >
                   Comprar en la web — 347€
-                </a>
+                </PaddleCheckoutButton>
               </>
             )}
           </div>

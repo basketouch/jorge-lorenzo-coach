@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import PaddleCheckoutButton from "@/components/PaddleCheckoutButton";
 
 interface Leccion {
   id: number;
@@ -17,7 +18,7 @@ interface Modulo {
   fecha_apertura?: string | null;
   fecha_cierre_venta?: string | null;
   precio?: number | null;
-  lemon_variant_id?: string | null;
+  paddle_price_id?: string | null;
   portada_url?: string | null;
   lecciones_curso: Leccion[];
 }
@@ -44,7 +45,7 @@ function useCuentaAtras(fechaCierre?: string | null) {
   return restante;
 }
 
-function ModuloRow({ modulo, slug, lemonStore }: { modulo: Modulo; slug: string; lemonStore: string }) {
+function ModuloRow({ modulo, slug }: { modulo: Modulo; slug: string }) {
   const ahora = new Date();
   const apertura = modulo.fecha_apertura ? new Date(modulo.fecha_apertura) : null;
   const cierre = modulo.fecha_cierre_venta ? new Date(modulo.fecha_cierre_venta) : null;
@@ -99,16 +100,15 @@ function ModuloRow({ modulo, slug, lemonStore }: { modulo: Modulo; slug: string;
           {enVenta && cuentaAtras && cuentaAtras !== "Cerrado" && (
             <span style={{ fontSize: 11, color: "#4a9" }}>⏱ {cuentaAtras}</span>
           )}
-          {enVenta && modulo.precio && modulo.lemon_variant_id && (
-            <a
-              href={`https://${lemonStore}/checkout/buy/${modulo.lemon_variant_id}?checkout[custom][modulo_id]=${modulo.id}`}
-              target="_blank" rel="noopener noreferrer"
-              onClick={(e) => e.stopPropagation()}
+          {enVenta && modulo.precio && modulo.paddle_price_id && (
+            <PaddleCheckoutButton
+              priceId={modulo.paddle_price_id}
+              customData={{ modulo_id: modulo.id }}
               className="btn-primary"
-              style={{ fontSize: 11, padding: "5px 12px", textDecoration: "none", display: "inline-block" }}
+              style={{ fontSize: 11, padding: "5px 12px" }}
             >
               Comprar — {(modulo.precio / 100).toFixed(0)}€
-            </a>
+            </PaddleCheckoutButton>
           )}
           <span style={{ fontSize: 12, color: "var(--texto-suave)" }}>{lecciones.length} lecciones</span>
           <span style={{
@@ -152,7 +152,7 @@ function ModuloRow({ modulo, slug, lemonStore }: { modulo: Modulo; slug: string;
   );
 }
 
-export default function CurriculumAccordion({ modulos, slug, lemonStore }: { modulos: Modulo[]; slug: string; lemonStore: string }) {
+export default function CurriculumAccordion({ modulos, slug }: { modulos: Modulo[]; slug: string }) {
   const [inicializado, setInicializado] = useState(false);
 
   useEffect(() => { setInicializado(true); }, []);
@@ -162,7 +162,7 @@ export default function CurriculumAccordion({ modulos, slug, lemonStore }: { mod
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
       {modulos.map((m) => (
-        <ModuloRow key={m.id} modulo={m} slug={slug} lemonStore={lemonStore} />
+        <ModuloRow key={m.id} modulo={m} slug={slug} />
       ))}
     </div>
   );

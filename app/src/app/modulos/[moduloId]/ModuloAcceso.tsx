@@ -1,13 +1,13 @@
 import Image from "next/image";
 
 interface Leccion { id: number; titulo: string; duracion?: string; es_preview: boolean; orden: number; }
-interface Curso { id: number; slug: string; titulo: string; precio: number; lemon_variant_id: string | null; en_venta: boolean; }
+interface Curso { id: number; slug: string; titulo: string; precio: number; paddle_price_id: string | null; en_venta: boolean; }
 interface Modulo { id: number; titulo: string; orden: number; portada_url?: string | null; }
 
 export default function ModuloAcceso({
-  modulo, lecciones, curso, lemonStore,
+  modulo, lecciones, curso,
 }: {
-  modulo: Modulo; lecciones: Leccion[]; curso: Curso; lemonStore: string;
+  modulo: Modulo; lecciones: Leccion[]; curso: Curso;
 }) {
   return (
     <div className="container" style={{ paddingTop: 48, paddingBottom: 100, maxWidth: 720 }}>
