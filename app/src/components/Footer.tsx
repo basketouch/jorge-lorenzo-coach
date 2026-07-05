@@ -19,13 +19,13 @@ export default function Footer() {
             Términos y condiciones
           </a>
           <a
-            href="/pages/politica-de-privacidad"
+            href="/privacidad"
             style={{ fontSize: 13, color: "var(--texto-suave)", textDecoration: "none", borderBottom: "1px solid var(--borde)", paddingBottom: 1 }}
           >
             Privacidad
           </a>
           <a
-            href="/pages/politica-de-reembolsos"
+            href="/reembolsos"
             style={{ fontSize: 13, color: "var(--texto-suave)", textDecoration: "none", borderBottom: "1px solid var(--borde)", paddingBottom: 1 }}
           >
             Reembolsos
