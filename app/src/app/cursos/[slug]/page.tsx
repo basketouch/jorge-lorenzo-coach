@@ -268,7 +268,7 @@ export default async function CursoPage({ params }: { params: Promise<{ slug: st
                         </div>
                         <StripeCheckoutButton
                           priceId={curso.stripe_price_id}
-                          customData={{ slug: curso.slug }}
+                          metadata={{ slug: curso.slug }}
                           style={{ display: "block", textAlign: "center", fontSize: 13, padding: "10px", border: "1px solid var(--borde)", borderRadius: 6, color: "var(--texto)", background: "transparent", cursor: "pointer", width: "100%" }}
                         >
                           Comprar — {(webPrecio / 100).toFixed(0)}€ →

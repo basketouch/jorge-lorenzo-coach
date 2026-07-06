@@ -170,7 +170,7 @@ export default function ModuloGate({
               </p>
               <StripeCheckoutButton
                 priceId={modulo.stripe_price_id!}
-                customData={{ modulo_id: modulo.id }}
+                metadata={{ modulo_id: String(modulo.id) }}
                 className="btn-primary"
                 style={{ display: "block", textAlign: "center", fontSize: 14, width: "100%" }}
               >
@@ -228,7 +228,7 @@ export default function ModuloGate({
                 </div>
                 <StripeCheckoutButton
                   priceId={curso.stripe_price_id}
-                  customData={{ slug: curso.slug }}
+                  metadata={{ slug: curso.slug }}
                   style={{
                     display: "block", textAlign: "center", fontSize: 12, padding: "9px",
                     border: "1px solid var(--borde)", borderRadius: 6,
