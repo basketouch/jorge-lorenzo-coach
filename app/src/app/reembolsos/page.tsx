@@ -70,7 +70,7 @@ export default function ReembolsosPage() {
             <section>
               <h2 style={h2Style}>4. Procesado de pagos</h2>
               <p style={pStyle}>
-                Los pagos son procesados por <strong style={{ color: "var(--blanco)" }}>Paddle</strong>, que actúa como Merchant of Record. Los reembolsos se tramitan a través de Paddle de acuerdo con su política de reembolsos. También puedes solicitar un reembolso directamente a Paddle si lo prefieres.
+                Los pagos son procesados por <strong style={{ color: "var(--blanco)" }}>Stripe</strong>. Los reembolsos se gestionan directamente por nosotros a través de Stripe. Para solicitar un reembolso, contacta con nosotros en <strong style={{ color: "var(--blanco)" }}>basketouch@gmail.com</strong> indicando tu correo de compra.
               </p>
             </section>
 

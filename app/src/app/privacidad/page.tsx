@@ -47,7 +47,7 @@ export default function PrivacidadPage() {
                 {[
                   ["Datos de cuenta:", "nombre y dirección de correo electrónico."],
                   ["Datos de compra:", "cursos y módulos adquiridos, fecha de acceso y progreso en los contenidos."],
-                  ["Datos de pago:", "procesados íntegramente por Paddle (nuestro proveedor de pagos, que actúa como Merchant of Record). No almacenamos números de tarjeta ni datos bancarios."],
+                  ["Datos de pago:", "procesados íntegramente por Stripe (nuestro proveedor de pagos). No almacenamos números de tarjeta ni datos bancarios."],
                   ["Datos técnicos:", "dirección IP, tipo de navegador, sistema operativo e identificadores de sesión, recogidos automáticamente para garantizar la seguridad y el correcto funcionamiento del servicio."],
                 ].map(([label, text]) => (
                   <li key={label} style={liStyle}>
@@ -79,7 +79,7 @@ export default function PrivacidadPage() {
               <h2 style={h2Style}>4. Terceros que reciben tus datos</h2>
               <ul style={listStyle}>
                 {[
-                  ["Paddle", "procesador de pagos y Merchant of Record. Tus datos de facturación se rigen por la política de privacidad de Paddle."],
+                  ["Stripe", "procesador de pagos. Tus datos de facturación se rigen por la política de privacidad de Stripe (stripe.com/es/privacy)."],
                   ["Supabase", "plataforma de base de datos y autenticación (servidores en la UE)."],
                   ["Vercel", "alojamiento de la plataforma."],
                 ].map(([label, text]) => (
