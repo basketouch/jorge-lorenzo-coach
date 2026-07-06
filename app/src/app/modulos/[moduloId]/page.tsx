@@ -15,7 +15,7 @@ export default async function ModuloPage({ params }: { params: Promise<{ moduloI
 
   const { data: modulo } = await admin
     .from("modulos")
-    .select("*, lecciones_curso(id, titulo, duracion, es_preview, orden), cursos(id, slug, titulo, precio, paddle_price_id, en_venta)")
+    .select("*, lecciones_curso(id, titulo, duracion, es_preview, orden), cursos(id, slug, titulo, precio, stripe_price_id, en_venta)")
     .eq("id", parseInt(moduloId))
     .single();
 
@@ -23,7 +23,7 @@ export default async function ModuloPage({ params }: { params: Promise<{ moduloI
 
   const curso = modulo.cursos as {
     id: number; slug: string; titulo: string;
-    precio: number; paddle_price_id: string | null; en_venta: boolean;
+    precio: number; stripe_price_id: string | null; en_venta: boolean;
   };
   const moduloData = modulo as typeof modulo & { portada_url?: string | null };
   const lecciones = [...(modulo.lecciones_curso ?? [])].sort((a: { orden: number }, b: { orden: number }) => a.orden - b.orden);

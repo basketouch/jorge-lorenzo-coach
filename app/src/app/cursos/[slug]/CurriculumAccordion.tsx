@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import PaddleCheckoutButton from "@/components/PaddleCheckoutButton";
+import StripeCheckoutButton from "@/components/StripeCheckoutButton";
 
 interface Leccion {
   id: number;
@@ -18,7 +18,7 @@ interface Modulo {
   fecha_apertura?: string | null;
   fecha_cierre_venta?: string | null;
   precio?: number | null;
-  paddle_price_id?: string | null;
+  stripe_price_id?: string | null;
   portada_url?: string | null;
   lecciones_curso: Leccion[];
 }
@@ -100,15 +100,15 @@ function ModuloRow({ modulo, slug }: { modulo: Modulo; slug: string }) {
           {enVenta && cuentaAtras && cuentaAtras !== "Cerrado" && (
             <span style={{ fontSize: 11, color: "#4a9" }}>⏱ {cuentaAtras}</span>
           )}
-          {enVenta && modulo.precio && modulo.paddle_price_id && (
-            <PaddleCheckoutButton
-              priceId={modulo.paddle_price_id}
+          {enVenta && modulo.precio && modulo.stripe_price_id && (
+            <StripeCheckoutButton
+              priceId={modulo.stripe_price_id}
               customData={{ modulo_id: modulo.id }}
               className="btn-primary"
               style={{ fontSize: 11, padding: "5px 12px" }}
             >
               Comprar — {(modulo.precio / 100).toFixed(0)}€
-            </PaddleCheckoutButton>
+            </StripeCheckoutButton>
           )}
           <span style={{ fontSize: 12, color: "var(--texto-suave)" }}>{lecciones.length} lecciones</span>
           <span style={{

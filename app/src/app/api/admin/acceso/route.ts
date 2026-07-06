@@ -19,8 +19,8 @@ export async function POST(req: NextRequest) {
 
   if (action === "grant") {
     await admin.from("compras").upsert(
-      { user_id: userId, curso_id: cursoId, paddle_transaction_id: `admin-acceso-${userId}-${cursoId}` },
-      { onConflict: "paddle_transaction_id" }
+      { user_id: userId, curso_id: cursoId, stripe_session_id: `admin-acceso-${userId}-${cursoId}` },
+      { onConflict: "stripe_session_id" }
     );
   } else {
     await admin.from("compras")

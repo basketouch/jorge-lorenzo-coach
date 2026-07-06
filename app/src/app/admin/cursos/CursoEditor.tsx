@@ -12,7 +12,7 @@ interface CursoData {
   titulo: string;
   descripcion?: string | null;
   precio: number;
-  paddle_price_id?: string | null;
+  stripe_price_id?: string | null;
   en_venta?: boolean;
   activo: boolean;
   portada_url?: string | null;
@@ -46,7 +46,7 @@ export default function CursoEditor({ curso }: { curso: CursoData }) {
   const [activo, setActivo] = useState(curso.activo);
 
   // --- Venta ---
-  const [variantId, setVariantId] = useState(curso.paddle_price_id ?? "");
+  const [variantId, setVariantId] = useState(curso.stripe_price_id ?? "");
   const [precio, setPrecio] = useState(String((curso.precio ?? 0) / 100));
   const [enVenta, setEnVenta] = useState(curso.en_venta ?? false);
   const [webPrecio, setWebPrecio] = useState(String((curso.web_precio ?? 0) / 100));
@@ -77,7 +77,7 @@ export default function CursoEditor({ curso }: { curso: CursoData }) {
   );
 
   const checkoutUrl = variantId
-    ? `https://buy.paddle.com/product/${variantId}?custom_data[slug]=${slug}`
+    ? `https://dashboard.stripe.com/prices/${variantId}`
     : null;
 
   async function guardar() {
@@ -87,7 +87,7 @@ export default function CursoEditor({ curso }: { curso: CursoData }) {
       titulo: titulo.trim(), slug: slug.trim(), descripcion: descripcion.trim() || null,
       portada_url: portada.trim() || null, activo,
       // venta
-      paddle_price_id: variantId.trim() || null,
+      stripe_price_id: variantId.trim() || null,
       precio: Math.round(parseFloat(precio || "0") * 100),
       en_venta: enVenta,
       fecha_apertura: fechaAperturaAuto ? new Date(fechaAperturaAuto).toISOString() : null,
@@ -227,7 +227,7 @@ export default function CursoEditor({ curso }: { curso: CursoData }) {
             <Row label="Activación manual (override)">
               <Toggle value={enVenta} onChange={setEnVenta} labelOn="Forzar en venta ya" labelOff="Desactivado" />
             </Row>
-            <Row label="Paddle Price ID">
+            <Row label="Stripe Price ID">
               <input value={variantId} onChange={e => setVariantId(e.target.value)} style={{ ...iS, fontFamily: "monospace" }} placeholder="ej. pri_01kwshd9..." />
             </Row>
             {checkoutUrl && (

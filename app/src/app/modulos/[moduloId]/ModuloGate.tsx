@@ -1,14 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import PaddleCheckoutButton from "@/components/PaddleCheckoutButton";
+import StripeCheckoutButton from "@/components/StripeCheckoutButton";
 
 interface Leccion { id: number; titulo: string; duracion?: string; es_preview: boolean; }
-interface Curso { id: number; slug: string; titulo: string; precio: number; paddle_price_id: string | null; en_venta: boolean; }
+interface Curso { id: number; slug: string; titulo: string; precio: number; stripe_price_id: string | null; en_venta: boolean; }
 interface Modulo {
   id: number; titulo: string; orden: number;
   fecha_apertura?: string | null; fecha_cierre_venta?: string | null;
-  precio?: number | null; paddle_price_id?: string | null;
+  precio?: number | null; stripe_price_id?: string | null;
   portada_url?: string | null;
 }
 
@@ -147,7 +147,7 @@ export default function ModuloGate({
               <p style={{ fontSize: 13, color: "#888", marginBottom: 4 }}>Ventana de venta cerrada</p>
               <p style={{ fontSize: 12, color: "var(--texto-suave)" }}>Este módulo ya no está disponible por separado.</p>
             </div>
-          ) : enVenta && modulo.precio && modulo.paddle_price_id ? (
+          ) : enVenta && modulo.precio && modulo.stripe_price_id ? (
             <div style={{
               background: "var(--card)", border: "2px solid rgba(201,168,76,0.5)",
               borderRadius: 12, padding: 24, marginBottom: 16,
@@ -168,14 +168,14 @@ export default function ModuloGate({
               <p style={{ fontSize: 12, color: "var(--texto-suave)", marginBottom: 16, lineHeight: 1.5 }}>
                 Acceso permanente a las {lecciones.length} lecciones de este módulo.
               </p>
-              <PaddleCheckoutButton
-                priceId={modulo.paddle_price_id!}
+              <StripeCheckoutButton
+                priceId={modulo.stripe_price_id!}
                 customData={{ modulo_id: modulo.id }}
                 className="btn-primary"
                 style={{ display: "block", textAlign: "center", fontSize: 14, width: "100%" }}
               >
                 Comprar módulo →
-              </PaddleCheckoutButton>
+              </StripeCheckoutButton>
               {!isLoggedIn && (
                 <p style={{ fontSize: 11, color: "var(--texto-suave)", marginTop: 10, textAlign: "center" }}>
                   <a href="/login" style={{ color: "var(--oro)" }}>Inicia sesión</a> si ya tienes cuenta.
@@ -219,15 +219,15 @@ export default function ModuloGate({
             </a>
             <p style={{ fontSize: 11, color: "var(--texto-suave)", textAlign: "center" }}>desde $20/mes</p>
 
-            {curso.en_venta && curso.paddle_price_id && (
+            {curso.en_venta && curso.stripe_price_id && (
               <>
                 <div style={{ display: "flex", alignItems: "center", gap: 8, margin: "12px 0" }}>
                   <div style={{ flex: 1, height: 1, background: "var(--borde)" }} />
                   <span style={{ fontSize: 11, color: "var(--texto-suave)" }}>o</span>
                   <div style={{ flex: 1, height: 1, background: "var(--borde)" }} />
                 </div>
-                <PaddleCheckoutButton
-                  priceId={curso.paddle_price_id}
+                <StripeCheckoutButton
+                  priceId={curso.stripe_price_id}
                   customData={{ slug: curso.slug }}
                   style={{
                     display: "block", textAlign: "center", fontSize: 12, padding: "9px",
@@ -236,7 +236,7 @@ export default function ModuloGate({
                   }}
                 >
                   Comprar en la web — 347€
-                </PaddleCheckoutButton>
+                </StripeCheckoutButton>
               </>
             )}
           </div>

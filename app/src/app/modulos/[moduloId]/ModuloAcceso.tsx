@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 interface Leccion { id: number; titulo: string; duracion?: string; es_preview: boolean; orden: number; }
-interface Curso { id: number; slug: string; titulo: string; precio: number; paddle_price_id: string | null; en_venta: boolean; }
+interface Curso { id: number; slug: string; titulo: string; precio: number; stripe_price_id: string | null; en_venta: boolean; }
 interface Modulo { id: number; titulo: string; orden: number; portada_url?: string | null; }
 
 export default function ModuloAcceso({
