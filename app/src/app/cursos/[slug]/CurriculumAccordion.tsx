@@ -103,7 +103,7 @@ function ModuloRow({ modulo, slug }: { modulo: Modulo; slug: string }) {
           {enVenta && modulo.precio && modulo.stripe_price_id && (
             <StripeCheckoutButton
               priceId={modulo.stripe_price_id}
-              customData={{ modulo_id: modulo.id }}
+              metadata={{ modulo_id: String(modulo.id) }}
               className="btn-primary"
               style={{ fontSize: 11, padding: "5px 12px" }}
             >
