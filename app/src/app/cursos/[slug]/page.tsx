@@ -5,7 +5,7 @@ import Footer from "@/components/Footer";
 import { notFound } from "next/navigation";
 import CurriculumAccordion from "./CurriculumAccordion";
 import FaqAccordion from "./FaqAccordion";
-import NavBar from "@/components/NavBar";
+import SiteNav from "@/components/SiteNav";
 import CuentaAtras from "./CuentaAtras";
 import StripeCheckoutButton from "@/components/StripeCheckoutButton";
 
@@ -63,7 +63,7 @@ export default async function CursoPage({ params }: { params: Promise<{ slug: st
 
   return (
     <>
-      <NavBar links={user ? [{ label: "Mi cuenta", href: "/cuenta" }] : [{ label: "Acceder", href: "/login" }]} />
+      <SiteNav />
 
       {/* HERO */}
       <div style={{ paddingTop: 64, background: "var(--oscuro)", borderBottom: "1px solid var(--borde)" }}>

@@ -1,6 +1,6 @@
 import { createClient } from "@/lib/supabase-server";
 import Footer from "@/components/Footer";
-import NavHamburger from "@/components/NavHamburger";
+import SiteNav from "@/components/SiteNav";
 import WaitlistInline from "./WaitlistInline";
 import "./herramientas.css";
 
@@ -109,29 +109,7 @@ export default async function HerramientasPage() {
 
   return (
     <>
-      <nav>
-        <a href="/" className="nav-logo">Jorge <span>Lorenzo</span></a>
-        <div className="nav-links">
-          <a href="#niveles" className="nav-link">Comunidad</a>
-          <a href="/cursos/laboratorio-2526" className="nav-link">El Laboratorio</a>
-          <a href="/drills" className="nav-link">Drill Lab</a>
-          <a href="/herramientas" className="nav-link">Herramientas</a>
-          <a href="/newsletter" className="nav-link">Newsletter</a>
-          {user ? (
-            <a href="/cuenta" className="nav-cta">Mi cuenta</a>
-          ) : (
-            <a href="/login" className="nav-cta">Iniciar sesión</a>
-          )}
-        </div>
-        <NavHamburger links={[
-          { label: "Comunidad", href: "/#niveles" },
-          { label: "El Laboratorio", href: "/cursos/laboratorio-2526" },
-          { label: "Drill Lab", href: "/drills" },
-          { label: "Herramientas", href: "/herramientas" },
-          { label: "Newsletter", href: "/newsletter" },
-          ...(user ? [{ label: "Mi cuenta", href: "/cuenta" }] : []),
-        ]} />
-      </nav>
+      <SiteNav />
 
       <main className="herramientas-page" style={{ paddingTop: 80 }}>
         {/* HERO */}

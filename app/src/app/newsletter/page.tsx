@@ -3,14 +3,7 @@
 import { useState } from "react";
 import Footer from "@/components/Footer";
 import NavHamburger from "@/components/NavHamburger";
-
-const NAV_LINKS = [
-  { label: "Comunidad", href: "/#niveles" },
-  { label: "El Laboratorio", href: "/cursos/laboratorio-2526" },
-  { label: "Drill Lab", href: "/drills" },
-  { label: "English Coach", href: "/english" },
-  { label: "Newsletter", href: "/newsletter" },
-];
+import { NAV_LINKS } from "@/lib/nav-links";
 
 export default function NewsletterPage() {
   const [nombre, setNombre] = useState("");
