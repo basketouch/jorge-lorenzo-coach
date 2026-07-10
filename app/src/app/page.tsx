@@ -51,6 +51,7 @@ export default async function Home() {
         <a href="/" className="nav-logo">Jorge <span>Lorenzo</span></a>
         <div className="nav-links">
           <a href="#niveles" className="nav-link">Comunidad</a>
+          <a href="/cursos" className="nav-link">Cursos</a>
           <a href="/cursos/laboratorio-2526" className="nav-link">El Laboratorio</a>
           <a href="/drills" className="nav-link">Drill Lab</a>
           <a href="/english" className="nav-link">English Coach</a>
@@ -65,6 +66,7 @@ export default async function Home() {
         {/* Hamburguesa móvil */}
         <NavHamburger links={[
           { label: "Comunidad", href: "#niveles" },
+          { label: "Cursos", href: "/cursos" },
           { label: "El Laboratorio", href: "/cursos/laboratorio-2526" },
           { label: "Drill Lab", href: "/drills" },
           { label: "English Coach", href: "/english" },
