@@ -34,8 +34,8 @@ export default function TerminosPage() {
                 {[
                   ["jorgelorenzo.coach", "https://www.jorgelorenzo.coach", "Comunidad y formación para entrenadores de baloncesto"],
                   ["Comunidad Skool", "https://www.skool.com/jorge-lorenzo-coach/about", "Comunidad privada de entrenadores"],
-                  ["drawsports.app", "https://www.drawsports.app", "Herramienta de pizarra táctica deportiva"],
-                  ["cutsports.app", "https://www.cutsports.app", "Herramienta de videoanálisis deportivo"],
+                  ["drawsports.app", "https://drawsports.app", "Herramienta de pizarra táctica deportiva"],
+                  ["cutsports.app", "https://cutsports.app", "Herramienta de videoanálisis deportivo"],
                   ["theanalyst.es", "https://www.theanalyst.es", "Plataforma de análisis táctico avanzado"],
                 ].map(([nombre, href, desc]) => (
                   <li key={nombre} style={{ display: "flex", gap: 12, alignItems: "flex-start", fontSize: 15, color: "var(--texto-suave)", lineHeight: 1.7 }}>
