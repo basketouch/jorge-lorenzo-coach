@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import Footer from "@/components/Footer";
+import SiteNav from "@/components/SiteNav";
 
 export const metadata: Metadata = {
   title: "Términos y condiciones — Jorge Lorenzo",
@@ -8,16 +9,7 @@ export const metadata: Metadata = {
 export default function TerminosPage() {
   return (
     <>
-      {/* NAV */}
-      <nav>
-        <a href="/" className="nav-logo">Jorge <span>Lorenzo</span></a>
-        <div className="nav-links">
-          <a href="/#niveles" className="nav-link">Comunidad</a>
-          <a href="/cursos/laboratorio-2526" className="nav-link">El Laboratorio</a>
-          <a href="/newsletter" className="nav-link">Newsletter</a>
-          <a href="/login" className="nav-cta">Iniciar sesión</a>
-        </div>
-      </nav>
+      <SiteNav />
 
       <div style={{ paddingTop: 64 }}>
         <div className="container" style={{ maxWidth: 740, paddingTop: 32, paddingBottom: 64 }}>
