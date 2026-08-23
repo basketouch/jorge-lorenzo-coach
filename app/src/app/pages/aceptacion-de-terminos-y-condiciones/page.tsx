@@ -24,15 +24,34 @@ export default function TerminosPage() {
 
             <section>
               <h2 style={h2Style}>1. Introducción</h2>
+              <p style={{ ...pStyle, marginBottom: 12 }}>
+                Al registrarte o utilizar cualquiera de las plataformas y productos operados por <strong style={{ color: "var(--blanco)" }}>Basketouch Solutions Spain, SL</strong> (en adelante, "Basketouch"), con domicilio en C\ Padre Arintero, nº17-2º, CP: 33400 - Avilés (Asturias), y CIF: B52575107, aceptas los presentes Términos y Condiciones.
+              </p>
+              <p style={{ ...pStyle, marginBottom: 12 }}>
+                Estos términos aplican a todo el ecosistema de productos de Basketouch, que incluye actualmente:
+              </p>
+              <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 8, marginBottom: 12 }}>
+                {[
+                  ["jorgelorenzo.coach", "https://www.jorgelorenzo.coach", "Comunidad y formación para entrenadores de baloncesto"],
+                  ["Comunidad Skool", "https://www.skool.com/jorge-lorenzo-coach/about", "Comunidad privada de entrenadores"],
+                  ["drawsports.app", "https://www.drawsports.app", "Herramienta de pizarra táctica deportiva"],
+                  ["cutsports.app", "https://www.cutsports.app", "Herramienta de videoanálisis deportivo"],
+                ].map(([nombre, href, desc]) => (
+                  <li key={nombre} style={{ display: "flex", gap: 12, alignItems: "flex-start", fontSize: 15, color: "var(--texto-suave)", lineHeight: 1.7 }}>
+                    <span style={{ color: "var(--oro)", flexShrink: 0, marginTop: 2 }}>→</span>
+                    <span><a href={href} style={linkStyle} target="_blank" rel="noopener noreferrer">{nombre}</a> — {desc}</span>
+                  </li>
+                ))}
+              </ul>
               <p style={pStyle}>
-                Al registrarte en <a href="https://www.jorgelorenzo.coach" style={linkStyle}>www.jorgelorenzo.coach</a> y todos los subdominios, aceptas nuestros Términos y Condiciones. Estos términos rigen el uso de nuestra plataforma de contenido online, operada por <strong style={{ color: "var(--blanco)" }}>Basketouch Solutions Spain, SL</strong>, con domicilio en C\ Padre Arintero, nº17-2º, CP: 33400 - Avilés (Asturias), y CIF: B52575107.
+                Asimismo, estos términos se extienden a cualquier producto, servicio o plataforma futura que Basketouch Solutions Spain, SL desarrolle o comercialice, salvo que se publiquen términos específicos para dicho producto.
               </p>
             </section>
 
             <section>
-              <h2 style={h2Style}>2. Uso de la Plataforma</h2>
+              <h2 style={h2Style}>2. Uso de las Plataformas</h2>
               <p style={pStyle}>
-                La plataforma <a href="https://www.jorgelorenzo.coach" style={linkStyle}>www.jorgelorenzo.coach</a> ofrece acceso a una variedad de contenidos educativos, incluyendo videos, PDFs, presentaciones de PowerPoint, materiales de formación y otros. Estos recursos son para uso personal y exclusivo de los usuarios registrados. Está prohibida la reproducción, distribución, modificación o publicación del material sin el consentimiento expreso por escrito de Basketouch Solutions Spain, SL.
+                Las plataformas de Basketouch ofrecen acceso a contenidos educativos, herramientas de análisis deportivo, comunidades privadas y otros servicios digitales, incluyendo vídeos, PDFs, presentaciones, materiales de formación y software. Estos recursos son para uso personal y exclusivo de los usuarios registrados. Está prohibida la reproducción, distribución, modificación o publicación del material sin el consentimiento expreso por escrito de Basketouch Solutions Spain, SL.
               </p>
             </section>
 
@@ -56,7 +75,7 @@ export default function TerminosPage() {
             <section>
               <h2 style={h2Style}>4. Derechos de Propiedad Intelectual</h2>
               <p style={pStyle}>
-                Todo el contenido disponible en <a href="https://www.jorgelorenzo.coach" style={linkStyle}>www.jorgelorenzo.coach</a> está protegido por derechos de autor y otros derechos de propiedad intelectual. La titularidad de estos derechos pertenece a Basketouch Solutions Spain, SL. El uso no autorizado del contenido puede resultar en acciones legales.
+                Todo el contenido disponible en las plataformas de Basketouch está protegido por derechos de autor y otros derechos de propiedad intelectual. La titularidad de estos derechos pertenece a Basketouch Solutions Spain, SL. El uso no autorizado del contenido puede resultar en acciones legales.
               </p>
             </section>
 
@@ -70,7 +89,7 @@ export default function TerminosPage() {
             <section>
               <h2 style={h2Style}>6. Consentimiento para Recepción de Comunicaciones</h2>
               <p style={pStyle}>
-                Al registrarte en <a href="https://www.jorgelorenzo.coach" style={linkStyle}>www.jorgelorenzo.coach</a>, consientes en recibir comunicaciones de Basketouch Solutions Spain, SL relacionadas con nuestros servicios, actualizaciones de cursos, novedades y promociones exclusivas. Estas comunicaciones pueden ser enviadas a través de correo electrónico u otros medios de contacto que nos hayas proporcionado.
+                Al registrarte en cualquiera de las plataformas de Basketouch, consientes en recibir comunicaciones de Basketouch Solutions Spain, SL relacionadas con nuestros servicios, actualizaciones de cursos, novedades y promociones exclusivas. Estas comunicaciones pueden ser enviadas a través de correo electrónico u otros medios de contacto que nos hayas proporcionado.
               </p>
               <p style={{ ...pStyle, marginBottom: 12 }}>
                 Nuestro objetivo es mantenerte informado sobre todas las mejoras, nuevas oportunidades y eventos dentro de nuestra plataforma de formación. Las comunicaciones incluirán:
@@ -103,7 +122,7 @@ export default function TerminosPage() {
                 ))}
               </ul>
               <p style={pStyle}>
-                Al aceptar estas condiciones, reconoces que las comunicaciones son parte integral de nuestra relación contigo como usuario registrado, y que es importante mantenerte informado para maximizar tu experiencia y aprovechamiento de los recursos que ofrecemos en <a href="https://www.jorgelorenzo.coach" style={linkStyle}>www.jorgelorenzo.coach</a>.
+                Al aceptar estas condiciones, reconoces que las comunicaciones son parte integral de nuestra relación contigo como usuario registrado, y que es importante mantenerte informado para maximizar tu experiencia y aprovechamiento de los recursos que ofrecemos en las plataformas de Basketouch.
               </p>
             </section>
 
