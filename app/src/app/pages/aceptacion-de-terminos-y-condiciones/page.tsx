@@ -45,7 +45,7 @@ export default function TerminosPage() {
                 ))}
               </ul>
               <p style={pStyle}>
-                Asimismo, estos términos se extienden a cualquier producto, servicio o plataforma futura que Basketouch Solutions Spain, SL desarrolle o comercialice, salvo que se publiquen términos específicos para dicho producto.
+                Cuando Basketouch lance un nuevo producto o servicio, actualizará esta política e informará a los usuarios con antelación razonable a través de los medios de contacto disponibles. El uso continuado de cualquier plataforma de Basketouch tras dicha notificación constituirá aceptación de los términos actualizados.
               </p>
             </section>
 
