@@ -9,6 +9,7 @@ const navLinks = [
   { href: "/admin/cursos", label: "Contenido", icon: "📚" },
   { href: "/admin/ventas", label: "Ventas", icon: "💳" },
   { href: "/admin/marketing", label: "Marketing", icon: "📧" },
+  { href: "/admin/newsletter", label: "Audiencia", icon: "◎" },
 ];
 
 export default function AdminSidebar() {

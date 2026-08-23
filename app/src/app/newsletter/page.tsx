@@ -22,18 +22,13 @@ export default function NewsletterPage() {
     setLoading(true);
     setError("");
 
-    const formData = new FormData();
-    formData.append("NOMBRE", nombre.trim());
-    formData.append("EMAIL", email.trim());
-    formData.append("OPT_IN", "1");
-    formData.append("email_address_check", "");
-    formData.append("locale", "es");
-
     try {
-      await fetch(
-        "https://1e22ccbe.sibforms.com/serve/MUIFAIn_ci491dm8pn03mxd_b-9fZEH3fsCwnRQ90taaO9VXkFSaRGdCeilLFzL5GjLwaVmLD1Fij7eC2I_P8XkHXbl9WmMkEmlBDJ5ou2udjYvpWGJ9v8v_wyoJkRoxNEhZm-OK903Ii8iyFWKZZGHLM8OWUeFluTrBilqQakEgAKd-1biT7adF-d8KOGPPEZ7uBCactPTmNYkO",
-        { method: "POST", body: formData, mode: "no-cors" }
-      );
+      const response = await fetch("/api/newsletter/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nombre, email, optIn, website: "" }),
+      });
+      if (!response.ok) throw new Error("newsletter_subscription_failed");
       setEnviado(true);
     } catch {
       setError("Ha habido un problema. Inténtalo de nuevo.");
@@ -158,6 +153,7 @@ export default function NewsletterPage() {
                       type="checkbox"
                       checked={optIn}
                       onChange={(e) => setOptIn(e.target.checked)}
+                      required
                       style={{ marginTop: 3, accentColor: "var(--oro)", flexShrink: 0 }}
                     />
                     <span style={{ fontSize: 13, color: "var(--texto-suave)", lineHeight: 1.5 }}>
