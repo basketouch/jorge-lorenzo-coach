@@ -163,7 +163,10 @@ async function scrapeClassroom(page, buildId, selfId, runCounters) {
         try {
           await page.goto(lessonUrl, { waitUntil: 'domcontentloaded' });
           await page.waitForTimeout(800);
-          thumbnailUrl = await page.evaluate(() => window.__NEXT_DATA__?.props?.pageProps?.video?.thumbnailUrl ?? null);
+          const fullSizeThumb = await page.evaluate(() => window.__NEXT_DATA__?.props?.pageProps?.video?.thumbnailUrl ?? null);
+          // El original pesa ~1.5MB (frame sin comprimir); Skool ya sirve una
+          // variante "-sm" de ~35KB con el mismo patrón que sus otras imágenes.
+          thumbnailUrl = fullSizeThumb ? fullSizeThumb.replace(/(\.\w+)$/, '-sm$1') : null;
         } catch {
           /* si falla, se queda sin miniatura; no es crítico */
         }
@@ -236,7 +239,10 @@ async function scrapeCommunityPosts(page, buildId, selfId, runCounters) {
       body: p.metadata?.content ?? '',
       category: null,
       video_url: videoUrl,
-      thumbnail_url: p.metadata?.imagePreview ?? null,
+      // "imagePreview" es la imagen original (puede pesar >1MB); Skool ya
+      // sirve una variante más ligera con el mismo patrón "-sm" que usamos
+      // para los thumbnails de vídeo.
+      thumbnail_url: p.metadata?.imagePreviewSmall ?? p.metadata?.imagePreview ?? null,
       published_at: p.createdAt ?? null,
       updated_at: p.updatedAt ?? null,
       status: 'detected',
