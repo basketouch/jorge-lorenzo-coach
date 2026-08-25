@@ -31,6 +31,14 @@ export default async function ComunidadPage() {
     .not("status", "in", "(excluded,archived)")
     .order("published_at", { ascending: false });
 
+  const all = items ?? [];
+  const stats = {
+    total: all.length,
+    lessons: all.filter((i) => i.content_type === "lesson").length,
+    posts: all.filter((i) => i.content_type === "post").length,
+    categories: new Set(all.map((i) => i.category).filter(Boolean)).size,
+  };
+
   return (
     <>
       <nav>
@@ -46,14 +54,75 @@ export default async function ComunidadPage() {
         ]} />
       </nav>
 
-      <section style={{ paddingTop: 120, paddingBottom: 80 }}>
-        <div className="container">
-          <p className="section-label">Contenidos</p>
-          <h2 style={{ marginBottom: 8 }}>Busca en la comunidad.</h2>
-          <p className="lead" style={{ marginBottom: 24, maxWidth: 640 }}>
-            Todo lo que hemos publicado en la comunidad Jorge Lorenzo Coach — posts y lecciones del Aula —
-            en un único buscador, para que encuentres algo aunque no recuerdes dónde estaba.
+      <section style={{ paddingTop: 140, paddingBottom: 56, position: "relative", overflow: "hidden" }}>
+        <div style={{
+          content: "''", position: "absolute", inset: 0,
+          background: "radial-gradient(ellipse at 70% 30%, rgba(201,168,76,0.08) 0%, transparent 60%)",
+          pointerEvents: "none",
+        }} />
+        <div className="container" style={{ position: "relative" }}>
+          <p className="hero-eyebrow">Comunidad Jorge Lorenzo Coach</p>
+          <h1 style={{ fontSize: "clamp(36px, 5.5vw, 60px)", marginBottom: 16, maxWidth: 760 }}>
+            Todo lo que hemos publicado, <span style={{ color: "var(--oro)" }}>en un solo sitio.</span>
+          </h1>
+          <p className="hero-sub" style={{ marginBottom: 32, maxWidth: 620 }}>
+            Busca por tema y encuentra el post o la lección exacta, aunque no recuerdes dónde estaba.
           </p>
+
+          <div style={{ display: "flex", gap: 32, flexWrap: "wrap", marginBottom: 40 }}>
+            {[
+              [stats.total, "recursos"],
+              [stats.lessons, "lecciones del Aula"],
+              [stats.posts, "posts"],
+              [stats.categories, "categorías"],
+            ].map(([n, label]) => (
+              <div key={label as string}>
+                <p style={{ fontSize: 32, fontWeight: 800, color: "var(--oro)", lineHeight: 1 }}>{n}</p>
+                <p style={{ fontSize: 13, color: "var(--texto-suave)", marginTop: 4 }}>{label}</p>
+              </div>
+            ))}
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 16, marginBottom: 40 }}>
+            {[
+              {
+                name: "Sergio Delgado Bidegaray",
+                meta: "Sigue siendo miembro de pago después de 2 meses",
+                text: "Experiencia súper recomendable, le he consultado a Jorge por diferentes razones y he tenido una respuesta inmediata, con video incluido. Demuestra su interés por ayudar y volcar toda su experiencia a quien le consulte. Esto me ha mejorado en el plan de partido para mi equipo.",
+              },
+              {
+                name: "Vicente Navalon Fresneda",
+                meta: "Sigue siendo miembro de pago después de 3 meses",
+                text: "La verdad es que la comunidad es de gran ayuda para tod@s, es importante que sirva para cualquier nivel y se puedan aplicar las cosas en tu día a día, Jorge está pendiente de cualquier duda y aportando cada detalle, recomendable 100x100 para seguir mejorando.",
+              },
+              {
+                name: "Egoitz Arizmendi",
+                meta: "Sigue siendo miembro de pago después de 9 meses",
+                text: "Llevo casi un año en la comunidad y me ha ayudado mucho. Cada vez que he tenido una consulta o alguna duda, me la ha resuelto al instante. Es como tener un profesor particular de primerísimo nivel a tu disposición. Además se nota que le apasiona y siempre trata de innovar y mejorar.",
+              },
+            ].map((r) => (
+              <div key={r.name} style={{
+                background: "var(--card)", border: "1px solid var(--borde)", borderRadius: 10,
+                padding: "18px 20px", display: "flex", flexDirection: "column", gap: 10,
+              }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                  <div style={{
+                    width: 36, height: 36, borderRadius: "50%", background: "var(--oro)",
+                    color: "var(--negro)", display: "flex", alignItems: "center", justifyContent: "center",
+                    fontSize: 14, fontWeight: 700, flexShrink: 0,
+                  }}>
+                    {r.name.charAt(0)}
+                  </div>
+                  <div>
+                    <p style={{ fontSize: 14, fontWeight: 600 }}>{r.name}</p>
+                    <p style={{ fontSize: 12, color: "var(--oro)" }}>★★★★★</p>
+                  </div>
+                </div>
+                <p style={{ fontSize: 13, color: "var(--texto-suave)", lineHeight: 1.6 }}>{r.text}</p>
+                <p style={{ fontSize: 11, color: "var(--texto-suave)", opacity: 0.7 }}>{r.meta}</p>
+              </div>
+            ))}
+          </div>
 
           <div style={{
             display: "flex", gap: 24, flexWrap: "wrap", marginBottom: 36,
@@ -75,7 +144,7 @@ export default async function ComunidadPage() {
             ))}
           </div>
 
-          <ComunidadClient items={items ?? []} />
+          <ComunidadClient items={all} />
         </div>
       </section>
 

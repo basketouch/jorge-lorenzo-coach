@@ -71,13 +71,21 @@ async function upsertItems(items, runCounters) {
   for (const item of items) {
     const { data: existing } = await supabase
       .from('community_items')
-      .select('id')
+      .select('id, status')
       .eq('source_id', item.source_id)
       .maybeSingle();
 
+    // No pisar decisiones editoriales (excluded/approved/review) en cada re-scrape.
+    // Solo forzamos "detected" al crear el item, o al revivir uno archivado
+    // (curso que pasó de borrador a publicado, o volvió a aparecer en Skool).
+    const payload = { ...item, last_seen_at: new Date().toISOString() };
+    if (existing && existing.status !== 'archived') {
+      delete payload.status;
+    }
+
     const { error } = await supabase
       .from('community_items')
-      .upsert({ ...item, last_seen_at: new Date().toISOString() }, { onConflict: 'source_id' });
+      .upsert(payload, { onConflict: 'source_id' });
 
     if (error) {
       console.error(`Error guardando ${item.source_id}:`, error.message);
@@ -91,13 +99,35 @@ async function upsertItems(items, runCounters) {
   }
 }
 
+// Los cursos anidan lecciones dentro de "sets" (carpetas/módulos temáticos)
+// a profundidad variable; solo los nodos "module" son lecciones reales.
+function collectLeafModules(nodes) {
+  let out = [];
+  for (const node of nodes ?? []) {
+    const c = node.course;
+    if (!c) continue;
+    if (c.unitType === 'module') {
+      out.push(c);
+    } else if (node.children?.length) {
+      out = out.concat(collectLeafModules(node.children));
+    }
+  }
+  return out;
+}
+
 async function scrapeClassroom(page, buildId, selfId, runCounters) {
   console.log('\n--- Classroom ---');
   await page.goto(`https://www.skool.com/${GROUP}/classroom`, { waitUntil: 'domcontentloaded' });
   await page.waitForTimeout(2500);
   const allCourses = await page.evaluate(() => window.__NEXT_DATA__.props.pageProps.allCourses ?? []);
   // allCourses trae el slug de URL en "name" (no en "id"); el "id" es el uuid interno.
-  const courseSlugs = allCourses.map((c) => c.name).filter(Boolean);
+  // state:1/sin "public" = curso en Borrador en Skool; nunca debe salir en la biblioteca pública.
+  const published = allCourses.filter((c) => c.state === 2 && c.public === true);
+  const draftCount = allCourses.length - published.length;
+  if (draftCount > 0) {
+    console.log(`Saltando ${draftCount} curso(s) en borrador: ${allCourses.filter((c) => !(c.state === 2 && c.public === true)).map((c) => c.metadata?.title).join(', ')}`);
+  }
+  const courseSlugs = published.map((c) => c.name).filter(Boolean);
 
   if (courseSlugs.length === 0) {
     console.warn('No se detectaron cursos en window.__NEXT_DATA__; revisar estructura de la página.');
@@ -117,11 +147,11 @@ async function scrapeClassroom(page, buildId, selfId, runCounters) {
       continue;
     }
     const courseTitle = course?.metadata?.title ?? courseId;
-    const ownChildren = children.filter((child) => child.course?.userId === selfId);
-    console.log(`Curso "${courseTitle}": ${children.length} lecciones (${ownChildren.length} tuyas)`);
+    const allLessons = collectLeafModules(children);
+    const ownLessons = allLessons.filter((c) => c.userId === selfId);
+    console.log(`Curso "${courseTitle}": ${allLessons.length} lecciones (${ownLessons.length} tuyas)`);
 
-    const items = ownChildren.map((child) => {
-      const c = child.course;
+    const items = ownLessons.map((c) => {
       const lessonUrl = `https://www.skool.com/${GROUP}/classroom/${courseId}?md=${c.id}`;
       return {
         source_id: `skool_lesson_${c.id}`,
@@ -201,7 +231,26 @@ async function scrapeCommunityPosts(page, buildId, selfId, runCounters) {
   await upsertItems(items, runCounters);
 }
 
+// Archiva items propios que ya no aparecen en Skool (borrados, o restos de
+// una lógica de scraping anterior) para no dejar basura acumulándose.
+async function reconcileStale(runStartedAt, selfId) {
+  const { data, error } = await supabase
+    .from('community_items')
+    .update({ status: 'archived' })
+    .eq('author_id', selfId)
+    .not('status', 'in', '(excluded,archived)')
+    .lt('last_seen_at', runStartedAt)
+    .select('id');
+  if (error) {
+    console.error('No se pudo reconciliar items obsoletos:', error.message);
+    return 0;
+  }
+  if (data.length) console.log(`\nArchivados ${data.length} items que ya no aparecen en Skool.`);
+  return data.length;
+}
+
 async function main() {
+  const runStartedAt = new Date().toISOString();
   const runCounters = { items_found: 0, items_created: 0, items_updated: 0, items_failed: 0 };
   const { data: run, error: runError } = await supabase
     .from('community_sync_runs')
@@ -228,6 +277,7 @@ async function main() {
 
     await scrapeClassroom(page, buildId, selfId, runCounters);
     await scrapeCommunityPosts(page, buildId, selfId, runCounters);
+    const archived = await reconcileStale(runStartedAt, selfId);
 
     await supabase
       .from('community_sync_runs')
@@ -235,7 +285,7 @@ async function main() {
         finished_at: new Date().toISOString(),
         status: 'success',
         ...runCounters,
-        log: `OK. Encontrados: ${runCounters.items_found}, creados: ${runCounters.items_created}, actualizados: ${runCounters.items_updated}, fallidos: ${runCounters.items_failed}.`,
+        log: `OK. Encontrados: ${runCounters.items_found}, creados: ${runCounters.items_created}, actualizados: ${runCounters.items_updated}, fallidos: ${runCounters.items_failed}, archivados: ${archived}.`,
       })
       .eq('id', run.id);
 

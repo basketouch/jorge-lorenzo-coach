@@ -51,6 +51,7 @@ export default async function Home() {
         <a href="/" className="nav-logo">Jorge <span>Lorenzo</span></a>
         <div className="nav-links">
           <a href="#niveles" className="nav-link">Comunidad</a>
+          <a href="/comunidad" className="nav-link">Contenidos</a>
           <a href="/cursos" className="nav-link">Cursos</a>
           <a href="/cursos/laboratorio-2526" className="nav-link">El Laboratorio</a>
           <a href="/drills" className="nav-link">Drill Lab</a>
@@ -66,6 +67,7 @@ export default async function Home() {
         {/* Hamburguesa móvil */}
         <NavHamburger links={[
           { label: "Comunidad", href: "#niveles" },
+          { label: "Contenidos", href: "/comunidad" },
           { label: "Cursos", href: "/cursos" },
           { label: "El Laboratorio", href: "/cursos/laboratorio-2526" },
           { label: "Drill Lab", href: "/drills" },
@@ -171,6 +173,11 @@ export default async function Home() {
           <p className="section-label">Elige tu nivel</p>
           <h2>Tres niveles de acceso.</h2>
           <p className="lead">Cada nivel responde a una necesidad distinta. No hay una opción incorrecta — hay la que encaja con lo que necesitas ahora.</p>
+          <p style={{ marginBottom: 40 }}>
+            <a href="/comunidad" style={{ color: "var(--oro)", textDecoration: "underline", fontSize: 15 }}>
+              ¿Quieres ver ejemplos reales antes de decidir? Explora los contenidos →
+            </a>
+          </p>
           <div className="tiers-grid">
             <div className="tier-card">
               <p className="tier-nivel">Standard</p>
