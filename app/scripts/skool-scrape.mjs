@@ -151,9 +151,25 @@ async function scrapeClassroom(page, buildId, selfId, runCounters) {
     const ownLessons = allLessons.filter((c) => c.userId === selfId);
     console.log(`Curso "${courseTitle}": ${allLessons.length} lecciones (${ownLessons.length} tuyas)`);
 
-    const items = ownLessons.map((c) => {
+    const items = [];
+    for (const c of ownLessons) {
       const lessonUrl = `https://www.skool.com/${GROUP}/classroom/${courseId}?md=${c.id}`;
-      return {
+      let thumbnailUrl = c.metadata?.videoThumbnail ?? null;
+
+      // Vídeos alojados nativamente en Skool (Mux) no traen miniatura en el
+      // árbol del curso; solo se resuelve en pageProps.video al visitar la
+      // lección concreta. Sale como coste de una visita extra por lección.
+      if (!thumbnailUrl && c.metadata?.videoId) {
+        try {
+          await page.goto(lessonUrl, { waitUntil: 'domcontentloaded' });
+          await page.waitForTimeout(800);
+          thumbnailUrl = await page.evaluate(() => window.__NEXT_DATA__?.props?.pageProps?.video?.thumbnailUrl ?? null);
+        } catch {
+          /* si falla, se queda sin miniatura; no es crítico */
+        }
+      }
+
+      items.push({
         source_id: `skool_lesson_${c.id}`,
         source_url: lessonUrl,
         content_type: 'lesson',
@@ -163,13 +179,13 @@ async function scrapeClassroom(page, buildId, selfId, runCounters) {
         body: stripV2Content(c.metadata?.desc),
         category: courseTitle,
         video_url: c.metadata?.videoLink ?? null,
-        thumbnail_url: c.metadata?.videoThumbnail ?? null,
+        thumbnail_url: thumbnailUrl,
         published_at: c.createdAt ?? null,
         updated_at: c.updatedAt ?? null,
         status: 'detected',
         tags: [],
-      };
-    });
+      });
+    }
 
     await upsertItems(items, runCounters);
     await sleep(1500); // ritmo prudente entre requests
