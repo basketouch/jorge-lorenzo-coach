@@ -62,7 +62,10 @@ export default async function ComunidadPage() {
         }} />
         <div className="container" style={{ position: "relative" }}>
           <p className="hero-eyebrow">Comunidad Jorge Lorenzo Coach</p>
-          <h1 style={{ fontSize: "clamp(36px, 5.5vw, 60px)", marginBottom: 16, maxWidth: 760 }}>
+          <h1 style={{
+            fontSize: "clamp(36px, 5.5vw, 60px)", fontWeight: 800, lineHeight: 1.05,
+            letterSpacing: "-0.02em", color: "var(--blanco)", marginBottom: 16, maxWidth: 760,
+          }}>
             Todo lo que hemos publicado, <span style={{ color: "var(--oro)" }}>en un solo sitio.</span>
           </h1>
           <p className="hero-sub" style={{ marginBottom: 32, maxWidth: 620 }}>
