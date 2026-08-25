@@ -129,11 +129,11 @@ async function scrapeClassroom(page, buildId, selfId, runCounters) {
         content_type: 'lesson',
         title: c.metadata?.title ?? '(sin título)',
         summary: null,
-        public_teaser: null,
         author_id: c.userId ?? null,
         body: stripV2Content(c.metadata?.desc),
         category: courseTitle,
         video_url: c.metadata?.videoLink ?? null,
+        thumbnail_url: c.metadata?.videoThumbnail ?? null,
         published_at: c.createdAt ?? null,
         updated_at: c.updatedAt ?? null,
         status: 'detected',
@@ -172,22 +172,31 @@ async function scrapeCommunityPosts(page, buildId, selfId, runCounters) {
   const ownPosts = [...seen.values()].filter((p) => p.userId === selfId);
   console.log(`Posts capturados: ${seen.size} (${ownPosts.length} tuyos, resto de otros miembros se descarta)`);
 
-  const items = ownPosts.map((p) => ({
-    source_id: `skool_post_${p.id}`,
-    source_url: `https://www.skool.com/${GROUP}/${p.name}`,
-    content_type: 'post',
-    title: p.metadata?.title ?? '(sin título)',
-    summary: null,
-    public_teaser: null,
-    author_id: p.userId ?? null,
-    body: p.metadata?.content ?? '',
-    category: null,
-    video_url: null,
-    published_at: p.createdAt ?? null,
-    updated_at: p.updatedAt ?? null,
-    status: 'detected',
-    tags: [],
-  }));
+  const items = ownPosts.map((p) => {
+    let videoUrl = null;
+    try {
+      const videoLinks = JSON.parse(p.metadata?.videoLinksData ?? '[]');
+      videoUrl = videoLinks[0]?.url ?? null;
+    } catch {
+      /* sin vídeo embebido */
+    }
+    return {
+      source_id: `skool_post_${p.id}`,
+      source_url: `https://www.skool.com/${GROUP}/${p.name}`,
+      content_type: 'post',
+      title: p.metadata?.title ?? '(sin título)',
+      summary: null,
+      author_id: p.userId ?? null,
+      body: p.metadata?.content ?? '',
+      category: null,
+      video_url: videoUrl,
+      thumbnail_url: p.metadata?.imagePreview ?? null,
+      published_at: p.createdAt ?? null,
+      updated_at: p.updatedAt ?? null,
+      status: 'detected',
+      tags: [],
+    };
+  });
 
   await upsertItems(items, runCounters);
 }
