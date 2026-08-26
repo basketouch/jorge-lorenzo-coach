@@ -25,18 +25,29 @@ export const metadata = {
 export default async function ComunidadPage() {
   const admin = createAdminClient();
 
-  const { data: items } = await admin
-    .from("community_items")
-    .select("id, content_type, title, public_teaser, category, source_url, thumbnail_url, published_at, tags")
-    .not("status", "in", "(excluded,archived)")
-    .order("published_at", { ascending: false });
+  // Las estadísticas de cabecera deben reflejar lo real en Skool, no lo que
+  // Jorge decide ocultar en la biblioteca (status "excluded"). Solo se
+  // excluye "archived" (contenido que ya no existe en Skool). La lista de
+  // tarjetas sí respeta el ocultado editorial.
+  const [{ data: items }, { data: realItems }] = await Promise.all([
+    admin
+      .from("community_items")
+      .select("id, content_type, title, public_teaser, category, source_url, thumbnail_url, published_at, tags")
+      .not("status", "in", "(excluded,archived)")
+      .order("published_at", { ascending: false }),
+    admin
+      .from("community_items")
+      .select("content_type, category")
+      .not("status", "eq", "archived"),
+  ]);
 
   const all = items ?? [];
+  const realAll = realItems ?? [];
   const stats = {
-    total: all.length,
-    lessons: all.filter((i) => i.content_type === "lesson").length,
-    posts: all.filter((i) => i.content_type === "post").length,
-    categories: new Set(all.map((i) => i.category).filter(Boolean)).size,
+    total: realAll.length,
+    lessons: realAll.filter((i) => i.content_type === "lesson").length,
+    posts: realAll.filter((i) => i.content_type === "post").length,
+    categories: new Set(realAll.map((i) => i.category).filter(Boolean)).size,
   };
 
   return (
