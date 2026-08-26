@@ -66,12 +66,20 @@ function CardThumb({ item }: { item: Item }) {
   );
 }
 
+const PAGE_SIZE = 24;
+
 export default function ComunidadClient({ items }: Props) {
   const [search, setSearch] = useState("");
   const [filterType, setFilterType] = useState("");
   const [filterCategory, setFilterCategory] = useState("");
   const [sortOrder, setSortOrder] = useState<"recent" | "oldest">("recent");
   const [openItem, setOpenItem] = useState<Item | null>(null);
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
+
+  // Al cambiar cualquier filtro/orden, volvemos a mostrar solo la primera página.
+  useEffect(() => {
+    setVisibleCount(PAGE_SIZE);
+  }, [search, filterType, filterCategory, sortOrder]);
 
   useEffect(() => {
     if (!openItem) return;
@@ -98,6 +106,9 @@ export default function ComunidadClient({ items }: Props) {
     // items ya vienen ordenados por fecha desc. desde el servidor; solo invertimos si toca.
     return sortOrder === "oldest" ? [...result].reverse() : result;
   }, [items, search, filterType, filterCategory, sortOrder]);
+
+  const visibleItems = filtered.slice(0, visibleCount);
+  const hasMore = visibleCount < filtered.length;
 
   const selectStyle: React.CSSProperties = {
     background: "var(--card)", border: "1px solid var(--borde)", color: "var(--texto)",
@@ -137,7 +148,7 @@ export default function ComunidadClient({ items }: Props) {
       </p>
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 18 }}>
-        {filtered.map((item) => (
+        {visibleItems.map((item) => (
           <button
             key={item.id}
             type="button"
@@ -179,6 +190,21 @@ export default function ComunidadClient({ items }: Props) {
           </p>
         )}
       </div>
+
+      {hasMore && (
+        <div style={{ display: "flex", justifyContent: "center", marginTop: 32 }}>
+          <button
+            type="button"
+            onClick={() => setVisibleCount((c) => c + PAGE_SIZE)}
+            style={{
+              background: "var(--card)", border: "1px solid var(--borde)", color: "var(--texto)",
+              borderRadius: 6, padding: "10px 24px", fontSize: 14, cursor: "pointer",
+            }}
+          >
+            Cargar más ({filtered.length - visibleCount} más)
+          </button>
+        </div>
+      )}
 
       {openItem && (
         <div

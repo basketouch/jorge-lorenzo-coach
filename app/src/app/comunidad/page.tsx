@@ -1,6 +1,6 @@
 import { createAdminClient } from "@/lib/supabase-admin";
 import Footer from "@/components/Footer";
-import NavHamburger from "@/components/NavHamburger";
+import SiteNav from "@/components/SiteNav";
 import ComunidadClient from "./ComunidadClient";
 
 export const metadata = {
@@ -41,18 +41,7 @@ export default async function ComunidadPage() {
 
   return (
     <>
-      <nav>
-        <a href="/" className="nav-logo">Jorge <span>Lorenzo</span></a>
-        <div className="nav-links">
-          <a href="/cuenta" className="nav-link">Mi cuenta</a>
-          <a href="https://www.skool.com/jorge-lorenzo-coach/plans" target="_blank" rel="noopener noreferrer" className="nav-cta">Comunidad</a>
-        </div>
-        <NavHamburger links={[
-          { label: "Mi cuenta", href: "/cuenta" },
-          { label: "Drill Lab", href: "/drills" },
-          { label: "Comunidad", href: "https://www.skool.com/jorge-lorenzo-coach/plans" },
-        ]} />
-      </nav>
+      <SiteNav />
 
       <section style={{ paddingTop: 140, paddingBottom: 56, position: "relative", overflow: "hidden" }}>
         <div style={{
