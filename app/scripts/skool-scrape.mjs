@@ -24,6 +24,17 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const SESSION_PATH = path.join(__dirname, '.skool-session.json');
 const GROUP = 'jorge-lorenzo-coach';
 
+// Categorías del feed de comunidad (distintas de las categorías de Classroom).
+// Verificado contra el feed real; Skool no expone el nombre en los mismos
+// datos que el labelId, así que va fijo aquí. Si se crea/renombra una
+// categoría en Skool, hay que actualizar este mapa a mano.
+const POST_LABELS = {
+  '1d34786aa6df4d749a1298087ebb1b6b': '🧠 La Oficina',
+  'f0c62ca5562942439f81acead8d603e5': '🏋️ Ejercicios',
+  '701e10442f8443fca89c3baef5a70bfe': '🛠️ Herramientas',
+  'fcfceac9b251423d8614e99a02c708a1': '❓ Preguntas',
+};
+
 const SUPABASE_URL = 'https://otsbpiukzftacmvmkajy.supabase.co';
 const SUPABASE_KEY = process.env.SUPABASE_SERVICE_KEY;
 if (!SUPABASE_KEY) {
@@ -246,7 +257,7 @@ async function scrapeCommunityPosts(page, buildId, selfId, runCounters) {
       summary: null,
       author_id: p.userId ?? null,
       body: p.metadata?.content ?? '',
-      category: null,
+      category: POST_LABELS[p.labelId] ?? null,
       video_url: videoUrl,
       thumbnail_url: toMediumVariant(p.metadata?.imagePreview) ?? null,
       published_at: p.createdAt ?? null,

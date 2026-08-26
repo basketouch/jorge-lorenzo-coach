@@ -28,20 +28,35 @@ const TYPE_COLOR: Record<string, string> = {
   lesson: "var(--oro)",
 };
 
-function initialsGradient(seed: string) {
-  // Gradiente determinista a partir del título, para tarjetas sin miniatura.
+const FALLBACK_ICON: Record<string, string> = {
+  post: "💬",
+  lesson: "🎬",
+};
+
+function categoryGradient(seed: string) {
+  // Gradiente determinista por categoría (no por título), para que todas las
+  // tarjetas de un mismo curso compartan el mismo fondo.
   let hash = 0;
   for (let i = 0; i < seed.length; i++) hash = seed.charCodeAt(i) + ((hash << 5) - hash);
   const hue = Math.abs(hash) % 360;
-  return `linear-gradient(135deg, hsl(${hue}, 35%, 18%), hsl(${(hue + 40) % 360}, 35%, 10%))`;
+  return `linear-gradient(135deg, hsl(${hue}, 42%, 22%), hsl(${(hue + 35) % 360}, 45%, 11%))`;
 }
 
+// Muchas categorías ya empiezan con un emoji (ej. "🛡️ Defensa"); lo
+// reutilizamos como icono grande en vez de repetir el mismo bloque de texto.
+const EMOJI_PREFIX = /^(\p{Emoji_Presentation}|\p{Extended_Pictographic})️?\s*/u;
+
 function CardThumb({ item }: { item: Item }) {
+  const gradientSeed = item.category ?? item.content_type;
+  const emojiMatch = item.category?.match(EMOJI_PREFIX);
+  const icon = emojiMatch?.[0]?.trim() || FALLBACK_ICON[item.content_type] || "🏀";
+  const categoryLabel = item.category?.replace(EMOJI_PREFIX, "").trim();
+
   return (
     <div
       style={{
         aspectRatio: "16 / 9", width: "100%",
-        background: item.thumbnail_url ? undefined : initialsGradient(item.title),
+        background: item.thumbnail_url ? undefined : categoryGradient(gradientSeed),
         backgroundImage: item.thumbnail_url ? `url(${item.thumbnail_url})` : undefined,
         backgroundSize: "cover", backgroundPosition: "center",
         display: "flex", alignItems: "center", justifyContent: "center",
@@ -49,9 +64,16 @@ function CardThumb({ item }: { item: Item }) {
       }}
     >
       {!item.thumbnail_url && (
-        <span style={{ fontSize: 13, color: "rgba(255,255,255,0.55)", padding: "0 16px", textAlign: "center" }}>
-          {item.category ?? TYPE_LABEL[item.content_type]}
-        </span>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
+          <span style={{ fontSize: 40, lineHeight: 1, filter: "drop-shadow(0 2px 6px rgba(0,0,0,0.35))" }}>
+            {icon}
+          </span>
+          {categoryLabel && (
+            <span style={{ fontSize: 12, color: "rgba(255,255,255,0.65)", padding: "0 16px", textAlign: "center" }}>
+              {categoryLabel}
+            </span>
+          )}
+        </div>
       )}
       <span
         style={{
