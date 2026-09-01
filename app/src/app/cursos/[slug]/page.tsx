@@ -53,6 +53,9 @@ export default async function CursoPage({ params }: { params: Promise<{ slug: st
   const skoolPrecio = curso.skool_precio ?? null;
   const skoolPrecioOrig = curso.skool_precio_original ?? null;
   const skoolUrl = curso.skool_url ?? null;
+  const skoolMoneda = curso.skool_moneda ?? "€";
+  const formatSkoolPrecio = (centavos: number) =>
+    skoolMoneda === "€" ? `${(centavos / 100).toFixed(0)}€` : `${skoolMoneda}${(centavos / 100).toFixed(0)}`;
   const tieneSkool = !!(skoolPrecio && skoolUrl);
   const esGratuito = webPrecio === 0;
 
@@ -225,11 +228,11 @@ export default async function CursoPage({ params }: { params: Promise<{ slug: st
                           </div>
                           <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginBottom: 4 }}>
                             <span style={{ fontSize: 38, fontWeight: 900, color: "var(--oro)", lineHeight: 1 }}>
-                              {(skoolPrecio! / 100).toFixed(0)}€
+                              {formatSkoolPrecio(skoolPrecio!)}
                             </span>
                             {skoolPrecioOrig && (
                               <span style={{ fontSize: 13, color: "var(--texto-suave)", textDecoration: "line-through" }}>
-                                {(skoolPrecioOrig / 100).toFixed(0)}€
+                                {formatSkoolPrecio(skoolPrecioOrig)}
                               </span>
                             )}
                           </div>

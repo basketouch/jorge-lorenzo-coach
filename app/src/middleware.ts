@@ -8,6 +8,9 @@ const PROTECTED_PATHS = [
   "/admin",
 ];
 
+// Cursos que exigen código de entrada antes de mostrarse (pre-lanzamiento)
+const CURSOS_CON_CODIGO = ["laboratorio-2627"];
+
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
@@ -37,6 +40,19 @@ export async function middleware(req: NextRequest) {
     const loginUrl = new URL("/login", req.url);
     loginUrl.searchParams.set("redirect", pathname);
     return NextResponse.redirect(loginUrl);
+  }
+
+  // Cursos con código de entrada: exigir cookie salvo en la propia página de entrada
+  const cursoMatch = pathname.match(/^\/cursos\/([^/]+)(\/.*)?$/);
+  const slugCurso = cursoMatch?.[1];
+  const esPaginaEntrada = cursoMatch?.[2]?.startsWith("/entrada");
+  if (slugCurso && CURSOS_CON_CODIGO.includes(slugCurso) && !esPaginaEntrada) {
+    const cookie = req.cookies.get(`entrada_${slugCurso}`);
+    if (cookie?.value !== "ok") {
+      const entradaUrl = new URL(`/cursos/${slugCurso}/entrada`, req.url);
+      entradaUrl.searchParams.set("redirect", pathname);
+      return NextResponse.redirect(entradaUrl);
+    }
   }
 
   return res;

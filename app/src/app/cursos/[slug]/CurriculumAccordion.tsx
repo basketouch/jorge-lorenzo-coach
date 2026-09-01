@@ -67,6 +67,25 @@ function ModuloRow({ modulo, slug }: { modulo: Modulo; slug: string }) {
   const lecciones = [...modulo.lecciones_curso].sort((a, b) => a.orden - b.orden);
   const [abiertos, setAbiertos] = useState(() => lecciones.some((l) => l.es_preview));
 
+  // Módulo sin contenido cargado todavía: se muestra difuminado, sin desvelar el tema.
+  if (lecciones.length === 0 && !modulo.fecha_apertura) {
+    return (
+      <div style={{ background: "var(--card)", border: "1px solid var(--borde)", borderRadius: 8, overflow: "hidden", padding: "16px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 12, flex: 1, minWidth: 0 }}>
+          <span style={{ fontSize: 12, fontWeight: 700, color: "var(--oro)", minWidth: 20 }}>
+            {String(modulo.orden).padStart(2, "0")}
+          </span>
+          <span style={{ fontSize: 14, fontWeight: 600, color: "var(--texto)", filter: "blur(5px)", userSelect: "none", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+            {modulo.titulo}
+          </span>
+        </div>
+        <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--oro)", border: "1px solid var(--oro)", padding: "3px 8px", borderRadius: 4, flexShrink: 0 }}>
+          Próximamente
+        </span>
+      </div>
+    );
+  }
+
   return (
     <div style={{ background: "var(--card)", border: "1px solid var(--borde)", borderRadius: 8, overflow: "hidden" }}>
       <button
