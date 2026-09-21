@@ -76,10 +76,10 @@ const productos: Producto[] = [
       "Analiza estadísticas avanzadas de tus partidos. Desde el dato más simple hasta los patrones que cambian tu sistema defensivo.",
     precio_destacado: "Desde 25,99€/mes",
     precio_nota: "Planes: 25,99€ · 59,99€/mes",
-    estado: "waitlist",
-    cta_individual: { texto: "Apuntarse a la lista de espera", url: "#" },
+    estado: "disponible",
+    cta_individual: { texto: "Entrar en The Analyst", url: "https://www.theanalyst.es/" },
     cta_equipos: null,
-    badge: "Lista de espera",
+    badge: null,
   },
   {
     id: "cutsports-pro",
