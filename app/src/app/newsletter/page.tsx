@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Footer from "@/components/Footer";
 import NavHamburger from "@/components/NavHamburger";
 import { NAV_LINKS } from "@/lib/nav-links";
@@ -8,10 +8,12 @@ import { NAV_LINKS } from "@/lib/nav-links";
 export default function NewsletterPage() {
   const [nombre, setNombre] = useState("");
   const [email, setEmail] = useState("");
+  const [website, setWebsite] = useState(""); // honeypot: solo lo rellenan los bots
   const [optIn, setOptIn] = useState(false);
   const [enviado, setEnviado] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const renderedAt = useRef(Date.now());
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -26,7 +28,7 @@ export default function NewsletterPage() {
       const response = await fetch("/api/newsletter/subscribe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ nombre, email, optIn, website: "" }),
+        body: JSON.stringify({ nombre, email, optIn, website, renderedAt: renderedAt.current }),
       });
       if (!response.ok) throw new Error("newsletter_subscription_failed");
       setEnviado(true);
@@ -129,6 +131,17 @@ export default function NewsletterPage() {
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 16, maxWidth: 460 }}>
+                  {/* Honeypot anti-spam: invisible para personas, los bots de formularios suelen rellenarlo */}
+                  <input
+                    type="text"
+                    name="website"
+                    value={website}
+                    onChange={(e) => setWebsite(e.target.value)}
+                    tabIndex={-1}
+                    autoComplete="off"
+                    aria-hidden="true"
+                    style={{ position: "absolute", left: "-9999px", width: 1, height: 1, opacity: 0 }}
+                  />
                   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
                     <input
                       type="text"

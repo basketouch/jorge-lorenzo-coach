@@ -4,8 +4,23 @@ import { NextResponse } from "next/server";
 const BREVO_API_KEY = process.env.BREVO_API_KEY!;
 const BREVO_NEWSLETTER_LIST_ID = 15;
 
+const ALLOWED_ORIGINS =
+  process.env.NODE_ENV === "production"
+    ? ["https://www.jorgelorenzo.coach", "https://jorgelorenzo.coach"]
+    : ["https://www.jorgelorenzo.coach", "https://jorgelorenzo.coach", "http://localhost:3000"];
+const MIN_SUBMIT_MS = 2500; // por debajo de esto, es un bot rellenando el formulario al vuelo
+
 function normalizedText(value: unknown, maximumLength: number) {
   return typeof value === "string" ? value.trim().slice(0, maximumLength) : "";
+}
+
+function requestLooksLegit(request: Request) {
+  const origin = request.headers.get("origin");
+  if (origin) return ALLOWED_ORIGINS.includes(origin);
+
+  // Fallback para peticiones same-origin que no envían Origin: exigimos al menos un Referer propio.
+  const referer = request.headers.get("referer") ?? "";
+  return ALLOWED_ORIGINS.some((allowed) => referer.startsWith(allowed));
 }
 
 export async function POST(request: Request) {
@@ -17,8 +32,19 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Solicitud no válida." }, { status: 400 });
   }
 
+  // Bots que atacan el endpoint directamente (sin cargar la página) o sin JS real.
+  if (!requestLooksLegit(request)) {
+    return NextResponse.json({ ok: true });
+  }
+
   // Campo trampa: respondemos como si la suscripción hubiera funcionado sin guardar nada.
   if (normalizedText(payload.website, 200)) {
+    return NextResponse.json({ ok: true });
+  }
+
+  // Envíos demasiado rápidos tras cargar la página: típico de bots que rellenan y envían el form al instante.
+  const renderedAt = typeof payload.renderedAt === "number" ? payload.renderedAt : null;
+  if (renderedAt !== null && Date.now() - renderedAt < MIN_SUBMIT_MS) {
     return NextResponse.json({ ok: true });
   }
 
