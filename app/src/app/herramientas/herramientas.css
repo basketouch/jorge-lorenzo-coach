@@ -11,8 +11,15 @@
 @media (max-width: 640px) { .herramientas-grid { grid-template-columns: 1fr; } }
 
 /* CARD */
-.producto-card { position: relative; border: 1px solid var(--borde); border-radius: 12px; padding: 28px 24px; background: var(--card); display: flex; flex-direction: column; gap: 12px; }
-.producto-card--proximamente { opacity: 0.55; }
+.producto-card { position: relative; border: 1px solid var(--borde); border-radius: 12px; padding: 28px 24px; background: var(--card); display: flex; flex-direction: column; gap: 12px; overflow: hidden; }
+
+.producto-content { display: flex; flex-direction: column; gap: 12px; flex: 1; }
+
+.producto-card--proximamente .producto-content {
+  filter: blur(5px);
+  user-select: none;
+  pointer-events: none;
+}
 
 .producto-badge { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 10px; border-radius: 20px; width: fit-content; }
 .producto-badge--waitlist { background: rgba(201,168,76,0.1); color: var(--oro); border: 1px solid rgba(201,168,76,0.3); }

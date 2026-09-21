@@ -12,21 +12,16 @@ export async function POST(req: NextRequest) {
 
   if (!email) return NextResponse.json({ error: "email es obligatorio" }, { status: 400 });
 
-  console.log("[enviar-acceso] paso 1: listUsers para", email);
   // 1. Comprobar si ya existe en Auth
-  const { data: lista, error: listError } = await admin.auth.admin.listUsers();
-  console.log("[enviar-acceso] listUsers resultado:", { count: lista?.users?.length, listError });
+  const { data: lista } = await admin.auth.admin.listUsers();
   const usuarioAuth = lista?.users?.find((u) => u.email === email);
-  console.log("[enviar-acceso] usuarioAuth encontrado:", !!usuarioAuth);
 
   if (!usuarioAuth) {
-    console.log("[enviar-acceso] paso 2: createUser para", email);
     // 2. Crear usuario en Auth (email confirmado, sin contraseña)
     const { data: creado, error: createError } = await admin.auth.admin.createUser({
       email,
       email_confirm: true,
     });
-    console.log("[enviar-acceso] createUser resultado:", { id: creado?.user?.id, error: createError?.message, errorDetails: JSON.stringify(createError) });
 
     if (createError || !creado?.user) {
       return NextResponse.json({ error: createError?.message ?? "Error al crear usuario", details: JSON.stringify(createError) }, { status: 500 });

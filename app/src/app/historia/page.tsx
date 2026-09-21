@@ -13,7 +13,7 @@ const NAV_LINKS = [
 ];
 
 export default function HistoriaPage() {
-  const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
+  const [lightbox, setLightbox] = useState<{ src: string; alt: string } | null>(null);
 
   return (
     <>
@@ -176,7 +176,7 @@ export default function HistoriaPage() {
                 key={src}
                 src={src}
                 alt={alt}
-                onClick={() => setLightboxSrc(src)}
+                onClick={() => setLightbox({ src, alt })}
                 style={{
                   width: "100%", borderRadius: 6, aspectRatio: "3/2",
                   objectFit: "cover", display: "block", cursor: "pointer",
@@ -208,9 +208,9 @@ export default function HistoriaPage() {
       <Footer />
 
       {/* Lightbox */}
-      {lightboxSrc && (
+      {lightbox && (
         <div
-          onClick={() => setLightboxSrc(null)}
+          onClick={() => setLightbox(null)}
           style={{
             position: "fixed", inset: 0, background: "rgba(0,0,0,0.92)",
             zIndex: 999, display: "flex", alignItems: "center", justifyContent: "center",
@@ -219,7 +219,7 @@ export default function HistoriaPage() {
         >
           <span style={{ position: "absolute", top: 20, right: 28, color: "#fff", fontSize: 28, opacity: 0.7, lineHeight: 1 }}>✕</span>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={lightboxSrc} alt="" style={{ maxWidth: "92vw", maxHeight: "92vh", objectFit: "contain", display: "block" }} />
+          <img src={lightbox.src} alt={lightbox.alt} style={{ maxWidth: "92vw", maxHeight: "92vh", objectFit: "contain", display: "block" }} />
         </div>
       )}
 

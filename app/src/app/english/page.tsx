@@ -3,6 +3,7 @@ import { createAdminClient } from "@/lib/supabase-admin";
 import SiteNav from "@/components/SiteNav";
 import EnglishClient from "./EnglishClient";
 import PwaRegister from "./PwaRegister";
+import { spaceGrotesk, hankenGrotesk } from "./fonts";
 
 export const metadata = {
   title: "English Coach — Jorge Lorenzo",
@@ -30,7 +31,7 @@ export default async function EnglishPage() {
   // Gate: require login
   if (!user) {
     return (
-      <>
+      <div className={`${spaceGrotesk.variable} ${hankenGrotesk.variable}`}>
         <PwaRegister />
         <SiteNav />
         <section style={{ paddingTop: 120, paddingBottom: 80, minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -45,7 +46,7 @@ export default async function EnglishPage() {
             </a>
           </div>
         </section>
-      </>
+      </div>
     );
   }
 
@@ -86,7 +87,7 @@ export default async function EnglishPage() {
   }
 
   return (
-    <>
+    <div className={`${spaceGrotesk.variable} ${hankenGrotesk.variable}`}>
       <PwaRegister />
       <SiteNav />
       <EnglishClient
@@ -96,6 +97,6 @@ export default async function EnglishPage() {
         initialProgress={initialProgress}
         drills={(drills ?? []) as any}
       />
-    </>
+    </div>
   );
 }

@@ -116,7 +116,7 @@ export default async function Home() {
 
       {/* FOTO MUNDIAL */}
       <div className="foto-banda">
-        <Image src="/fotos/Mundial Oro 19.png" alt="Jorge Lorenzo, Campeón del Mundo 2019" fill style={{ objectFit: "cover", objectPosition: "center" }} priority />
+        <Image src="/fotos/Mundial Oro 19.jpg" alt="Jorge Lorenzo, Campeón del Mundo 2019" fill style={{ objectFit: "cover", objectPosition: "center" }} priority />
         <div className="foto-banda-overlay"><span>Campeón del Mundo · China 2019</span></div>
       </div>
 
@@ -420,16 +420,14 @@ export default async function Home() {
 
       {/* FOTO BANQUILLO */}
       <div className="foto-banda foto-banda-tall">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/fotos/Eurobasket banquillo 2025.JPG" alt="Jorge Lorenzo en el banquillo, Eurobasket 2025" />
+        <Image src="/fotos/Eurobasket banquillo 2025.JPG" alt="Jorge Lorenzo en el banquillo, Eurobasket 2025" fill style={{ objectFit: "cover", objectPosition: "center 30%" }} />
         <div className="foto-banda-overlay"><span>Eurobasket 2025 · Selección Española</span></div>
       </div>
 
       {/* CTA FINAL */}
       <section className="cta-final" style={{ position: "relative", overflow: "hidden" }}>
         <div className="cta-bg">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/fotos/Eurobasket jugs 2025.JPG" alt="" aria-hidden="true" />
+          <Image src="/fotos/Eurobasket jugs 2025.JPG" alt="" aria-hidden="true" fill style={{ objectFit: "cover", opacity: 0.12 }} />
         </div>
         <div className="container" style={{ position: "relative", zIndex: 2 }}>
           <h2>No necesitas más contenido.</h2>

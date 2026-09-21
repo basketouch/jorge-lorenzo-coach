@@ -74,26 +74,29 @@ const productos: Producto[] = [
     tagline: "Box score y play-by-play para entrenadores que leen el juego.",
     descripcion:
       "Analiza estadísticas avanzadas de tus partidos. Desde el dato más simple hasta los patrones que cambian tu sistema defensivo.",
-    precio_destacado: "Desde 29€/mes",
-    precio_nota: "Planes: 29€ · 49€ · 79€/mes",
+    precio_destacado: "Desde 25,99€/mes",
+    precio_nota: "Planes: 25,99€ · 59,99€/mes",
     estado: "waitlist",
     cta_individual: { texto: "Apuntarse a la lista de espera", url: "#" },
     cta_equipos: null,
     badge: "Lista de espera",
   },
   {
-    id: "hustle",
-    nombre: "Hustle Tracker",
-    plataforma: "Web · App",
-    tagline: "Mide el esfuerzo defensivo. Lo que el box score no te cuenta.",
+    id: "cutsports-pro",
+    nombre: "CutSports Pro",
+    plataforma: "Mac",
+    tagline: "Scouting en vídeo y playbook, en un solo flujo en tu Mac.",
     descripcion:
-      "Herramienta de análisis del esfuerzo defensivo. Cuantifica lo que siempre has visto pero nunca has podido medir: deflections, recuperaciones, fifty fifty actions.",
-    precio_destacado: "29,99€/mes",
-    precio_nota: "Sin permanencia",
-    estado: "waitlist",
-    cta_individual: { texto: "Apuntarse a la lista de espera", url: "#" },
+      "Análisis de vídeo, diagramas tácticos y proyección para tus jugadores, integrados en una sola app. De la sala de mando a la pista.",
+    precio_destacado: "199€/año",
+    precio_nota: "30 días gratis · 1 Mac",
+    estado: "disponible",
+    cta_individual: {
+      texto: "Probar 30 días gratis",
+      url: "https://cutsports.app/pricing/",
+    },
     cta_equipos: null,
-    badge: "Lista de espera",
+    badge: null,
   },
 ];
 
@@ -195,47 +198,49 @@ function ProductoCard({ producto: p }: { producto: Producto }) {
         <span className={`producto-badge producto-badge--${p.estado}`}>{p.badge}</span>
       )}
 
-      <div className="producto-header">
-        <div>
-          <h2 className="producto-nombre">{p.nombre}</h2>
-          <p className="producto-plataforma">{p.plataforma}</p>
+      <div className="producto-content">
+        <div className="producto-header">
+          <div>
+            <h2 className="producto-nombre">{p.nombre}</h2>
+            <p className="producto-plataforma">{p.plataforma}</p>
+          </div>
         </div>
+
+        <p className="producto-tagline">{p.tagline}</p>
+        <p className="producto-descripcion">{p.descripcion}</p>
+
+        <div className="producto-precio-bloque">
+          <span className="producto-precio-destacado">{p.precio_destacado}</span>
+          <span className="producto-precio-nota">{p.precio_nota}</span>
+        </div>
+
+        {p.estado === "disponible" && (
+          <div className="producto-ctas">
+            {p.cta_individual && (
+              <a href={p.cta_individual.url} className="producto-cta producto-cta--primary" target="_blank" rel="noopener noreferrer">
+                {p.cta_individual.texto}
+              </a>
+            )}
+            {p.cta_equipos && (
+              <a href={p.cta_equipos.url} className="producto-cta producto-cta--secondary" target="_blank" rel="noopener noreferrer">
+                {p.cta_equipos.texto}
+              </a>
+            )}
+          </div>
+        )}
+
+        {p.estado === "waitlist" && p.cta_individual && (
+          <div className="producto-ctas">
+            <WaitlistInline productoId={p.id} ctaTexto={p.cta_individual.texto} />
+          </div>
+        )}
+
+        {p.estado === "proximamente" && (
+          <div className="producto-ctas">
+            <span className="producto-cta producto-cta--disabled">Disponible pronto</span>
+          </div>
+        )}
       </div>
-
-      <p className="producto-tagline">{p.tagline}</p>
-      <p className="producto-descripcion">{p.descripcion}</p>
-
-      <div className="producto-precio-bloque">
-        <span className="producto-precio-destacado">{p.precio_destacado}</span>
-        <span className="producto-precio-nota">{p.precio_nota}</span>
-      </div>
-
-      {p.estado === "disponible" && (
-        <div className="producto-ctas">
-          {p.cta_individual && (
-            <a href={p.cta_individual.url} className="producto-cta producto-cta--primary" target="_blank" rel="noopener noreferrer">
-              {p.cta_individual.texto}
-            </a>
-          )}
-          {p.cta_equipos && (
-            <a href={p.cta_equipos.url} className="producto-cta producto-cta--secondary" target="_blank" rel="noopener noreferrer">
-              {p.cta_equipos.texto}
-            </a>
-          )}
-        </div>
-      )}
-
-      {p.estado === "waitlist" && p.cta_individual && (
-        <div className="producto-ctas">
-          <WaitlistInline productoId={p.id} ctaTexto={p.cta_individual.texto} />
-        </div>
-      )}
-
-      {p.estado === "proximamente" && (
-        <div className="producto-ctas">
-          <span className="producto-cta producto-cta--disabled">Disponible pronto</span>
-        </div>
-      )}
     </article>
   );
 }
