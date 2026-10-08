@@ -40,7 +40,13 @@ export default function MateriClinicPage() {
         .clinic-poster { order: -1; }
         .clinic-ig { display: flex; align-items: center; gap: 12px; flex: 1 1 0; min-width: 0; padding: 12px 16px; background: var(--card); border: 1px solid var(--borde); border-radius: 10px; color: var(--texto); text-decoration: none; transition: border-color 0.2s; }
         .clinic-ig:hover { border-color: var(--oro); }
+        .clinic-partners { display: flex; flex-direction: column; align-items: center; gap: 28px; }
+        .clinic-partners-group { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+        .clinic-partners-label { font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--texto-suave); }
+        .clinic-partners-divider { width: 48px; height: 1px; background: var(--borde); }
         @media (min-width: 900px) {
+          .clinic-partners { flex-direction: row; gap: 48px; }
+          .clinic-partners-divider { width: 1px; height: 120px; }
           .clinic-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 56px; }
           .clinic-poster { order: 0; }
         }
@@ -82,27 +88,36 @@ export default function MateriClinicPage() {
       </section>
 
       <section style={{ padding: "0 24px 72px", maxWidth: 1120, width: "100%", margin: "0 auto" }}>
-        <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--texto-suave)", textAlign: "center", marginBottom: 20 }}>
-          Sponsor
-        </p>
-        <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 16 }}>
-          {SPONSORS.map(({ nombre, usuario, logo }) => (
-            <div key={nombre} style={{
-              display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 4,
-              width: 200, height: 96, padding: 16, borderRadius: 10, textAlign: "center",
-              background: logo ? "#fff" : "var(--card)", border: "1px solid var(--borde)",
-            }}>
-              {logo ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src={logo} alt={nombre} style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "contain" }} />
-              ) : (
-                <>
-                  <span style={{ fontSize: 15, fontWeight: 700 }}>{nombre}</span>
-                  {usuario && <span style={{ fontSize: 12, color: "var(--texto-suave)" }}>@{usuario}</span>}
-                </>
-              )}
+        <div className="clinic-partners">
+          <div className="clinic-partners-group">
+            <p className="clinic-partners-label">Supported by</p>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/sponsors/bogor-hornbills.png" alt="Bogor Hornbills" width={120} height={120}
+              style={{ width: 120, height: 120, objectFit: "contain" }} />
+          </div>
+          <div className="clinic-partners-divider" />
+          <div className="clinic-partners-group" style={{ flex: 1 }}>
+            <p className="clinic-partners-label">Sponsor</p>
+            <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 16 }}>
+              {SPONSORS.map(({ nombre, usuario, logo }) => (
+                <div key={nombre} style={{
+                  display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 4,
+                  width: 200, height: 96, padding: 16, borderRadius: 10, textAlign: "center",
+                  background: logo ? "#fff" : "var(--card)", border: "1px solid var(--borde)",
+                }}>
+                  {logo ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={logo} alt={nombre} style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "contain" }} />
+                  ) : (
+                    <>
+                      <span style={{ fontSize: 15, fontWeight: 700 }}>{nombre}</span>
+                      {usuario && <span style={{ fontSize: 12, color: "var(--texto-suave)" }}>@{usuario}</span>}
+                    </>
+                  )}
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
         </div>
       </section>
     </main>
