@@ -6,4 +6,4 @@ export const CLINIC_BREVO_LIST_ID = 37;
 const CLINIC_FOLDER_ID = "1_p9WhADgOJpeoPy6KaRmm1LbHEzKvhqv";
 
 export const CLINIC_FOLDER_URL = `https://drive.google.com/drive/folders/${CLINIC_FOLDER_ID}?usp=sharing`;
-export const CLINIC_EMBED_URL = `https://drive.google.com/embeddedfolderview?id=${CLINIC_FOLDER_ID}#list`;
+export const CLINIC_EMBED_URL = `https://drive.google.com/embeddedfolderview?id=${CLINIC_FOLDER_ID}#grid`;
