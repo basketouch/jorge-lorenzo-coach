@@ -45,8 +45,8 @@ export default function MateriClinicPage() {
         .clinic-partners-label { font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--texto-suave); }
         .clinic-partners-divider { width: 48px; height: 1px; background: var(--borde); }
         @media (min-width: 900px) {
-          .clinic-partners { flex-direction: row; gap: 48px; }
-          .clinic-partners-divider { width: 1px; height: 120px; }
+          .clinic-partners { flex-direction: row; align-items: stretch; gap: 48px; }
+          .clinic-partners-divider { width: 1px; height: auto; }
           .clinic-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 56px; }
           .clinic-poster { order: 0; }
         }
@@ -87,7 +87,7 @@ export default function MateriClinicPage() {
         </div>
       </section>
 
-      <section style={{ padding: "0 24px 72px", maxWidth: 1120, width: "100%", margin: "0 auto" }}>
+      <section style={{ padding: "56px 24px 80px", maxWidth: 1120, width: "100%", margin: "0 auto" }}>
         <div className="clinic-partners">
           <div className="clinic-partners-group">
             <p className="clinic-partners-label">Supported by</p>
