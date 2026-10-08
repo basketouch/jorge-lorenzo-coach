@@ -13,20 +13,14 @@ export default function MateriClinicPage() {
     <main style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
       <SiteNav />
 
-      <section style={{ flex: 1, padding: "112px 24px 64px", maxWidth: 560, width: "100%", margin: "0 auto" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 28 }}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logos/perbasi.png" alt="PERBASI" width={72} height={72}
-            style={{ background: "#fff", borderRadius: 12, padding: 6, flexShrink: 0 }} />
-          <div>
-            <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--oro)", marginBottom: 4 }}>
-              Clinic resmi PERBASI
-            </p>
-            <p style={{ fontSize: 14, color: "var(--texto-suave)", lineHeight: 1.4 }}>
-              Penataran Pelatih Lisensi B<br />Bogor · 8–11 Oktober 2026
-            </p>
-          </div>
-        </div>
+      <section style={{ flex: 1, padding: "96px 24px 64px", maxWidth: 640, width: "100%", margin: "0 auto" }}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/fotos/clinic-perbasi-2026.jpg" alt="Penataran Pelatih Lisensi B — Jorge Lorenzo, Cesar Camara Perez, Herru Yuharso"
+          width={1206} height={939}
+          style={{ width: "100%", height: "auto", borderRadius: 12, border: "1px solid var(--borde)", marginBottom: 32, display: "block" }} />
+        <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--oro)", marginBottom: 12 }}>
+          Clinic resmi PERBASI · Penataran Pelatih Lisensi B
+        </p>
         <h1 style={{ fontSize: "clamp(30px, 7vw, 44px)", lineHeight: 1.1, fontWeight: 900, marginBottom: 16 }}>
           Materi <span style={{ color: "var(--oro)" }}>Clinic</span>
         </h1>
