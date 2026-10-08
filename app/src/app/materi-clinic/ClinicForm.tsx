@@ -86,7 +86,7 @@ export default function ClinicForm() {
           value={email} onChange={(e) => setEmail(e.target.value)} style={inputStyle} />
       </label>
       <label style={{ display: "flex", flexDirection: "column", gap: 6, fontSize: 13, color: "var(--texto-suave)" }}>
-        WhatsApp (opsional)
+        WhatsApp
         <input type="tel" placeholder="0812 3456 7890" autoComplete="tel" inputMode="tel"
           value={whatsapp} onChange={(e) => setWhatsapp(e.target.value)} style={inputStyle} />
       </label>
