@@ -7,6 +7,13 @@ const INSTAGRAM = [
   { nombre: "Jorge Lorenzo", usuario: "jorgelorenzo.coach", url: "https://www.instagram.com/jorgelorenzo.coach/" },
 ];
 
+// Para mostrar el logo: copiar el archivo a public/sponsors/ y poner su ruta en `logo`.
+const SPONSORS: { nombre: string; usuario?: string; logo?: string }[] = [
+  { nombre: "Le Yasmin", usuario: "leyasmin.id" },
+  { nombre: "Diton", usuario: "ditonpremium" },
+  { nombre: "PT Omega Safety Indonesia" },
+];
+
 function InstagramIcon() {
   return (
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
@@ -71,6 +78,31 @@ export default function MateriClinicPage() {
               ))}
             </div>
           </div>
+        </div>
+      </section>
+
+      <section style={{ padding: "0 24px 72px", maxWidth: 1120, width: "100%", margin: "0 auto" }}>
+        <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--texto-suave)", textAlign: "center", marginBottom: 20 }}>
+          Sponsor
+        </p>
+        <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 16 }}>
+          {SPONSORS.map(({ nombre, usuario, logo }) => (
+            <div key={nombre} style={{
+              display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 4,
+              width: 200, height: 96, padding: 16, borderRadius: 10, textAlign: "center",
+              background: logo ? "#fff" : "var(--card)", border: "1px solid var(--borde)",
+            }}>
+              {logo ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={logo} alt={nombre} style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "contain" }} />
+              ) : (
+                <>
+                  <span style={{ fontSize: 15, fontWeight: 700 }}>{nombre}</span>
+                  {usuario && <span style={{ fontSize: 12, color: "var(--texto-suave)" }}>@{usuario}</span>}
+                </>
+              )}
+            </div>
+          ))}
         </div>
       </section>
     </main>
