@@ -2,6 +2,21 @@ import type { Metadata } from "next";
 import SiteNav from "@/components/SiteNav";
 import ClinicForm from "./ClinicForm";
 
+const INSTAGRAM = [
+  { nombre: "César Cámara", usuario: "cesarcamaraperez", url: "https://www.instagram.com/cesarcamaraperez/" },
+  { nombre: "Jorge Lorenzo", usuario: "jorgelorenzo.coach", url: "https://www.instagram.com/jorgelorenzo.coach/" },
+];
+
+function InstagramIcon() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+      <rect x="3" y="3" width="18" height="18" rx="5" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17.4" cy="6.6" r="1" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
 export const metadata: Metadata = {
   title: "Materi Clinic PERBASI — César Cámara & Jorge Lorenzo",
   description: "Clinic resmi PERBASI, Penataran Pelatih Lisensi B. Pemateri: César Cámara & Jorge Lorenzo.",
@@ -16,6 +31,8 @@ export default function MateriClinicPage() {
       <style>{`
         .clinic-grid { display: grid; grid-template-columns: 1fr; gap: 32px; align-items: center; }
         .clinic-poster { order: -1; }
+        .clinic-ig { display: flex; align-items: center; gap: 12px; flex: 1 1 0; min-width: 0; padding: 12px 16px; background: var(--card); border: 1px solid var(--borde); border-radius: 10px; color: var(--texto); text-decoration: none; transition: border-color 0.2s; }
+        .clinic-ig:hover { border-color: var(--oro); }
         @media (min-width: 900px) {
           .clinic-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 56px; }
           .clinic-poster { order: 0; }
@@ -42,6 +59,17 @@ export default function MateriClinicPage() {
             <img src="/fotos/clinic-perbasi-2026.jpg" alt="Penataran Pelatih Lisensi B — Jorge Lorenzo, Cesar Camara Perez, Herru Yuharso"
               width={1206} height={939}
               style={{ width: "100%", height: "auto", borderRadius: 12, border: "1px solid var(--borde)", display: "block" }} />
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginTop: 16 }}>
+              {INSTAGRAM.map(({ nombre, usuario, url }) => (
+                <a key={usuario} href={url} target="_blank" rel="noopener noreferrer" className="clinic-ig" style={{ minWidth: 200 }}>
+                  <span style={{ color: "var(--oro)", display: "flex" }}><InstagramIcon /></span>
+                  <span style={{ display: "flex", flexDirection: "column", lineHeight: 1.3, minWidth: 0 }}>
+                    <span style={{ fontSize: 14, fontWeight: 700 }}>{nombre}</span>
+                    <span style={{ fontSize: 13, color: "var(--texto-suave)", overflow: "hidden", textOverflow: "ellipsis" }}>@{usuario}</span>
+                  </span>
+                </a>
+              ))}
+            </div>
           </div>
         </div>
       </section>
