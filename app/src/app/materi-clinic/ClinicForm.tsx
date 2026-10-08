@@ -15,6 +15,7 @@ export default function ClinicForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [folderUrl, setFolderUrl] = useState<string | null>(null);
+  const [embedUrl, setEmbedUrl] = useState("");
   const renderedAt = useRef(Date.now());
 
   async function handleSubmit(e: React.FormEvent) {
@@ -41,6 +42,7 @@ export default function ClinicForm() {
               : "Terjadi kesalahan. Silakan coba lagi."
         );
       } else {
+        setEmbedUrl(data.embedUrl ?? "");
         setFolderUrl(data.folderUrl ?? "");
       }
     } catch {
@@ -59,12 +61,16 @@ export default function ClinicForm() {
         <p style={{ color: "var(--texto-suave)", fontSize: 15, lineHeight: 1.6, marginBottom: 20 }}>
           Materi Anda sudah siap: 3 presentasi video dan 3 dokumen catatan.
         </p>
+        {embedUrl && (
+          <iframe src={embedUrl} title="Materi clinic" loading="lazy"
+            style={{ width: "100%", height: 360, border: "1px solid var(--borde)", borderRadius: 8, background: "#fff", marginBottom: 16 }} />
+        )}
         {folderUrl ? (
           <a href={folderUrl} target="_blank" rel="noopener noreferrer" style={{
             display: "block", textAlign: "center", padding: 16, fontSize: 16, fontWeight: 800,
             color: "var(--negro)", background: "var(--oro)", borderRadius: 8, textDecoration: "none",
           }}>
-            Buka folder materi →
+            Buka di Google Drive →
           </a>
         ) : (
           <p style={{ color: "var(--texto-suave)", fontSize: 14 }}>Silakan coba lagi nanti.</p>
