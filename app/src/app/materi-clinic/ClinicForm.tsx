@@ -2,8 +2,6 @@
 
 import { useRef, useState } from "react";
 
-type Material = { tipo: "video" | "pdf"; titulo: string; url: string };
-
 const inputStyle: React.CSSProperties = {
   width: "100%", padding: "14px 16px", fontSize: 16, color: "var(--texto)",
   background: "var(--card)", border: "1px solid var(--borde)", borderRadius: 8, outline: "none",
@@ -16,7 +14,7 @@ export default function ClinicForm() {
   const [optIn, setOptIn] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [materiales, setMateriales] = useState<Material[] | null>(null);
+  const [folderUrl, setFolderUrl] = useState<string | null>(null);
   const renderedAt = useRef(Date.now());
 
   async function handleSubmit(e: React.FormEvent) {
@@ -43,7 +41,7 @@ export default function ClinicForm() {
               : "Terjadi kesalahan. Silakan coba lagi."
         );
       } else {
-        setMateriales(data.materiales);
+        setFolderUrl(data.folderUrl ?? "");
       }
     } catch {
       setError("Terjadi kesalahan. Silakan coba lagi.");
@@ -51,45 +49,26 @@ export default function ClinicForm() {
     setLoading(false);
   }
 
-  if (materiales) {
-    const grupos = [
-      { titulo: "Presentasi video", items: materiales.filter((m) => m.tipo === "video") },
-      { titulo: "Catatan (dokumen)", items: materiales.filter((m) => m.tipo === "pdf") },
-    ];
+  if (folderUrl !== null) {
     return (
-      <div>
-        <div style={{
-          background: "linear-gradient(135deg, rgba(201,168,76,0.12), rgba(201,168,76,0.04))",
-          border: "1px solid rgba(201,168,76,0.4)", borderRadius: 12, padding: "24px", marginBottom: 28,
-        }}>
-          <h2 style={{ fontSize: 20, marginBottom: 6 }}>Terima kasih! 🏀</h2>
-          <p style={{ color: "var(--texto-suave)", fontSize: 15 }}>Materi Anda sudah siap diunduh.</p>
-        </div>
-        {grupos.map((g) => (
-          <div key={g.titulo} style={{ marginBottom: 24 }}>
-            <p className="section-label" style={{ marginBottom: 10 }}>{g.titulo}</p>
-            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-              {g.items.map((m) => (
-                m.url ? (
-                  <a key={m.titulo} href={m.url} target="_blank" rel="noopener noreferrer" style={{
-                    display: "flex", justifyContent: "space-between", alignItems: "center",
-                    padding: "16px", background: "var(--card)", border: "1px solid var(--borde)",
-                    borderRadius: 8, color: "var(--texto)", textDecoration: "none", fontSize: 15,
-                  }}>
-                    <span>{m.tipo === "video" ? "▶" : "📄"} {m.titulo}</span>
-                    <span style={{ color: "var(--oro)", fontWeight: 700, fontSize: 13 }}>
-                      {m.tipo === "video" ? "Tonton" : "Unduh"} →
-                    </span>
-                  </a>
-                ) : (
-                  <div key={m.titulo} style={{ padding: 16, background: "var(--card)", border: "1px solid var(--borde)", borderRadius: 8, color: "var(--texto-suave)", fontSize: 15 }}>
-                    {m.titulo} — segera tersedia
-                  </div>
-                )
-              ))}
-            </div>
-          </div>
-        ))}
+      <div style={{
+        background: "linear-gradient(135deg, rgba(201,168,76,0.12), rgba(201,168,76,0.04))",
+        border: "1px solid rgba(201,168,76,0.4)", borderRadius: 12, padding: 24,
+      }}>
+        <h2 style={{ fontSize: 20, marginBottom: 6 }}>Terima kasih! 🏀</h2>
+        <p style={{ color: "var(--texto-suave)", fontSize: 15, lineHeight: 1.6, marginBottom: 20 }}>
+          Materi Anda sudah siap: 3 presentasi video dan 3 dokumen catatan.
+        </p>
+        {folderUrl ? (
+          <a href={folderUrl} target="_blank" rel="noopener noreferrer" style={{
+            display: "block", textAlign: "center", padding: 16, fontSize: 16, fontWeight: 800,
+            color: "var(--negro)", background: "var(--oro)", borderRadius: 8, textDecoration: "none",
+          }}>
+            Buka folder materi →
+          </a>
+        ) : (
+          <p style={{ color: "var(--texto-suave)", fontSize: 14 }}>Silakan coba lagi nanti.</p>
+        )}
       </div>
     );
   }

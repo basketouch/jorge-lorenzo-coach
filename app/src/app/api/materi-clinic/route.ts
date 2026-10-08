@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { CLINIC_BREVO_LIST_ID, CLINIC_MATERIALES } from "@/lib/clinic-indonesia";
+import { CLINIC_BREVO_LIST_ID, CLINIC_FOLDER_URL } from "@/lib/clinic-indonesia";
 
 const BREVO_API_KEY = process.env.BREVO_API_KEY!;
 
@@ -53,15 +53,13 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "invalid_request" }, { status: 400 });
   }
 
-  const materiales = CLINIC_MATERIALES.map(({ tipo, titulo, url }) => ({ tipo, titulo, url }));
-
   // Bots: respondemos con éxito sin guardar nada ni revelar enlaces.
   if (
     !requestLooksLegit(request) ||
     normalizedText(payload.website, 200) ||
     (typeof payload.renderedAt === "number" && Date.now() - payload.renderedAt < MIN_SUBMIT_MS)
   ) {
-    return NextResponse.json({ ok: true, materiales: materiales.map((m) => ({ ...m, url: "" })) });
+    return NextResponse.json({ ok: true, folderUrl: "" });
   }
 
   const email = normalizedText(payload.email, 254).toLowerCase();
@@ -81,5 +79,5 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "brevo_failed" }, { status: 502 });
   }
 
-  return NextResponse.json({ ok: true, materiales });
+  return NextResponse.json({ ok: true, folderUrl: CLINIC_FOLDER_URL });
 }
