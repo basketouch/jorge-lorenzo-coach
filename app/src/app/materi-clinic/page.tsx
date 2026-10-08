@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import SiteNav from "@/components/SiteNav";
 import ClinicForm from "./ClinicForm";
 
 export const metadata: Metadata = {
@@ -10,13 +11,9 @@ export const metadata: Metadata = {
 export default function MateriClinicPage() {
   return (
     <main style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
-      <header style={{ padding: "24px 24px 0", maxWidth: 560, width: "100%", margin: "0 auto" }}>
-        <a href="/" style={{ fontSize: 16, fontWeight: 800, letterSpacing: "0.05em", color: "var(--blanco)", textDecoration: "none" }}>
-          JORGE <span style={{ color: "var(--oro)" }}>LORENZO</span>
-        </a>
-      </header>
+      <SiteNav />
 
-      <section style={{ flex: 1, padding: "48px 24px 64px", maxWidth: 560, width: "100%", margin: "0 auto" }}>
+      <section style={{ flex: 1, padding: "112px 24px 64px", maxWidth: 560, width: "100%", margin: "0 auto" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 28 }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/logos/perbasi.png" alt="PERBASI" width={72} height={72}
