@@ -25,10 +25,29 @@ function InstagramIcon() {
   );
 }
 
+const DESCRIPTION = "Unduh presentasi video dan catatan dari Penataran Pelatih Lisensi B, Bogor 8–11 Oktober 2026.";
+const OG_TITLE = "Materi Clinic PERBASI · Penataran Pelatih Lisensi B";
+const OG_IMAGE = "https://www.jorgelorenzo.coach/fotos/og-materi-clinic.jpg";
+
 export const metadata: Metadata = {
   title: "Materi Clinic PERBASI — César Cámara & Jorge Lorenzo",
-  description: "Clinic resmi PERBASI, Penataran Pelatih Lisensi B. Pemateri: César Cámara & Jorge Lorenzo.",
+  description: DESCRIPTION,
   robots: "noindex, nofollow",
+  openGraph: {
+    type: "website",
+    url: "https://www.jorgelorenzo.coach/materi-clinic",
+    siteName: "Jorge Lorenzo Coach",
+    locale: "id_ID",
+    title: OG_TITLE,
+    description: DESCRIPTION,
+    images: [{ url: OG_IMAGE, width: 1200, height: 630, alt: "Penataran Pelatih Lisensi B — Jorge Lorenzo, Cesar Camara Perez, Herru Yuharso" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: OG_TITLE,
+    description: DESCRIPTION,
+    images: [OG_IMAGE],
+  },
 };
 
 export default function MateriClinicPage() {
