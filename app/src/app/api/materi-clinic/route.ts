@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { CLINIC_BREVO_LIST_ID, CLINIC_EMBED_URL, CLINIC_FOLDER_URL } from "@/lib/clinic-indonesia";
+import { CLINIC_BREVO_LIST_ID, CLINIC_EMBED_URL, CLINIC_FOLDER_URL, listClinicFiles } from "@/lib/clinic-indonesia";
 
 const BREVO_API_KEY = process.env.BREVO_API_KEY!;
 
@@ -59,7 +59,7 @@ export async function POST(request: Request) {
     normalizedText(payload.website, 200) ||
     (typeof payload.renderedAt === "number" && Date.now() - payload.renderedAt < MIN_SUBMIT_MS)
   ) {
-    return NextResponse.json({ ok: true, folderUrl: "", embedUrl: "" });
+    return NextResponse.json({ ok: true, folderUrl: "", embedUrl: "", files: [] });
   }
 
   const email = normalizedText(payload.email, 254).toLowerCase();
@@ -79,5 +79,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "brevo_failed" }, { status: 502 });
   }
 
-  return NextResponse.json({ ok: true, folderUrl: CLINIC_FOLDER_URL, embedUrl: CLINIC_EMBED_URL });
+  const files = await listClinicFiles();
+  return NextResponse.json({ ok: true, folderUrl: CLINIC_FOLDER_URL, embedUrl: CLINIC_EMBED_URL, files });
 }

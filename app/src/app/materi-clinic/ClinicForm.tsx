@@ -1,6 +1,12 @@
 "use client";
 
 import { useRef, useState } from "react";
+import type { ClinicFile } from "@/lib/clinic-indonesia";
+
+const actionStyle: React.CSSProperties = {
+  padding: "8px 14px", fontSize: 13, fontWeight: 700, borderRadius: 6, textDecoration: "none",
+  color: "var(--texto)", border: "1px solid var(--borde)", background: "transparent",
+};
 
 const inputStyle: React.CSSProperties = {
   width: "100%", padding: "14px 16px", fontSize: 16, color: "var(--texto)",
@@ -16,6 +22,7 @@ export default function ClinicForm() {
   const [error, setError] = useState("");
   const [folderUrl, setFolderUrl] = useState<string | null>(null);
   const [embedUrl, setEmbedUrl] = useState("");
+  const [files, setFiles] = useState<ClinicFile[]>([]);
   const renderedAt = useRef(Date.now());
 
   async function handleSubmit(e: React.FormEvent) {
@@ -43,6 +50,7 @@ export default function ClinicForm() {
         );
       } else {
         setEmbedUrl(data.embedUrl ?? "");
+        setFiles(Array.isArray(data.files) ? data.files : []);
         setFolderUrl(data.folderUrl ?? "");
       }
     } catch {
@@ -59,18 +67,53 @@ export default function ClinicForm() {
       }}>
         <h2 style={{ fontSize: 20, marginBottom: 6 }}>Terima kasih! 🏀</h2>
         <p style={{ color: "var(--texto-suave)", fontSize: 15, lineHeight: 1.6, marginBottom: 20 }}>
-          Materi Anda sudah siap: 3 presentasi video dan 3 dokumen catatan.
+          Materi Anda sudah siap. Tonton langsung atau unduh ke perangkat Anda.
         </p>
-        {embedUrl && (
-          <iframe src={embedUrl} title="Materi clinic" loading="lazy"
-            style={{ width: "100%", height: 360, border: "1px solid var(--borde)", borderRadius: 8, background: "#fff", marginBottom: 16 }} />
+        {files.length > 0 ? (
+          <div style={{ display: "flex", flexDirection: "column", gap: 20, marginBottom: 20 }}>
+            {[
+              { titulo: "Presentasi video", items: files.filter((f) => f.tipo === "video") },
+              { titulo: "Catatan (dokumen)", items: files.filter((f) => f.tipo !== "video") },
+            ].filter((g) => g.items.length > 0).map((g) => (
+              <div key={g.titulo}>
+                <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--oro)", marginBottom: 10 }}>
+                  {g.titulo}
+                </p>
+                <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                  {g.items.map((f) => (
+                    <div key={f.id} style={{
+                      display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap",
+                      padding: "12px 14px", background: "var(--card)", border: "1px solid var(--borde)", borderRadius: 8,
+                    }}>
+                      <span style={{ fontSize: 20 }} aria-hidden="true">{f.tipo === "video" ? "▶️" : "📄"}</span>
+                      <span style={{ flex: "1 1 160px", minWidth: 0, fontSize: 15, fontWeight: 600, wordBreak: "break-word" }}>{f.titulo}</span>
+                      <span style={{ display: "flex", gap: 8 }}>
+                        <a href={f.verUrl} target="_blank" rel="noopener noreferrer" style={actionStyle}>
+                          {f.tipo === "video" ? "Tonton" : "Buka"}
+                        </a>
+                        <a href={f.descargaUrl} target="_blank" rel="noopener noreferrer"
+                          style={{ ...actionStyle, background: "var(--oro)", color: "var(--negro)", borderColor: "var(--oro)" }}>
+                          Unduh
+                        </a>
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          embedUrl && (
+            <iframe src={embedUrl} title="Materi clinic" loading="lazy"
+              style={{ width: "100%", height: 360, border: "1px solid var(--borde)", borderRadius: 8, background: "#fff", marginBottom: 16 }} />
+          )
         )}
         {folderUrl ? (
           <a href={folderUrl} target="_blank" rel="noopener noreferrer" style={{
             display: "block", textAlign: "center", padding: 16, fontSize: 16, fontWeight: 800,
             color: "var(--negro)", background: "var(--oro)", borderRadius: 8, textDecoration: "none",
           }}>
-            Buka di Google Drive →
+            Buka semua di Google Drive →
           </a>
         ) : (
           <p style={{ color: "var(--texto-suave)", fontSize: 14 }}>Silakan coba lagi nanti.</p>
