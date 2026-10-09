@@ -5,6 +5,7 @@ import ClinicForm from "./ClinicForm";
 const INSTAGRAM = [
   { nombre: "César Cámara", usuario: "cesarcamaraperez", url: "https://www.instagram.com/cesarcamaraperez/" },
   { nombre: "Jorge Lorenzo", usuario: "jorgelorenzo.coach", url: "https://www.instagram.com/jorgelorenzo.coach/" },
+  { nombre: "PERBASI Kab. Bogor", usuario: "perbasi_kabupatenbogor", url: "https://www.instagram.com/perbasi_kabupatenbogor/" },
 ];
 
 // Para mostrar el logo: copiar el archivo a public/sponsors/ y poner su ruta en `logo`.
@@ -73,8 +74,8 @@ export default function MateriClinicPage() {
               width={1206} height={939}
               style={{ width: "100%", height: "auto", borderRadius: 12, border: "1px solid var(--borde)", display: "block" }} />
             <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginTop: 16 }}>
-              {INSTAGRAM.map(({ nombre, usuario, url }) => (
-                <a key={usuario} href={url} target="_blank" rel="noopener noreferrer" className="clinic-ig" style={{ minWidth: 200 }}>
+              {INSTAGRAM.map(({ nombre, usuario, url }, i) => (
+                <a key={usuario} href={url} target="_blank" rel="noopener noreferrer" className="clinic-ig" style={{ minWidth: 200, ...(i === 2 ? { flexBasis: "100%" } : {}) }}>
                   <span style={{ color: "var(--oro)", display: "flex" }}><InstagramIcon /></span>
                   <span style={{ display: "flex", flexDirection: "column", lineHeight: 1.3, minWidth: 0 }}>
                     <span style={{ fontSize: 14, fontWeight: 700 }}>{nombre}</span>
@@ -120,6 +121,10 @@ export default function MateriClinicPage() {
           </div>
         </div>
       </section>
+
+      <p style={{ textAlign: "center", fontSize: 14, color: "var(--texto-suave)", padding: "0 24px 56px" }}>
+        Kontak: <a href="mailto:info@jorgelorenzo.coach" style={{ color: "var(--oro)" }}>info@jorgelorenzo.coach</a>
+      </p>
     </main>
   );
 }
