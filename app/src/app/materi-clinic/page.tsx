@@ -9,9 +9,9 @@ const INSTAGRAM = [
 
 // Para mostrar el logo: copiar el archivo a public/sponsors/ y poner su ruta en `logo`.
 const SPONSORS: { nombre: string; usuario?: string; logo?: string }[] = [
-  { nombre: "Le Yasmin", usuario: "leyasmin.id" },
-  { nombre: "Diton", usuario: "ditonpremium" },
-  { nombre: "PT Omega Safety Indonesia" },
+  { nombre: "Le Yasmin", usuario: "leyasmin.id", logo: "/sponsors/le-yasmin.png" },
+  { nombre: "Diton", usuario: "ditonpremium", logo: "/sponsors/diton.png" },
+  { nombre: "PT Omega Safety Indonesia", logo: "/sponsors/omega-safety.png" },
 ];
 
 function InstagramIcon() {
@@ -102,7 +102,7 @@ export default function MateriClinicPage() {
               {SPONSORS.map(({ nombre, usuario, logo }) => (
                 <div key={nombre} style={{
                   display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 4,
-                  width: 200, height: 96, padding: 16, borderRadius: 10, textAlign: "center",
+                  width: 240, height: 96, padding: 18, borderRadius: 10, textAlign: "center",
                   background: logo ? "#fff" : "var(--card)", border: "1px solid var(--borde)",
                 }}>
                   {logo ? (
