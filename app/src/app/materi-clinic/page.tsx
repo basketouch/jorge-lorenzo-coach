@@ -86,18 +86,6 @@ export default function MateriClinicPage() {
               3 presentasi video dan 3 dokumen catatan dari clinic.
             </p>
             <ClinicForm />
-            <div style={{
-              display: "flex", alignItems: "center", gap: 16, marginTop: 24, padding: 14,
-              background: "var(--card)", border: "1px solid var(--borde)", borderRadius: 10,
-            }}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/qr-materi-clinic.svg" alt="QR jorgelorenzo.coach/materi-clinic" width={104} height={104}
-                style={{ width: 104, height: 104, background: "#fff", borderRadius: 8, flexShrink: 0 }} />
-              <div>
-                <p style={{ fontSize: 14, fontWeight: 700, marginBottom: 4 }}>Pindai untuk membuka halaman ini</p>
-                <p style={{ fontSize: 13, color: "var(--texto-suave)", lineHeight: 1.4 }}>jorgelorenzo.coach/materi-clinic</p>
-              </div>
-            </div>
           </div>
           <div className="clinic-poster">
             {/* eslint-disable-next-line @next/next/no-img-element */}
