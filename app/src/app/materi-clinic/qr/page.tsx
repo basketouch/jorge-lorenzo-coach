@@ -67,7 +67,7 @@ export default function QrPantallaCompleta() {
         </p>
         <h1 style={{ fontSize: "clamp(28px, 5.4vh, 54px)", fontWeight: 900, lineHeight: 1.1 }}>Materi Clinic</h1>
         <p style={{ fontSize: "clamp(15px, 2.6vh, 26px)", color: "#333" }}>
-          Pemateri / Ponentes: <strong>César Cámara &amp; Jorge Lorenzo</strong>
+          Pemateri:<strong>César Cámara &amp; Jorge Lorenzo</strong>
         </p>
 
         {/* eslint-disable-next-line @next/next/no-img-element */}
