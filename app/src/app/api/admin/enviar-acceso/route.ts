@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { correoCoach, parrafo, boton, textoABloques, esc } from "@/lib/email-shell";
 import { requireAdmin } from "@/lib/admin-guard";
 
 const BREVO_API_KEY = process.env.BREVO_API_KEY!;
@@ -83,44 +84,15 @@ export async function POST(req: NextRequest) {
   const nombreMostrado = nombre?.trim() || "entrenador";
   const year = new Date().getFullYear();
 
-  const html = `<!DOCTYPE html>
-<html lang="es">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Tu acceso a El Laboratorio del Entrenador</title></head>
-<body style="margin:0;padding:0;background:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">
-  <table width="100%" cellpadding="0" cellspacing="0" style="background:#0a0a0a;min-height:100vh;">
-    <tr><td align="center" style="padding:48px 24px;">
-      <table width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;">
-        <tr><td align="center" style="padding-bottom:32px;">
-          <span style="font-size:20px;font-weight:800;letter-spacing:0.08em;color:#fff;">
-            JORGE <span style="color:#c9a84c;">LORENZO</span>
-          </span>
-        </td></tr>
-        <tr><td style="background:#141414;border:1px solid #2a2a2a;border-radius:16px;padding:40px;">
-          <div style="width:40px;height:2px;background:#c9a84c;margin:0 0 24px;"></div>
-          <p style="margin:0 0 16px;font-size:15px;color:#aaa;line-height:1.7;">Hola <strong style="color:#fff;">${nombreMostrado}</strong>,</p>
-          <p style="margin:0 0 16px;font-size:15px;color:#aaa;line-height:1.7;">Ya tienes acceso a <strong style="color:#fff;">El Laboratorio del Entrenador</strong>. Haz clic en el botón para crear tu contraseña y entrar.</p>
-          <p style="margin:0 0 24px;font-size:14px;color:#666;line-height:1.7;">El enlace es válido durante 24 horas.</p>
-          <table width="100%" cellpadding="0" cellspacing="0" style="margin:8px 0 24px;">
-            <tr><td align="center">
-              <a href="${enlaceSeguro}" style="display:inline-block;background:#c9a84c;color:#0a0a0a;font-size:15px;font-weight:700;text-decoration:none;padding:14px 32px;border-radius:8px;">
-                Crear contraseña y entrar →
-              </a>
-            </td></tr>
-          </table>
-          <p style="margin:0;font-size:12px;color:#444;line-height:1.6;">Si no esperabas este email, puedes ignorarlo con seguridad.</p>
-        </td></tr>
-        <tr><td align="center" style="padding-top:32px;">
-          <p style="margin:0;font-size:12px;color:#444;line-height:1.6;">
-            © ${year} Jorge Lorenzo Coach<br>
-            <a href="https://jorgelorenzo.coach" style="color:#666;text-decoration:none;">jorgelorenzo.coach</a>
-          </p>
-        </td></tr>
-      </table>
-    </td></tr>
-  </table>
-</body>
-</html>`;
+  const html = correoCoach({
+    title: "Tu acceso a El Laboratorio del Entrenador",
+    bodyHtml:
+      parrafo(`Hola <strong>${esc(nombreMostrado)}</strong>,`) +
+      parrafo("Ya tienes acceso a <strong>El Laboratorio del Entrenador</strong>. Haz clic en el botón para crear tu contraseña y entrar.") +
+      parrafo("El enlace es válido durante 24 horas.") +
+      boton(enlaceSeguro, "Crear contraseña y entrar") +
+      '<p style="margin:16px 0 0;font-size:14px;line-height:1.55;color:#52606d">Si no esperabas este email, puedes ignorarlo con seguridad.</p>',
+  });
 
   const res = await fetch("https://api.brevo.com/v3/smtp/email", {
     method: "POST",
