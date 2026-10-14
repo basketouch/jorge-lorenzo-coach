@@ -5,8 +5,12 @@ import { NextResponse } from "next/server";
 const BREVO_API_KEY = process.env.BREVO_API_KEY!;
 const SENDER = { name: "Jorge Lorenzo Coach", email: "info@jorgelorenzo.coach" };
 
+function pieCampana(): string {
+  return `Recibes este email porque aceptaste recibir comunicaciones de Jorge Lorenzo Coach. <a href="{{ unsubscribe }}" style="color:#52606d;text-decoration:underline">Darte de baja</a>.<br>© ${new Date().getFullYear()} Jorge Lorenzo Coach · jorgelorenzo.coach`;
+}
+
 function contenidoAHtml(asunto: string, texto: string, portadaUrl?: string | null): string {
-  return correoCoach({ title: esc(asunto), bodyHtml: textoABloques(texto), hero: portadaUrl });
+  return correoCoach({ title: esc(asunto), bodyHtml: textoABloques(texto), hero: portadaUrl, footer: pieCampana() });
 }
 
 export async function GET(req: Request) {
