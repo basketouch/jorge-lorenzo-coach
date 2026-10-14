@@ -1,7 +1,7 @@
 // Esqueleto común de los correos de la suite Basketouch con la marca Jorge Lorenzo (oro):
 // cabecera negra con el logo y el nombre, línea oro, cuerpo claro, un único botón y pie con contraste suficiente.
 
-const LOGO = "https://hub.basketouch.com/email/logo-comunidad.png";
+const LOGO = "https://www.jorgelorenzo.coach/email/logo-comunidad.png";
 const GOLD = "#c8a747";
 
 export function esc(value: string): string {
