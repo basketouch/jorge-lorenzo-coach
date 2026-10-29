@@ -86,47 +86,6 @@ export default async function ComunidadPage() {
             ))}
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 16, marginBottom: 40 }}>
-            {[
-              {
-                name: "Sergio Delgado Bidegaray",
-                meta: "Sigue siendo miembro de pago después de 2 meses",
-                text: "Experiencia súper recomendable, le he consultado a Jorge por diferentes razones y he tenido una respuesta inmediata, con video incluido. Demuestra su interés por ayudar y volcar toda su experiencia a quien le consulte. Esto me ha mejorado en el plan de partido para mi equipo.",
-              },
-              {
-                name: "Vicente Navalon Fresneda",
-                meta: "Sigue siendo miembro de pago después de 3 meses",
-                text: "La verdad es que la comunidad es de gran ayuda para tod@s, es importante que sirva para cualquier nivel y se puedan aplicar las cosas en tu día a día, Jorge está pendiente de cualquier duda y aportando cada detalle, recomendable 100x100 para seguir mejorando.",
-              },
-              {
-                name: "Egoitz Arizmendi",
-                meta: "Sigue siendo miembro de pago después de 9 meses",
-                text: "Llevo casi un año en la comunidad y me ha ayudado mucho. Cada vez que he tenido una consulta o alguna duda, me la ha resuelto al instante. Es como tener un profesor particular de primerísimo nivel a tu disposición. Además se nota que le apasiona y siempre trata de innovar y mejorar.",
-              },
-            ].map((r) => (
-              <div key={r.name} style={{
-                background: "var(--card)", border: "1px solid var(--borde)", borderRadius: 10,
-                padding: "18px 20px", display: "flex", flexDirection: "column", gap: 10,
-              }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                  <div style={{
-                    width: 36, height: 36, borderRadius: "50%", background: "var(--oro)",
-                    color: "var(--negro)", display: "flex", alignItems: "center", justifyContent: "center",
-                    fontSize: 14, fontWeight: 700, flexShrink: 0,
-                  }}>
-                    {r.name.charAt(0)}
-                  </div>
-                  <div>
-                    <p style={{ fontSize: 14, fontWeight: 600 }}>{r.name}</p>
-                    <p style={{ fontSize: 12, color: "var(--oro)" }}>★★★★★</p>
-                  </div>
-                </div>
-                <p style={{ fontSize: 13, color: "var(--texto-suave)", lineHeight: 1.6 }}>{r.text}</p>
-                <p style={{ fontSize: 11, color: "var(--texto-suave)", opacity: 0.7 }}>{r.meta}</p>
-              </div>
-            ))}
-          </div>
-
           <div style={{
             display: "flex", gap: 24, flexWrap: "wrap", marginBottom: 36,
             background: "var(--card)", border: "1px solid var(--borde)", borderRadius: 8,
