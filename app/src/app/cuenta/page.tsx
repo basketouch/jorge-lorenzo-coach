@@ -5,6 +5,8 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import EditarPerfil from "./EditarPerfil";
 import CambiarContrasena from "./CambiarContrasena";
+import AvisosWhatsapp from "./AvisosWhatsapp";
+import { getWhatsappStatusFromHub } from "@/lib/whatsapp-consent";
 import NavBar from "@/components/NavBar";
 
 export const metadata = { title: "Mi cuenta — Jorge Lorenzo" };
@@ -22,6 +24,9 @@ export default async function CuentaPage() {
     admin.from("bdl_user_access").select("access_level").eq("user_id", user.id).single(),
     admin.from("bdl_user_drill_views").select("*", { count: "exact", head: true }).eq("user_id", user.id),
   ]);
+
+  // Móvil y aceptación de WhatsApp que ya tengamos de esta persona (si el Hub no responde, se muestra vacío).
+  const whatsapp = await getWhatsappStatusFromHub(user.email!.toLowerCase());
 
   const FREE_QUOTA = 5;
   const drillLabAccess = bdlAccess?.access_level === "member" ? "member" : "free";
@@ -83,6 +88,7 @@ export default async function CuentaPage() {
               apellidoInicial={perfil?.apellido ?? ""}
             />
             <CambiarContrasena />
+            <AvisosWhatsapp telefonoInicial={whatsapp?.phone ?? ""} aceptaInicial={whatsapp?.consent ?? false} />
           </div>
         </div>
       </div>

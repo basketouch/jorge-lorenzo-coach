@@ -48,3 +48,34 @@ export async function sendWhatsappConsentToHub(input: {
     return "failed";
   }
 }
+
+export type WhatsappStatus = { phone: string | null; consent: boolean };
+
+async function hubAction(action: "get" | "revoke", email: string): Promise<WhatsappStatus | null> {
+  const secret = (process.env.HUB_WHATSAPP_CONSENT_SECRET || "").trim();
+  if (!secret) return null;
+  try {
+    const response = await fetch(HUB_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${secret}` },
+      body: JSON.stringify({ action, email }),
+      signal: AbortSignal.timeout(8_000),
+      cache: "no-store",
+    });
+    if (!response.ok) return null;
+    const body = await response.json();
+    return { phone: typeof body.phone === "string" ? body.phone : null, consent: body.whatsapp_consent === true };
+  } catch {
+    return null;
+  }
+}
+
+/** Teléfono y aceptación que el Hub tiene guardados para ese email; null si no se pudo consultar. */
+export function getWhatsappStatusFromHub(email: string) {
+  return hubAction("get", email);
+}
+
+/** Retira la aceptación de WhatsApp de ese email en el Hub (el teléfono se conserva). */
+export function revokeWhatsappConsentInHub(email: string) {
+  return hubAction("revoke", email);
+}
