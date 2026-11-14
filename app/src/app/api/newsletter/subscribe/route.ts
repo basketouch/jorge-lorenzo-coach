@@ -1,5 +1,6 @@
 import { createAdminClient } from "@/lib/supabase-admin";
 import { NextResponse } from "next/server";
+import { normalizePhone, sendWhatsappConsentToHub } from "@/lib/whatsapp-consent";
 
 const BREVO_API_KEY = process.env.BREVO_API_KEY!;
 const BREVO_NEWSLETTER_LIST_ID = 15;
@@ -93,6 +94,20 @@ export async function POST(request: Request) {
   if (subscriberError) {
     console.error("Error guardando suscriptor de newsletter:", subscriberError);
     return NextResponse.json({ error: "No hemos podido guardar tu suscripción." }, { status: 500 });
+  }
+
+  // Móvil opcional: se manda a Basketouch Hub junto a la casilla de WhatsApp. No bloquea la
+  // suscripción: si falla o el número no es válido, la newsletter sigue adelante.
+  const phone = normalizePhone(normalizedText(payload.telefono, 30));
+  if (phone) {
+    const hub = await sendWhatsappConsentToHub({
+      email,
+      firstName,
+      phone,
+      consent: payload.whatsapp === true,
+      source: "jorgelorenzo.coach/newsletter",
+    });
+    if (hub !== "saved") console.error("Móvil de la newsletter no guardado en el Hub:", hub);
   }
 
   // Brevo se mantiene sincronizado hasta que el envío de campañas deje de usar sus listas.

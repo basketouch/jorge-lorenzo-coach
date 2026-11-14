@@ -4,12 +4,16 @@ import { useState, useRef } from "react";
 import Footer from "@/components/Footer";
 import NavHamburger from "@/components/NavHamburger";
 import { NAV_LINKS } from "@/lib/nav-links";
+import { WHATSAPP_CONSENT_TEXT } from "@/lib/whatsapp-consent";
 
 export default function NewsletterPage() {
   const [nombre, setNombre] = useState("");
   const [email, setEmail] = useState("");
   const [website, setWebsite] = useState(""); // honeypot: solo lo rellenan los bots
   const [optIn, setOptIn] = useState(false);
+  const [telefono, setTelefono] = useState("");
+  // Viene marcada, pero solo cuenta si además se escribe el móvil.
+  const [whatsapp, setWhatsapp] = useState(true);
   const [enviado, setEnviado] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -28,7 +32,7 @@ export default function NewsletterPage() {
       const response = await fetch("/api/newsletter/subscribe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ nombre, email, optIn, website, renderedAt: renderedAt.current }),
+        body: JSON.stringify({ nombre, email, optIn, telefono, whatsapp, website, renderedAt: renderedAt.current }),
       });
       if (!response.ok) throw new Error("newsletter_subscription_failed");
       setEnviado(true);
@@ -161,6 +165,16 @@ export default function NewsletterPage() {
                     />
                   </div>
 
+                  <input
+                    type="tel"
+                    placeholder="Tu móvil (opcional), por ejemplo +34 600 111 222"
+                    aria-label="Móvil (opcional)"
+                    autoComplete="tel"
+                    value={telefono}
+                    onChange={(e) => setTelefono(e.target.value)}
+                    style={inputStyle}
+                  />
+
                   <label style={{ display: "flex", gap: 12, alignItems: "flex-start", cursor: "pointer" }}>
                     <input
                       type="checkbox"
@@ -178,6 +192,18 @@ export default function NewsletterPage() {
                         términos y condiciones
                       </a>
                       .
+                    </span>
+                  </label>
+
+                  <label style={{ display: "flex", gap: 12, alignItems: "flex-start", cursor: "pointer" }}>
+                    <input
+                      type="checkbox"
+                      checked={whatsapp}
+                      onChange={(e) => setWhatsapp(e.target.checked)}
+                      style={{ marginTop: 3, accentColor: "var(--oro)", flexShrink: 0 }}
+                    />
+                    <span style={{ fontSize: 13, color: "var(--texto-suave)", lineHeight: 1.5 }}>
+                      {WHATSAPP_CONSENT_TEXT}
                     </span>
                   </label>
 
