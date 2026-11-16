@@ -106,14 +106,22 @@ export default function CursoEditor({ curso }: { curso: CursoData }) {
       videos_preview: videos.filter(v => v.id.trim()),
     };
 
-    const res = await fetch(`/api/admin/curso/${curso.id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
-    });
-    setGuardando(false);
-    if (res.ok) { setOk(true); setTimeout(() => setOk(false), 2500); }
-    else { const d = await res.json(); setError(d.error ?? "Error"); }
+    try {
+      const res = await fetch(`/api/admin/curso/${curso.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      if (res.ok) { setOk(true); setTimeout(() => setOk(false), 2500); }
+      else {
+        const d = await res.json().catch(() => ({}));
+        setError(d.error ?? `Error ${res.status}`);
+      }
+    } catch {
+      setError("No se pudo guardar (error de red)");
+    } finally {
+      setGuardando(false);
+    }
   }
 
   return (

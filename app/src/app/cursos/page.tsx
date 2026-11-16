@@ -17,7 +17,8 @@ export default async function CursosPage() {
   const [{ data: cursos }, { data: modulosEnVenta }] = await Promise.all([
     admin.from("cursos").select("*").eq("activo", true).order("created_at"),
     admin.from("modulos")
-      .select("id, titulo, portada_url, precio, fecha_apertura, fecha_cierre_venta, stripe_price_id, cursos(slug)")
+      .select("id, titulo, portada_url, precio, fecha_apertura, fecha_cierre_venta, stripe_price_id, cursos!inner(slug, activo)")
+      .eq("cursos.activo", true)
       .lte("fecha_apertura", ahora)
       .or(`fecha_cierre_venta.is.null,fecha_cierre_venta.gte.${ahora}`),
   ]);
