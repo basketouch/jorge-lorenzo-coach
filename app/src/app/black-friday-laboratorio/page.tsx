@@ -49,7 +49,7 @@ export default async function BlackFridayLaboratorio() {
           </div>
           <div className={`${styles.deadline} ${styles.heroDeadline}`}><span>LA OFERTA CIERRA EN</span><BlackFridayCountdown /></div>
           <div className={styles.cta}>
-          <StripeCheckoutButton priceId={course.stripe_price_id} promotionCode="BLACKFRIDAY120" metadata={checkoutMetadata} style={{ width: "100%", padding: "19px", fontSize: 17, fontWeight: 900, border: 0, borderRadius: 8, background: "#d8b33f", color: "#0a0a0a" }}>Acceder al Laboratorio por 119,99€ →</StripeCheckoutButton>
+          <StripeCheckoutButton priceId={course.stripe_price_id} promotionCode="BLACKFRIDAY120" metadata={checkoutMetadata} style={{ width: "100%", padding: "19px", fontSize: 17, fontWeight: 900, border: 0, borderRadius: 8, background: "#d8b33f", color: "#0a0a0a" }}>Quiero el Laboratorio completo →</StripeCheckoutButton>
           <p className={styles.checkoutNote}>Pago único · acceso permanente · sin suscripción</p>
           </div>
         </div>
