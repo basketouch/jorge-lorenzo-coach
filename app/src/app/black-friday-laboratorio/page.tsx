@@ -100,7 +100,7 @@ export default async function BlackFridayLaboratorio({ searchParams }: { searchP
         ? [{ q: "¿Cuándo abre Black Friday?", a: "El viernes 27 de noviembre a las 00:00, hora de Madrid, y se mantiene hasta el lunes 30 a las 23:59." }]
         : []),
     { q: "¿El acceso es permanente?", a: "Sí. Es un pago único, sin suscripción y sin caducidad. Lo ves en jorgelorenzo.coach las veces que quieras." },
-    { q: "¿Necesito ser miembro de la comunidad de Skool?", a: "No. Lo compras aquí y accedes en jorgelorenzo.coach, sin ninguna suscripción." },
+    { q: "¿Necesito ser miembro de la comunidad de Skool?", a: "No es necesario. Lo compras aquí y accedes en jorgelorenzo.coach, sin ninguna suscripción. Aun así, te recomiendo unirte a la comunidad de entrenadores en Skool: es donde comparto el contenido de cada semana y donde puedes preguntar, compartir y aprender con otros entrenadores." },
     { q: "¿Qué incluye exactamente?", a: `${modules.length || 9} módulos, ${videoCount} vídeos y más de 23 horas: técnica individual, defensa, sistemas de ataque, spacing, planificación, scouting y el resumen de la temporada, con clases sobre vestuario, presión y liderazgo.` },
   ];
   return (

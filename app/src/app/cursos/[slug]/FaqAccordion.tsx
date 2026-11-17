@@ -4,28 +4,24 @@ import { useState } from "react";
 
 const faqs = [
   {
-    q: "¿Cuál es la diferencia entre comprarlo en la web o acceder por Skool?",
-    a: "Si lo compras en la web (347€), accedes al curso completo aquí, en jorgelorenzo.coach, y lo ves las veces que quieras sin ningún tipo de suscripción. Si entras en Skool, además del curso tienes la comunidad activa de entrenadores, el contenido semanal y la interacción directa. El precio del archivo en Skool es 297€ — 50€ menos.",
-  },
-  {
-    q: "¿Necesito ser miembro Premium de Skool para comprar el curso a 297€?",
-    a: "No. Cualquier nivel de la comunidad Skool — desde el plan Standard ($20/mes) — te da acceso a comprar el archivo completo del Laboratorio 25/26 por 297€. El plan Sistema ($45/mes) incluye además los dos meses en curso del Laboratorio.",
-  },
-  {
-    q: "¿Qué incluye exactamente el plan Sistema ($45/mes)?",
-    a: "El plan Sistema incluye todo lo del plan Standard más el Laboratorio del Entrenador: mínimo 3 vídeos al mes de técnica, táctica y gestión, y acceso a los dos últimos meses publicados. Si quieres el archivo completo de toda la temporada, está disponible por 297€.",
-  },
-  {
-    q: "¿Cuándo se abre la venta del curso en la web?",
-    a: "La apertura está prevista para junio de 2026. Será una ventana de venta limitada — no estará disponible de forma permanente. Si quieres acceso antes y al mejor precio, la forma más directa es entrar en la comunidad Skool.",
+    q: "¿Necesito ser miembro de la comunidad de Skool?",
+    a: "No es necesario. Compras el curso en esta web y accedes en jorgelorenzo.coach, sin ninguna suscripción. Aun así, te recomiendo unirte a la comunidad de entrenadores en Skool: es donde comparto el contenido de cada semana y donde puedes preguntar, compartir y aprender con otros entrenadores.",
   },
   {
     q: "¿El acceso es permanente?",
-    a: "Depende de dónde lo compres. Si lo adquieres en la web (347€), el acceso es permanente en jorgelorenzo.coach — sin suscripción, sin caducidad. Si lo compras dentro de Skool (297€), el acceso está ligado a tu membresía: mientras mantengas la suscripción activa, tienes acceso al contenido.",
+    a: "Sí. Si lo compras en la web, el acceso es de por vida en jorgelorenzo.coach: sin suscripción y sin caducidad, y lo ves las veces que quieras.",
   },
   {
-    q: "¿Puedo cancelar la suscripción a Skool y seguir viendo el curso?",
-    a: "No. Si cancelas tu suscripción a Skool, pierdes el acceso a todo el contenido de dentro — comunidad, contenido mensual y el archivo del Laboratorio. Si quieres un acceso permanente e independiente de cualquier suscripción, la opción de la web (347€) es la más adecuada.",
+    q: "¿Qué incluye exactamente?",
+    a: "El archivo completo del Laboratorio del Entrenador 25/26: los módulos con todos sus vídeos de técnica, táctica y gestión, organizados para que los consultes cuando los necesites.",
+  },
+  {
+    q: "¿Qué diferencia hay entre comprarlo en la web o acceder por Skool?",
+    a: "En la web pagas una vez y tienes el curso para siempre, sin depender de ninguna suscripción. La opción de Skool es para miembros de la comunidad y su acceso está ligado a la membresía: mientras sigas siendo miembro, ves el contenido. Si prefieres no depender de ninguna suscripción, la web es la opción más sencilla.",
+  },
+  {
+    q: "¿Hasta cuándo está disponible?",
+    a: "Es una venta por tiempo limitado. Los precios y las fechas de apertura y cierre aparecen arriba, en la tarjeta de compra.",
   },
 ];
 

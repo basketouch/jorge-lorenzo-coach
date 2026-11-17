@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/admin-guard";
+import { formatPrecio } from "@/lib/format-price";
 
 // GET — listar todas las campañas
 export async function GET() {
@@ -28,7 +29,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "El módulo necesita fecha de apertura y cierre" }, { status: 400 });
   }
 
-  const precio = modulo.precio ? (modulo.precio / 100).toFixed(0) : "75";
+  const precio = modulo.precio ? formatPrecio(modulo.precio) : "75";
   const curso = modulo.cursos as unknown as { slug: string };
   const urlModulo = `https://jorgelorenzo.coach/modulos/${modulo.id}`;
   const fechaCierreStr = new Date(modulo.fecha_cierre_venta).toLocaleDateString("es-ES", { day: "numeric", month: "long" });

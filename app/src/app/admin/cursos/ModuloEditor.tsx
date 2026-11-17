@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { formatPrecio } from "@/lib/format-price";
 
 interface Modulo {
   id: number;
@@ -95,7 +96,7 @@ export default function ModuloEditor({ modulo }: { modulo: Modulo }) {
             {est.label}
           </span>
         )}
-        {data.precio ? <span style={{ fontSize: 11, color: "var(--texto-suave)" }}>{(data.precio / 100).toFixed(0)}€</span> : null}
+        {data.precio ? <span style={{ fontSize: 11, color: "var(--texto-suave)" }}>{formatPrecio(data.precio)}€</span> : null}
         <button onClick={copiarUrl} style={{ fontSize: 11, color: copiado ? "#4a9" : "var(--oro)", background: "none", border: `1px solid ${copiado ? "#4a9" : "var(--oro)"}`, borderRadius: 4, padding: "2px 10px", cursor: "pointer" }}>
           {copiado ? "✓ Copiado" : "🔗 Copiar URL"}
         </button>
@@ -149,7 +150,7 @@ export default function ModuloEditor({ modulo }: { modulo: Modulo }) {
             <input
               type="number"
               min="0"
-              step="1"
+              step="0.01"
               value={data.precio ? data.precio / 100 : ""}
               onChange={(e) => setData({ ...data, precio: e.target.value ? Math.round(parseFloat(e.target.value) * 100) : 0 })}
               placeholder="75"
