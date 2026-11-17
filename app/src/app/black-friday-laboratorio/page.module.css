@@ -21,6 +21,15 @@
 .offer .offerNote { grid-column: 1 / -1; margin-top: 12px; color: #d8b33f; font-size: 10px; font-weight: 900; letter-spacing: .06em; }
 .checkoutNote { margin: 11px 0 0; color: #a39f96; font-size: 12px; text-align: center; }
 .heroDeadline { margin: 0 0 15px; }
+.notify { display: grid; margin-top: 26px; gap: 4px; padding: 21px 23px 20px; border: 1px solid rgba(216, 179, 63, .86); border-radius: 9px; background: linear-gradient(120deg, rgba(89, 68, 15, .38), rgba(20, 19, 14, .5)); }
+.notifyTitle { margin: 0; color: #f7f4ec; font-size: 20px; font-weight: 800; letter-spacing: -.02em; }
+.notifyText { margin: 0 0 12px; color: #b6b1a6; font-size: 14px; }
+.notifyDone { padding: 16px; border: 1px solid rgba(216, 179, 63, .6); border-radius: 8px; background: #14130f; color: #f7f4ec; font-size: 15px; }
+.notifyDone strong { color: #d8b33f; }
+.finalNotify { width: min(100%, 460px); text-align: left; }
+.closedText { margin: 26px 0 16px; color: #bcb8af; font-size: 16px; line-height: 1.55; }
+.closedLink { display: inline-block; width: 100%; padding: 19px; border-radius: 8px; background: #d8b33f; color: #0a0a0a; font-size: 17px; font-weight: 900; text-align: center; text-decoration: none; }
+.finalCta .closedLink { width: min(100%, 460px); }
 .deadline.deadlineMobile { display: none; }
 .deadline.deadlineDesktop { margin: 0 0 22px; }
 .videoLabel { margin: 0 0 10px; color: #d8b33f; font-size: 11px; font-weight: 900; letter-spacing: .12em; text-transform: uppercase; }
@@ -64,6 +73,7 @@
   .hero, .proof, .includes, .finalCta { padding-left: 20px; padding-right: 20px; }
   .hero { grid-template-columns: 1fr; gap: 62px; padding-top: 40px; padding-bottom: 80px; }
   .heroCopy { display: contents; }
+  .notify, .closedText { margin-top: 0; }
   .hero { gap: 0; }
   .eyebrowExtra { display: none; }
   .intro { order: 3; margin-bottom: 28px; }

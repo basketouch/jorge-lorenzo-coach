@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import StripeCheckoutButton from "@/components/StripeCheckoutButton";
 import { createAdminClient } from "@/lib/supabase-admin";
 import BlackFridayCountdown from "./BlackFridayCountdown";
 import BlackFridayLeadVideo from "./BlackFridayLeadVideo";
+import BlackFridayNotifyForm from "./BlackFridayNotifyForm";
+import { BF_CLOSES_AT, BF_OPENS_AT, BF_PROMO_CODE, getBlackFridayPhase, type BlackFridayPhase } from "@/lib/black-friday";
 import styles from "./page.module.css";
 
 export const metadata: Metadata = {
@@ -19,8 +22,14 @@ const checkoutMetadata = { slug: "laboratorio-2526", growth_project: "jorge_lore
 const bunnyLibraryId = "667464";
 const publicVideoId = "f1bd43e2-2931-40dd-bd58-ab015c9d4091";
 const leadVideoId = "5b6fa10c-20b4-440e-aba1-769c7371736a";
+const ctaStyle = { width: "100%", padding: "19px", fontSize: 17, fontWeight: 900, border: 0, borderRadius: 8, background: "#d8b33f", color: "#0a0a0a" } as const;
+const phases: BlackFridayPhase[] = ["pre", "oferta", "cerrada"];
 
-export default async function BlackFridayLaboratorio() {
+export default async function BlackFridayLaboratorio({ searchParams }: { searchParams: Promise<{ fase?: string }> }) {
+  // Fuera de producción se puede forzar una fase con ?fase=pre|oferta|cerrada para revisarla.
+  const { fase } = await searchParams;
+  const forced = process.env.VERCEL_ENV !== "production" ? phases.find((item) => item === fase) : undefined;
+  const phase = forced ?? getBlackFridayPhase();
   const { data: course } = await createAdminClient()
     .from("cursos")
     .select("titulo, portada_url, stripe_price_id, modulos(id, titulo, orden, lecciones_curso(id, titulo, orden, es_preview, video_id))")
@@ -34,7 +43,7 @@ export default async function BlackFridayLaboratorio() {
     <main className={styles.page}>
       <div className={styles.topbar}>
         <span>JORGE <strong>LORENZO</strong></span>
-        <span>BLACK FRIDAY · 27–30 NOV</span>
+        <span>{phase === "pre" ? "BLACK FRIDAY · ABRE EL 27 NOV" : phase === "cerrada" ? "BLACK FRIDAY · FINALIZADO" : "BLACK FRIDAY · 27–30 NOV"}</span>
       </div>
 
       <section className={styles.hero}>
@@ -42,20 +51,39 @@ export default async function BlackFridayLaboratorio() {
           <p className={styles.eyebrow}>EL LABORATORIO DEL ENTRENADOR<span className={styles.eyebrowExtra}> · ARCHIVO 25/26</span></p>
           <h1>Todo el Laboratorio.<br /><em>Para siempre.</em></h1>
           <p className={styles.intro}>52 vídeos y más de 23 horas de baloncesto: técnica individual, defensa, sistemas de ataque, scouting y planificación, más las clases de vestuario, presión y liderazgo que no salen en la pizarra.</p>
-          <div className={styles.offer}>
-            <div><span>BLACK FRIDAY</span><p>Antes <s>249,99€</s></p></div>
-            <strong>119,99€</strong>
-            <p className={styles.offerNote}>Descuento aplicado al abrir el pago</p>
-          </div>
-          <div className={`${styles.deadline} ${styles.heroDeadline} ${styles.deadlineMobile}`}><span>LA OFERTA CIERRA EN</span><BlackFridayCountdown /></div>
-          <div className={styles.cta}>
-          <StripeCheckoutButton priceId={course.stripe_price_id} promotionCode="BLACKFRIDAY120" metadata={checkoutMetadata} style={{ width: "100%", padding: "19px", fontSize: 17, fontWeight: 900, border: 0, borderRadius: 8, background: "#d8b33f", color: "#0a0a0a" }}>Quiero el Laboratorio completo →</StripeCheckoutButton>
-          <p className={styles.checkoutNote}>Pago único · acceso de por vida · sin suscripción</p>
-          </div>
+          {phase === "oferta" ? (
+            <>
+              <div className={styles.offer}>
+                <div><span>BLACK FRIDAY</span><p>Antes <s>249,99€</s></p></div>
+                <strong>119,99€</strong>
+                <p className={styles.offerNote}>Descuento aplicado al abrir el pago</p>
+              </div>
+              <div className={`${styles.deadline} ${styles.heroDeadline} ${styles.deadlineMobile}`}><span>LA OFERTA CIERRA EN</span><BlackFridayCountdown target={BF_CLOSES_AT} /></div>
+              <div className={styles.cta}>
+                <StripeCheckoutButton priceId={course.stripe_price_id} promotionCode={BF_PROMO_CODE} metadata={checkoutMetadata} style={ctaStyle}>Quiero el Laboratorio completo →</StripeCheckoutButton>
+                <p className={styles.checkoutNote}>Pago único · acceso de por vida · sin suscripción</p>
+              </div>
+            </>
+          ) : phase === "pre" ? (
+            <>
+              <div className={`${styles.deadline} ${styles.heroDeadline} ${styles.deadlineMobile}`}><span>BLACK FRIDAY ABRE EN</span><BlackFridayCountdown target={BF_OPENS_AT} closedText="YA ABIERTO" /></div>
+              <div className={`${styles.notify} ${styles.cta}`}>
+                <p className={styles.notifyTitle}>Abre el viernes 27 de noviembre.</p>
+                <p className={styles.notifyText}>Déjame tu email y serás de los primeros en saberlo.</p>
+                <BlackFridayNotifyForm />
+              </div>
+            </>
+          ) : (
+            <div className={styles.cta}>
+              <p className={styles.closedText}>La oferta de Black Friday ha terminado. El Laboratorio sigue disponible al precio habitual de 249,99€.</p>
+              <Link href="/cursos/laboratorio-2526" className={styles.closedLink}>Ver el Laboratorio →</Link>
+            </div>
+          )}
         </div>
 
         <div className={styles.heroVisual}>
-          <div className={`${styles.deadline} ${styles.deadlineDesktop}`}><span>LA OFERTA CIERRA EN</span><BlackFridayCountdown /></div>
+          {phase === "oferta" ? <div className={`${styles.deadline} ${styles.deadlineDesktop}`}><span>LA OFERTA CIERRA EN</span><BlackFridayCountdown target={BF_CLOSES_AT} /></div> : null}
+          {phase === "pre" ? <div className={`${styles.deadline} ${styles.deadlineDesktop}`}><span>BLACK FRIDAY ABRE EN</span><BlackFridayCountdown target={BF_OPENS_AT} closedText="YA ABIERTO" /></div> : null}
           <p className={styles.videoLabel}>Mira una lección completa</p>
           <div className={styles.heroVideo}>
             <iframe
@@ -80,7 +108,7 @@ export default async function BlackFridayLaboratorio() {
         <div className={styles.moduleGrid}>
           {modules.slice(0, 9).map((module, index) => <div className={styles.moduleCard} key={module.id}><span>{String(index + 1).padStart(2, "0")}</span><div><strong>{module.titulo}</strong><p>{module.lecciones_curso?.length ?? 0} lecciones</p></div></div>)}
         </div>
-        <BlackFridayLeadVideo libraryId={bunnyLibraryId} videoId={leadVideoId} />
+        {phase === "oferta" ? <BlackFridayLeadVideo libraryId={bunnyLibraryId} videoId={leadVideoId} /> : null}
       </section>
 
       <section className={styles.includes}>
@@ -94,10 +122,26 @@ export default async function BlackFridayLaboratorio() {
       </section>
 
       <section className={styles.finalCta}>
-        <p className={styles.sectionLabel}>BLACK FRIDAY · SOLO HASTA EL 30 DE NOVIEMBRE</p>
-        <h2>El Laboratorio completo.<br /><em>119,99€.</em></h2>
-        <StripeCheckoutButton priceId={course.stripe_price_id} promotionCode="BLACKFRIDAY120" metadata={checkoutMetadata} style={{ width: "min(100%, 460px)", padding: "19px", fontSize: 17, fontWeight: 900, border: 0, borderRadius: 8, background: "#d8b33f", color: "#0a0a0a" }}>Quiero acceder al archivo →</StripeCheckoutButton>
-        <p className={styles.checkoutNote}>La promoción se aplica automáticamente en el pago.</p>
+        {phase === "oferta" ? (
+          <>
+            <p className={styles.sectionLabel}>BLACK FRIDAY · SOLO HASTA EL 30 DE NOVIEMBRE</p>
+            <h2>El Laboratorio completo.<br /><em>119,99€.</em></h2>
+            <StripeCheckoutButton priceId={course.stripe_price_id} promotionCode={BF_PROMO_CODE} metadata={checkoutMetadata} style={{ ...ctaStyle, width: "min(100%, 460px)" }}>Quiero acceder al archivo →</StripeCheckoutButton>
+            <p className={styles.checkoutNote}>La promoción se aplica automáticamente en el pago.</p>
+          </>
+        ) : phase === "pre" ? (
+          <>
+            <p className={styles.sectionLabel}>BLACK FRIDAY · ABRE EL 27 DE NOVIEMBRE</p>
+            <h2>El Laboratorio completo.<br /><em>Apúntate al aviso.</em></h2>
+            <div className={styles.finalNotify}><BlackFridayNotifyForm /></div>
+          </>
+        ) : (
+          <>
+            <p className={styles.sectionLabel}>EL LABORATORIO DEL ENTRENADOR · ARCHIVO 25/26</p>
+            <h2>El Laboratorio completo.<br /><em>Sigue disponible.</em></h2>
+            <Link href="/cursos/laboratorio-2526" className={styles.closedLink}>Ver el Laboratorio →</Link>
+          </>
+        )}
       </section>
     </main>
   );
