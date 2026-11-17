@@ -75,8 +75,8 @@ const fitNo = [
 const palmares = [
   { icon: "🥇", title: "Campeón del Mundo", sub: "Beijing 2019" },
   { icon: "🥇", title: "Campeón de Europa", sub: "Berlín 2022" },
-  { icon: "🏅", title: "JJOO 2021 · 2024", sub: "Tokyo · París" },
-  { icon: "🏅", title: "Mundial 2023 · Eurobasket 2025", sub: "Jakarta · Chipre" },
+  { icon: "🏀", title: "JJOO 2021 · 2024", sub: "Tokyo · París" },
+  { icon: "🏀", title: "Mundial 2023 · Eurobasket 2025", sub: "Jakarta · Chipre" },
 ];
 const ctaStyle = { width: "100%", padding: "19px", fontSize: 17, fontWeight: 900, border: 0, borderRadius: 8, background: "#d8b33f", color: "#0a0a0a" } as const;
 export default async function BlackFridayLaboratorio({ searchParams }: { searchParams: Promise<{ fase?: string }> }) {
@@ -212,7 +212,7 @@ export default async function BlackFridayLaboratorio({ searchParams }: { searchP
         <div className={styles.bioCopy}>
           <p className={styles.sectionLabel}>EL ENTRENADOR DETRÁS DEL LABORATORIO</p>
           <h2>Hola, soy Jorge Lorenzo.</h2>
-          <p>Empecé a entrenar con 16 años. Nunca lo dejé. En 2025 cerré una etapa de casi una década como asistente de la Selección Española: dos Mundiales, dos Juegos Olímpicos, un Eurobasket. Y cada semana sigo en la pista con mis equipos.</p>
+          <p>Empecé a entrenar con 16 años. Nunca lo dejé. En 2025 cerré una etapa de casi una década como asistente de la Selección Española: dos Mundiales, dos Juegos Olímpicos, dos Eurobasket. Y cada semana sigo en la pista con mis equipos.</p>
           <p>El Laboratorio recoge lo que trabajé esta temporada, para que lo apliques en tu pista.</p>
           <div className={styles.palmares}>
             {palmares.map((item) => <div key={item.title}><span aria-hidden="true">{item.icon}</span><p><strong>{item.title}</strong><br />{item.sub}</p></div>)}

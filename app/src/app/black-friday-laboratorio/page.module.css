@@ -153,7 +153,8 @@
 
 /* Preguntas frecuentes */
 .faq { padding-top: 84px; padding-bottom: 84px; border-top: 1px solid #292825; }
-.faqList { max-width: 820px; }
+.faq > .sectionLabel { text-align: center; }
+.faqList { max-width: 820px; margin-inline: auto; }
 .faqList details { border-bottom: 1px solid #33312d; }
 .faqList summary { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 20px 0; cursor: pointer; font-size: 17px; font-weight: 700; list-style: none; }
 .faqList summary::-webkit-details-marker { display: none; }
