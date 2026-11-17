@@ -19,7 +19,9 @@
 .offer p { margin: 5px 0 0; color: #b6b1a6; font-size: 13px; }
 .offer > strong { grid-row: span 2; align-self: center; color: #d8b33f; font-size: 42px; line-height: 1; letter-spacing: -.06em; }
 .offer .offerNote { grid-column: 1 / -1; margin-top: 12px; color: #d8b33f; font-size: 10px; font-weight: 900; letter-spacing: .06em; }
-.checkoutNote { margin: 11px 0 0; color: #868179; font-size: 12px; text-align: center; }
+.checkoutNote { margin: 11px 0 0; color: #a39f96; font-size: 12px; text-align: center; }
+.heroDeadline { margin: 0 0 15px; }
+.videoLabel { margin: 0 0 10px; color: #d8b33f; font-size: 11px; font-weight: 900; letter-spacing: .12em; text-transform: uppercase; }
 .heroVisual { position: relative; transform: translateY(-24px); }
 .heroVideo { position: relative; overflow: hidden; aspect-ratio: 16 / 9; border: 1px solid #3a3731; border-radius: 12px; background: #060606; box-shadow: 20px 24px 0 rgba(216, 179, 63, .11), 0 30px 60px rgba(0, 0, 0, .45); }
 .heroVideo iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
@@ -59,7 +61,14 @@
   .topbar { padding: 18px 20px; font-size: 9px; }
   .hero, .proof, .includes, .finalCta { padding-left: 20px; padding-right: 20px; }
   .hero { grid-template-columns: 1fr; gap: 62px; padding-top: 40px; padding-bottom: 80px; }
-  .heroVisual { transform: none; }
+  .heroCopy { display: contents; }
+  .hero { gap: 0; }
+  .eyebrowExtra { display: none; }
+  .intro { order: 3; margin-bottom: 28px; }
+  .heroVisual { order: 4; transform: none; margin-bottom: 32px; }
+  .offer { order: 5; }
+  .heroDeadline { order: 6; }
+  .cta { order: 7; }
   .hero h1 { font-size: clamp(49px, 14vw, 70px); }
   .intro { font-size: 16px; }
   .stats > div { min-width: 0; flex: 1; padding-right: 12px; margin-right: 12px; }
