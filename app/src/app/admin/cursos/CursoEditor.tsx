@@ -254,10 +254,10 @@ export default function CursoEditor({ curso }: { curso: CursoData }) {
             <div style={{ height: 1, background: "var(--borde)", margin: "4px 0" }} />
             <p style={{ fontSize: 11, color: "var(--texto-suave)", letterSpacing: "0.08em", textTransform: "uppercase" }}>Precios mostrados en la landing</p>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
-              <Row label="Precio web (€)"><input type="number" value={webPrecio} onChange={e => setWebPrecio(e.target.value)} style={iS} placeholder="347" /></Row>
-              <Row label="Precio web tachado (€)"><input type="number" value={webPrecioOrig} onChange={e => setWebPrecioOrig(e.target.value)} style={iS} placeholder="" /></Row>
-              <Row label="Precio Skool (€)"><input type="number" value={skoolPrecio} onChange={e => setSkoolPrecio(e.target.value)} style={iS} placeholder="297" /></Row>
-              <Row label="Precio Skool tachado (€)"><input type="number" value={skoolPrecioOrig} onChange={e => setSkoolPrecioOrig(e.target.value)} style={iS} placeholder="347" /></Row>
+              <Row label="Precio web (€)"><input type="number" step="0.01" value={webPrecio} onChange={e => setWebPrecio(e.target.value)} style={iS} placeholder="347" /></Row>
+              <Row label="Precio web tachado (€)"><input type="number" step="0.01" value={webPrecioOrig} onChange={e => setWebPrecioOrig(e.target.value)} style={iS} placeholder="" /></Row>
+              <Row label="Precio Skool (€)"><input type="number" step="0.01" value={skoolPrecio} onChange={e => setSkoolPrecio(e.target.value)} style={iS} placeholder="297" /></Row>
+              <Row label="Precio Skool tachado (€)"><input type="number" step="0.01" value={skoolPrecioOrig} onChange={e => setSkoolPrecioOrig(e.target.value)} style={iS} placeholder="347" /></Row>
             </div>
             <Row label="URL Skool">
               <input value={skoolUrl} onChange={e => setSkoolUrl(e.target.value)} style={iS} placeholder="https://www.skool.com/..." />
@@ -266,7 +266,7 @@ export default function CursoEditor({ curso }: { curso: CursoData }) {
               <input value={fechaApertura} onChange={e => setFechaApertura(e.target.value)} style={iS} placeholder="Junio 2026" />
             </Row>
             <Row label="Precio base (€)">
-              <input type="number" value={precio} onChange={e => setPrecio(e.target.value)} style={iS} placeholder="0" />
+              <input type="number" step="0.01" value={precio} onChange={e => setPrecio(e.target.value)} style={iS} placeholder="0" />
             </Row>
           </div>
         )}

@@ -8,6 +8,7 @@ import FaqAccordion from "./FaqAccordion";
 import SiteNav from "@/components/SiteNav";
 import CuentaAtras from "./CuentaAtras";
 import StripeCheckoutButton from "@/components/StripeCheckoutButton";
+import { formatPrecio } from "@/lib/format-price";
 
 export const dynamic = "force-dynamic";
 
@@ -55,7 +56,7 @@ export default async function CursoPage({ params }: { params: Promise<{ slug: st
   const skoolUrl = curso.skool_url ?? null;
   const skoolMoneda = curso.skool_moneda ?? "€";
   const formatSkoolPrecio = (centavos: number) =>
-    skoolMoneda === "€" ? `${(centavos / 100).toFixed(0)}€` : `${skoolMoneda}${(centavos / 100).toFixed(0)}`;
+    skoolMoneda === "€" ? `${formatPrecio(centavos)}€` : `${skoolMoneda}${formatPrecio(centavos)}`;
   const tieneSkool = !!(skoolPrecio && skoolUrl);
   const esGratuito = webPrecio === 0;
 
@@ -259,11 +260,11 @@ export default async function CursoPage({ params }: { params: Promise<{ slug: st
                         <div style={{ marginBottom: 12 }}>
                           <div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
                             <span style={{ fontSize: 26, fontWeight: 900, color: "var(--blanco)", lineHeight: 1 }}>
-                              {(webPrecio / 100).toFixed(0)}€
+                              {formatPrecio(webPrecio)}€
                             </span>
                             {webPrecioOrig && (
                               <span style={{ fontSize: 13, color: "var(--texto-suave)", textDecoration: "line-through" }}>
-                                {(webPrecioOrig / 100).toFixed(0)}€
+                                {formatPrecio(webPrecioOrig)}€
                               </span>
                             )}
                           </div>
@@ -274,7 +275,7 @@ export default async function CursoPage({ params }: { params: Promise<{ slug: st
                           metadata={{ slug: curso.slug }}
                           style={{ display: "block", textAlign: "center", fontSize: 13, padding: "10px", border: "1px solid var(--borde)", borderRadius: 6, color: "var(--texto)", background: "transparent", cursor: "pointer", width: "100%" }}
                         >
-                          Comprar — {(webPrecio / 100).toFixed(0)}€ →
+                          Comprar — {formatPrecio(webPrecio)}€ →
                         </StripeCheckoutButton>
                       </div>
                     )}

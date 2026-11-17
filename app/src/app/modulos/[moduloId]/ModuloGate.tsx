@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import StripeCheckoutButton from "@/components/StripeCheckoutButton";
+import { formatPrecio } from "@/lib/format-price";
 
 interface Leccion { id: number; titulo: string; duracion?: string; es_preview: boolean; }
 interface Curso { id: number; slug: string; titulo: string; precio: number; stripe_price_id: string | null; en_venta: boolean; }
@@ -161,7 +162,7 @@ export default function ModuloGate({
               )}
               <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginBottom: 4 }}>
                 <span style={{ fontSize: 38, fontWeight: 900, color: "var(--oro)", lineHeight: 1 }}>
-                  {(modulo.precio / 100).toFixed(0)}€
+                  {formatPrecio(modulo.precio)}€
                 </span>
                 <span style={{ fontSize: 13, color: "var(--texto-suave)" }}>este módulo</span>
               </div>

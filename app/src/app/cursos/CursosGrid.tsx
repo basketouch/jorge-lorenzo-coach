@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import CuentaAtrasVenta from "@/components/CuentaAtrasVenta";
+import { formatPrecio } from "@/lib/format-price";
 
 const PAGE_SIZE = 6;
 
@@ -116,7 +117,7 @@ export default function CursosGrid({
                   )}
                   <p className="tier-nombre">{c.titulo}</p>
                   {c.descripcion && <p className="tier-desc" style={{ marginTop: 8 }}>{c.descripcion}</p>}
-                  <div className="tier-precio" style={{ marginTop: 16 }}>{(c.precio / 100).toFixed(0)}€</div>
+                  <div className="tier-precio" style={{ marginTop: 16 }}>{formatPrecio(c.precio)}€</div>
                   <span className="tier-cta tier-cta-primary" style={{ display: "block", textAlign: "center", marginTop: 16 }}>Ver curso</span>
                 </div>
               </Link>
@@ -135,7 +136,7 @@ export default function CursosGrid({
                 )}
                 <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--texto-suave)", marginBottom: 6 }}>Módulo individual</p>
                 <p className="tier-nombre">{m.titulo}</p>
-                <div className="tier-precio" style={{ marginTop: 16 }}>{m.precio ? (m.precio / 100).toFixed(0) : "—"}€</div>
+                <div className="tier-precio" style={{ marginTop: 16 }}>{m.precio ? formatPrecio(m.precio) : "—"}€</div>
                 {m.fecha_cierre_venta && <CuentaAtrasVenta fecha={m.fecha_cierre_venta} />}
                 <span className="tier-cta tier-cta-primary" style={{ display: "block", textAlign: "center", marginTop: 16 }}>Ver módulo</span>
               </div>

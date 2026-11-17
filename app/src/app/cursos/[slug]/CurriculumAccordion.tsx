@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import StripeCheckoutButton from "@/components/StripeCheckoutButton";
+import { formatPrecio } from "@/lib/format-price";
 
 interface Leccion {
   id: number;
@@ -126,7 +127,7 @@ function ModuloRow({ modulo, slug }: { modulo: Modulo; slug: string }) {
               className="btn-primary"
               style={{ fontSize: 11, padding: "5px 12px" }}
             >
-              Comprar — {(modulo.precio / 100).toFixed(0)}€
+              Comprar — {formatPrecio(modulo.precio)}€
             </StripeCheckoutButton>
           )}
           <span style={{ fontSize: 12, color: "var(--texto-suave)" }}>{lecciones.length} lecciones</span>

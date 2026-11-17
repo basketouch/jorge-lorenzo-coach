@@ -3,6 +3,7 @@ import { createClient } from "@/lib/supabase-server";
 import { createAdminClient } from "@/lib/supabase-admin";
 import Footer from "@/components/Footer";
 import NavHamburger from "@/components/NavHamburger";
+import { formatPrecio } from "@/lib/format-price";
 
 export const dynamic = "force-dynamic";
 
@@ -41,8 +42,8 @@ export default async function Home() {
   const enVentaAuto = lab?.fecha_apertura ? new Date(lab.fecha_apertura) <= new Date() : false;
   const cierrePasado = lab?.fecha_cierre ? new Date(lab.fecha_cierre) <= new Date() : false;
   const labEnVenta = (lab?.en_venta || enVentaAuto) && !cierrePasado;
-  const webPrecio = lab?.web_precio ? (lab.web_precio / 100).toFixed(0) : "347";
-  const skoolPrecio = lab?.skool_precio ? (lab.skool_precio / 100).toFixed(0) : "297";
+  const webPrecio = lab?.web_precio ? formatPrecio(lab.web_precio) : "347";
+  const skoolPrecio = lab?.skool_precio ? formatPrecio(lab.skool_precio) : "297";
 
   return (
     <>
