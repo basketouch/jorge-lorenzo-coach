@@ -96,3 +96,12 @@
   .includes { padding-top: 74px; padding-bottom: 74px; }
   .finalCta { padding-top: 82px; padding-bottom: 90px; }
 }
+
+.notifyForm { gap: 14px; }
+.field { display: grid; gap: 6px; }
+.field > span { color: #f7f4ec; font-size: 12px; font-weight: 800; letter-spacing: .04em; }
+.field > span em { color: #a39f96; font-style: normal; font-weight: 600; }
+.notifyForm .field input { width: 100%; margin: 0; border: 2px solid rgba(216, 179, 63, .55); border-radius: 8px; background: #f7f4ec; padding: 14px 15px; color: #0a0a0a; font-size: 16px; }
+.notifyForm .field input::placeholder { color: #7a766d; }
+.notifyForm .field input:focus { outline: 0; border-color: #d8b33f; box-shadow: 0 0 0 3px rgba(216, 179, 63, .35); }
+.consent { color: #bcb8af; font-size: 12px; line-height: 1.45; }
