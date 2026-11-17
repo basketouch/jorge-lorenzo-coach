@@ -88,7 +88,7 @@ export default async function Home() {
               <span className="accent">Campeón de Europa.</span>
             </h1>
             <p className="hero-body">
-              Empecé a entrenar con 16 años. Nunca lo dejé. En 2025 cerré una etapa de casi una década como asistente de la Selección Española — dos Mundiales, dos Juegos Olímpicos, un Eurobasket. Y cada semana sigo en la pista con mis equipos.{" "}
+              Empecé a entrenar con 16 años. Nunca lo dejé. En 2025 cerré una etapa de casi una década como asistente de la Selección Española — dos Mundiales, dos Juegos Olímpicos, dos Eurobasket. Y cada semana sigo en la pista con mis equipos.{" "}
               <strong>Eso es lo que voy a compartir contigo.</strong>
             </p>
             <a href="#niveles" className="btn-primary">Entra a la comunidad</a>
@@ -96,8 +96,8 @@ export default async function Home() {
               {[
                 { icon: "🥇", title: "Campeón del Mundo", sub: "Beijing 2019" },
                 { icon: "🥇", title: "Campeón de Europa", sub: "Berlín 2022" },
-                { icon: "🏅", title: "JJOO 2021 · 2024", sub: "Tokyo · París" },
-                { icon: "🏅", title: "Mundial 2023 · Eurobasket 2025", sub: "Jakarta · Chipre" },
+                { icon: "🏀", title: "JJOO 2021 · 2024", sub: "Tokyo · París" },
+                { icon: "🏀", title: "Mundial 2023 · Eurobasket 2025", sub: "Jakarta · Chipre" },
                 { icon: "🏅", title: "Selecciones de formación", sub: "U15/U16 España · 2015–2018" },
                 { icon: "🏀", title: "Director Academia · 2021/22", sub: "Clube 1º de Agosto · Angola" },
                 { icon: "🏀", title: "Entrenador Ayudante · 2024/25", sub: "Palencia Baloncesto · 1ª FEB" },
