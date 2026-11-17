@@ -16,6 +16,14 @@ export async function middleware(req: NextRequest) {
 
   // Siempre refrescar el token de sesión para que getUser() funcione en todas las páginas
   const res = NextResponse.next();
+  const utm = ["utm_source", "utm_medium", "utm_campaign", "utm_content"].reduce<Record<string, string>>((values, key) => {
+    const value = req.nextUrl.searchParams.get(key);
+    if (value) values[key] = value.slice(0, 120);
+    return values;
+  }, {});
+  if (Object.keys(utm).length) {
+    res.cookies.set("growth_attribution", encodeURIComponent(JSON.stringify(utm)), { maxAge: 60 * 60 * 24 * 60, sameSite: "lax", secure: true, path: "/" });
+  }
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,

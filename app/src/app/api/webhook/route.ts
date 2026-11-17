@@ -5,6 +5,23 @@ import crypto from "crypto";
 
 const getStripe = () => new Stripe(process.env.STRIPE_SECRET_KEY!);
 
+async function reportGrowthConversion(session: Stripe.Checkout.Session) {
+  const url = process.env.GROWTH_HUB_INGEST_URL;
+  const token = process.env.GROWTH_HUB_INGEST_TOKEN;
+  const meta = session.metadata || {};
+  if (!url || !token || meta.growth_project !== "jorge_lorenzo_coach" || !meta.utm_campaign) return;
+  const base = {
+    project: "jorge_lorenzo_coach", provider: "stripe", provider_event_id: session.id,
+    transaction_id: typeof session.payment_intent === "string" ? session.payment_intent : null,
+    utm_source: meta.utm_source, utm_medium: meta.utm_medium, utm_campaign: meta.utm_campaign, utm_content: meta.utm_content,
+    amount_minor: session.amount_total, currency_code: session.currency?.toUpperCase(), occurred_at: new Date((session.created || Math.floor(Date.now() / 1000)) * 1000).toISOString(),
+  };
+  for (const event_type of ["checkout_completed", "subscription_paid"]) {
+    const response = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` }, body: JSON.stringify({ ...base, event_type, dedupe_key: `stripe:${session.id}:${event_type}` }) });
+    if (!response.ok) console.error("No se pudo atribuir conversión en Hub", await response.text());
+  }
+}
+
 export async function POST(req: NextRequest) {
   const rawBody = await req.text();
   const sig = req.headers.get("stripe-signature") ?? "";
@@ -97,6 +114,8 @@ export async function POST(req: NextRequest) {
     { user_id: userId, curso_id: curso.id, stripe_session_id: sessionId },
     { onConflict: "stripe_session_id" }
   );
+
+  await reportGrowthConversion(session).catch((error) => console.error("Error atribuyendo compra", error));
 
   return NextResponse.json({ ok: true });
 }
