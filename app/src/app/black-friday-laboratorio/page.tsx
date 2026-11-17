@@ -30,7 +30,6 @@ export default async function BlackFridayLaboratorio() {
   if (!course?.stripe_price_id) return null;
 
   const modules = ((course.modulos ?? []) as Module[]).sort((a, b) => a.orden - b.orden);
-  const totalLessons = modules.reduce((total, module) => total + (module.lecciones_curso?.length ?? 0), 0);
   return (
     <main className={styles.page}>
       <div className={styles.topbar}>
@@ -44,13 +43,13 @@ export default async function BlackFridayLaboratorio() {
           <h1>Todo el Laboratorio.<br /><em>Para siempre.</em></h1>
           <p className={styles.intro}>El archivo completo para entrenadores que quieren llevar sus sesiones, su lectura del juego y su metodología a otro nivel.</p>
           <div className={styles.offer}>
-            <div><span>BLACK FRIDAY</span><p>Antes <s>347€</s></p></div>
-            <strong>99,99€</strong>
+            <div><span>BLACK FRIDAY</span><p>Antes <s>249,99€</s></p></div>
+            <strong>119,99€</strong>
             <p className={styles.offerNote}>Descuento aplicado al abrir el pago</p>
           </div>
           <div className={`${styles.deadline} ${styles.heroDeadline}`}><span>LA OFERTA CIERRA EN</span><BlackFridayCountdown /></div>
           <div className={styles.cta}>
-          <StripeCheckoutButton priceId={course.stripe_price_id} promotionCode="BLACKFRIDAY26" metadata={checkoutMetadata} style={{ width: "100%", padding: "19px", fontSize: 17, fontWeight: 900, border: 0, borderRadius: 8, background: "#d8b33f", color: "#0a0a0a" }}>Quiero el Laboratorio completo →</StripeCheckoutButton>
+          <StripeCheckoutButton priceId={course.stripe_price_id} promotionCode="BLACKFRIDAY120" metadata={checkoutMetadata} style={{ width: "100%", padding: "19px", fontSize: 17, fontWeight: 900, border: 0, borderRadius: 8, background: "#d8b33f", color: "#0a0a0a" }}>Acceder al Laboratorio por 119,99€ →</StripeCheckoutButton>
           <p className={styles.checkoutNote}>Pago único · acceso permanente · sin suscripción</p>
           </div>
         </div>
@@ -66,9 +65,9 @@ export default async function BlackFridayLaboratorio() {
             />
           </div>
           <div className={`${styles.stats} ${styles.videoStats}`}>
-            <div><strong>{modules.length || 9}</strong><span>módulos</span></div>
-            <div><strong>{totalLessons || 51}</strong><span>lecciones</span></div>
-            <div><strong>∞</strong><span>acceso de por vida</span></div>
+            <div><strong>52</strong><span>vídeos</span></div>
+            <div><strong>23+</strong><span>horas</span></div>
+            <div><strong>∞</strong><span>acceso</span></div>
           </div>
         </div>
       </section>
@@ -88,14 +87,14 @@ export default async function BlackFridayLaboratorio() {
           <p><b>01</b><span>Técnica individual, táctica colectiva y lectura del juego.</span></p>
           <p><b>02</b><span>Scouting, planificación y herramientas para el día a día.</span></p>
           <p><b>03</b><span>Acceso permanente al archivo de esta temporada.</span></p>
-          <p><b>04</b><span>51 lecciones en vídeo para consultar cuando las necesites.</span></p>
+          <p><b>04</b><span>52 vídeos y más de 23 horas para consultar cuando las necesites.</span></p>
         </div>
       </section>
 
       <section className={styles.finalCta}>
         <p className={styles.sectionLabel}>BLACK FRIDAY · SOLO HASTA EL 30 DE NOVIEMBRE</p>
-        <h2>El Laboratorio completo.<br /><em>99,99€.</em></h2>
-        <StripeCheckoutButton priceId={course.stripe_price_id} promotionCode="BLACKFRIDAY26" metadata={checkoutMetadata} style={{ width: "min(100%, 460px)", padding: "19px", fontSize: 17, fontWeight: 900, border: 0, borderRadius: 8, background: "#d8b33f", color: "#0a0a0a" }}>Quiero acceder al archivo →</StripeCheckoutButton>
+        <h2>El Laboratorio completo.<br /><em>119,99€.</em></h2>
+        <StripeCheckoutButton priceId={course.stripe_price_id} promotionCode="BLACKFRIDAY120" metadata={checkoutMetadata} style={{ width: "min(100%, 460px)", padding: "19px", fontSize: 17, fontWeight: 900, border: 0, borderRadius: 8, background: "#d8b33f", color: "#0a0a0a" }}>Quiero acceder al archivo →</StripeCheckoutButton>
         <p className={styles.checkoutNote}>La promoción se aplica automáticamente en el pago.</p>
       </section>
     </main>
