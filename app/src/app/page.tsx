@@ -344,7 +344,7 @@ export default async function Home() {
               <p className="laboratorio-horas">+19 horas de formación aplicada, basada en situaciones reales de pista.</p>
 
               {/* Bloque precio + urgencia */}
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginTop: 24 }}>
+              <div style={{ display: "grid", gridTemplateColumns: ocultarPreciosSkool ? "1fr" : "1fr 1fr", gap: 16, marginTop: 24 }}>
                 {/* Standalone */}
                 <div style={{ background: "var(--negro)", border: "1px solid var(--borde)", borderRadius: 10, padding: 24 }}>
                   <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: "var(--texto-suave)", marginBottom: 8 }}>Acceso independiente · Web</p>
@@ -367,25 +367,29 @@ export default async function Home() {
                 </div>
 
                 {/* Comunidad */}
-                <div style={{ background: "var(--negro)", border: "2px solid var(--oro)", borderRadius: 10, padding: 24, position: "relative" }}>
-                  {!ocultarPreciosSkool && <div style={{ position: "absolute", top: -12, left: 20, background: "var(--oro)", color: "var(--negro)", fontSize: 10, fontWeight: 800, padding: "3px 10px", borderRadius: 4, letterSpacing: "0.1em", textTransform: "uppercase" }}>Mejor opción</div>}
+                {!ocultarPreciosSkool && <div style={{ background: "var(--negro)", border: "2px solid var(--oro)", borderRadius: 10, padding: 24, position: "relative" }}>
+                  <div style={{ position: "absolute", top: -12, left: 20, background: "var(--oro)", color: "var(--negro)", fontSize: 10, fontWeight: 800, padding: "3px 10px", borderRadius: 4, letterSpacing: "0.1em", textTransform: "uppercase" }}>Mejor opción</div>
                   <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: "var(--texto-suave)", marginBottom: 8 }}>Miembro Skool · Cualquier nivel</p>
-                  {!ocultarPreciosSkool && <div className="laboratorio-precio" style={{ color: "var(--oro)" }}>{skoolPrecio}€</div>}
+                  <div className="laboratorio-precio" style={{ color: "var(--oro)" }}>{skoolPrecio}€</div>
                   <p style={{ fontSize: 13, color: "var(--texto-suave)", marginTop: 8, lineHeight: 1.5 }}>
-                    {ocultarPreciosSkool ? "Conoce la comunidad de entrenadores" : <>Precio exclusivo para miembros<br />+ comunidad activa toda la temporada</>}
+                    Precio exclusivo para miembros<br />+ comunidad activa toda la temporada
                   </p>
-                  {!ocultarPreciosSkool && <div style={{ marginTop: 12, padding: "8px 12px", background: "rgba(201,168,76,0.08)", borderRadius: 6 }}>
+                  <div style={{ marginTop: 12, padding: "8px 12px", background: "rgba(201,168,76,0.08)", borderRadius: 6 }}>
                     <p style={{ fontSize: 11, color: "var(--oro)" }}>
                       Cualquier nivel de Skool (desde $20/mes) da acceso al archivo completo por 297€ — 50€ menos que en la web.
                     </p>
-                  </div>}
-                </div>
+                  </div>
+                </div>}
               </div>
             </div>
 
-            <div style={{ display: "flex", gap: 16, marginTop: 32, paddingTop: 32, borderTop: "1px solid var(--borde)", flexWrap: "wrap", alignItems: "stretch" }}>
+            <div style={{ display: "flex", gap: 16, marginTop: 32, paddingTop: 32, borderTop: "1px solid var(--borde)", flexWrap: "wrap", alignItems: "center" }}>
               <a href="/cursos/laboratorio-2526" className="btn-secondary" style={{ flex: 1, textAlign: "center", display: "flex", alignItems: "center", justifyContent: "center" }}>Ver el programa completo</a>
-              <a href="https://www.skool.com/jorge-lorenzo-coach/plans" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ flex: 1, textAlign: "center", display: "flex", alignItems: "center", justifyContent: "center" }}>{ocultarPreciosSkool ? "Conocer la comunidad" : "Acceder en Skool"}</a>
+              {ocultarPreciosSkool ? (
+                <a href="https://www.skool.com/jorge-lorenzo-coach/plans" target="_blank" rel="noopener noreferrer" style={{ color: "var(--oro)", fontSize: 13, textDecoration: "underline" }}>Conocer la Comunidad →</a>
+              ) : (
+                <a href="https://www.skool.com/jorge-lorenzo-coach/plans" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ flex: 1, textAlign: "center", display: "flex", alignItems: "center", justifyContent: "center" }}>Acceder en Skool</a>
+              )}
             </div>
           </div>
         </div>
