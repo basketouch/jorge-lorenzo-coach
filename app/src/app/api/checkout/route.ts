@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase-server";
 const getStripe = () => new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 export async function POST(req: NextRequest) {
+  try {
   const { priceId, metadata, promotionCode } = await req.json();
 
   if (!priceId) {
@@ -43,4 +44,9 @@ export async function POST(req: NextRequest) {
   });
 
   return NextResponse.json({ url: session.url });
+  } catch (error) {
+    console.error("Error creando checkout", error);
+    const message = error instanceof Error ? error.message : "No se pudo crear el checkout.";
+    return NextResponse.json({ error: message }, { status: 500 });
+  }
 }
