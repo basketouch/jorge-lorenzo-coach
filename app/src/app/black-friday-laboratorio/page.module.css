@@ -34,7 +34,8 @@
 .deadline.deadlineDesktop { margin: 0 0 22px; }
 .videoLabel { margin: 0 0 10px; color: #d8b33f; font-size: 11px; font-weight: 900; letter-spacing: .12em; text-transform: uppercase; }
 .heroVisual { position: relative; transform: translateY(-24px); }
-.heroVideo { position: relative; overflow: hidden; aspect-ratio: 16 / 9; border: 1px solid #3a3731; border-radius: 12px; background: #060606; box-shadow: 20px 24px 0 rgba(216, 179, 63, .11), 0 30px 60px rgba(0, 0, 0, .45); }
+.heroVideos { display: grid; gap: 18px; }
+.heroVideo { position: relative; overflow: hidden; aspect-ratio: 16 / 9; border: 1px solid #3a3731; border-radius: 12px; background: #060606; box-shadow: 0 24px 48px rgba(0, 0, 0, .45); }
 .heroVideo iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 .deadline { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 18px; padding: 13px 17px; border: 1px solid rgba(216, 179, 63, .6); border-radius: 8px; background: #14130f; }
 .deadline span { font-size: 9px; font-weight: 900; letter-spacing: .12em; }
