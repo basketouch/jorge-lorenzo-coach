@@ -43,11 +43,6 @@ export default async function BlackFridayLaboratorio() {
           <p className={styles.eyebrow}>EL LABORATORIO DEL ENTRENADOR · ARCHIVO 25/26</p>
           <h1>Todo el Laboratorio.<br /><em>Para siempre.</em></h1>
           <p className={styles.intro}>El archivo completo para entrenadores que quieren llevar sus sesiones, su lectura del juego y su metodología a otro nivel.</p>
-          <div className={styles.stats}>
-            <div><strong>{modules.length || 9}</strong><span>módulos</span></div>
-            <div><strong>{totalLessons || 51}</strong><span>lecciones</span></div>
-            <div><strong>∞</strong><span>acceso</span></div>
-          </div>
           <div className={styles.offer}>
             <div><span>BLACK FRIDAY</span><p>Antes <s>347€</s></p></div>
             <strong>99,99€</strong>
@@ -65,6 +60,11 @@ export default async function BlackFridayLaboratorio() {
               allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
               allowFullScreen
             />
+          </div>
+          <div className={`${styles.stats} ${styles.videoStats}`}>
+            <div><strong>{modules.length || 9}</strong><span>módulos</span></div>
+            <div><strong>{totalLessons || 51}</strong><span>lecciones</span></div>
+            <div><strong>∞</strong><span>acceso</span></div>
           </div>
           <div className={styles.deadline}><span>LA OFERTA CIERRA EN</span><BlackFridayCountdown /></div>
         </div>

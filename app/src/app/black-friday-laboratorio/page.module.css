@@ -13,13 +13,14 @@
 .stats > div:last-child { margin: 0; padding: 0; border: 0; }
 .stats strong { color: #d8b33f; font-size: 30px; letter-spacing: -.04em; }
 .stats span { color: #9b978e; font-size: 12px; }
+.videoStats { margin: 20px 0 0; }
 .offer { display: grid; grid-template-columns: 1fr auto; gap: 4px 24px; margin: 0 0 15px; padding: 21px 23px 18px; border: 1px solid rgba(216, 179, 63, .86); border-radius: 9px; background: linear-gradient(120deg, rgba(89, 68, 15, .38), rgba(20, 19, 14, .5)); }
 .offer span { font-size: 10px; font-weight: 900; letter-spacing: .12em; }
 .offer p { margin: 5px 0 0; color: #b6b1a6; font-size: 13px; }
 .offer > strong { grid-row: span 2; align-self: center; color: #d8b33f; font-size: 42px; line-height: 1; letter-spacing: -.06em; }
 .offer .offerNote { grid-column: 1 / -1; margin-top: 12px; color: #d8b33f; font-size: 10px; font-weight: 900; letter-spacing: .06em; }
 .checkoutNote { margin: 11px 0 0; color: #868179; font-size: 12px; text-align: center; }
-.heroVisual { position: relative; }
+.heroVisual { position: relative; transform: translateY(-24px); }
 .heroVideo { position: relative; overflow: hidden; aspect-ratio: 16 / 9; border: 1px solid #3a3731; border-radius: 12px; background: #060606; box-shadow: 20px 24px 0 rgba(216, 179, 63, .11), 0 30px 60px rgba(0, 0, 0, .45); }
 .heroVideo iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 .deadline { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 18px; padding: 13px 17px; border: 1px solid rgba(216, 179, 63, .6); border-radius: 8px; background: #14130f; }
@@ -58,6 +59,7 @@
   .topbar { padding: 18px 20px; font-size: 9px; }
   .hero, .proof, .includes, .finalCta { padding-left: 20px; padding-right: 20px; }
   .hero { grid-template-columns: 1fr; gap: 62px; padding-top: 40px; padding-bottom: 80px; }
+  .heroVisual { transform: none; }
   .hero h1 { font-size: clamp(49px, 14vw, 70px); }
   .intro { font-size: 16px; }
   .stats > div { min-width: 0; flex: 1; padding-right: 12px; margin-right: 12px; }
