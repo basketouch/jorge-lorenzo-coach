@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { createClient } from "@/lib/supabase-server";
+import { BF_PROMO_CODE, isBlackFridayOfferOpen } from "@/lib/black-friday";
 
 const getStripe = () => new Stripe(process.env.STRIPE_SECRET_KEY!);
 
@@ -23,6 +24,10 @@ export async function POST(req: NextRequest) {
   const origin = req.headers.get("origin") ?? "https://www.jorgelorenzo.coach";
   let attribution: Record<string, string> = {};
   try { attribution = JSON.parse(decodeURIComponent(req.cookies.get("growth_attribution")?.value || "")); } catch {}
+
+  if (promotionCode === BF_PROMO_CODE && !isBlackFridayOfferOpen()) {
+    return NextResponse.json({ error: "La oferta de Black Friday no está disponible." }, { status: 400 });
+  }
 
   let promotionCodeId: string | undefined;
   if (typeof promotionCode === "string" && promotionCode) {
