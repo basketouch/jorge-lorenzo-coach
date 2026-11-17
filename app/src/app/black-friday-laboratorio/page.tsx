@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 import StripeCheckoutButton from "@/components/StripeCheckoutButton";
 import { createAdminClient } from "@/lib/supabase-admin";
 import BlackFridayCountdown from "./BlackFridayCountdown";
@@ -13,7 +12,7 @@ export const metadata: Metadata = {
 
 export const dynamic = "force-dynamic";
 
-type Lesson = { id: number; titulo: string; orden: number; es_preview: boolean };
+type Lesson = { id: number; titulo: string; orden: number; es_preview: boolean; video_id: string | null };
 type Module = { id: number; titulo: string; orden: number; lecciones_curso: Lesson[] | null };
 
 const checkoutMetadata = { slug: "laboratorio-2526", growth_project: "jorge_lorenzo_coach" };
@@ -21,7 +20,7 @@ const checkoutMetadata = { slug: "laboratorio-2526", growth_project: "jorge_lore
 export default async function BlackFridayLaboratorio() {
   const { data: course } = await createAdminClient()
     .from("cursos")
-    .select("titulo, portada_url, stripe_price_id, modulos(id, titulo, orden, lecciones_curso(id, titulo, orden, es_preview))")
+    .select("titulo, portada_url, stripe_price_id, modulos(id, titulo, orden, lecciones_curso(id, titulo, orden, es_preview, video_id))")
     .eq("slug", "laboratorio-2526")
     .single();
 
@@ -33,6 +32,7 @@ export default async function BlackFridayLaboratorio() {
     .flatMap((module) => module.lecciones_curso ?? [])
     .sort((a, b) => a.orden - b.orden)
     .find((lesson) => lesson.es_preview);
+  const bunnyLibraryId = process.env.NEXT_PUBLIC_BUNNY_LIBRARY_ID;
 
   return (
     <main className={styles.page}>
@@ -73,7 +73,23 @@ export default async function BlackFridayLaboratorio() {
         <div className={styles.moduleGrid}>
           {modules.slice(0, 6).map((module, index) => <div className={styles.moduleCard} key={module.id}><span>0{index + 1}</span><div><strong>{module.titulo}</strong><p>{module.lecciones_curso?.length ?? 0} lecciones</p></div></div>)}
         </div>
-        {preview && <Link href={`/preview/laboratorio-2526/${preview.id}`} className={styles.previewLink}><span>▶</span> Ver una lección de muestra: {preview.titulo} <b>→</b></Link>}
+        {preview?.video_id && bunnyLibraryId && (
+          <div className={styles.videoSample}>
+            <div>
+              <p className={styles.sectionLabel}>MUESTRA DEL CONTENIDO</p>
+              <h3>{preview.titulo}</h3>
+              <p>Una lección completa del Laboratorio para que veas el nivel y el formato antes de decidir.</p>
+            </div>
+            <div className={styles.videoFrame}>
+              <iframe
+                src={`https://iframe.mediadelivery.net/embed/${bunnyLibraryId}/${preview.video_id}?autoplay=false&preload=true&responsive=true&primaryColor=c9a84c&muted=false&loop=false&captions=false`}
+                title={`Muestra: ${preview.titulo}`}
+                allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
+                allowFullScreen
+              />
+            </div>
+          </div>
+        )}
       </section>
 
       <section className={styles.includes}>
