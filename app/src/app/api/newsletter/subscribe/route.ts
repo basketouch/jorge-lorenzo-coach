@@ -11,6 +11,44 @@ const ALLOWED_ORIGINS =
     : ["https://www.jorgelorenzo.coach", "https://jorgelorenzo.coach", "http://localhost:3000"];
 const MIN_SUBMIT_MS = 2500; // por debajo de esto, es un bot rellenando el formulario al vuelo
 
+const NEWSLETTER_CONSENT_VERSION = "newsletter-web-v1";
+const HUB_NEWSLETTER_LIST = "newsletter-jorge-lorenzo";
+
+/**
+ * Registra el alta en Basketouch Hub (contacto, lista y consentimiento versionado). No bloquea la
+ * suscripción: la persona ya está guardada en nuestra base y el envío sigue leyendo de ahí. Devuelve
+ * null si salió bien o el motivo del fallo.
+ */
+async function sendSubscriptionToHub(input: { email: string; firstName: string; attribution: Record<string, string> }): Promise<string | null> {
+  const endpoint = process.env.HUB_CONTACT_EVENTS_URL;
+  const secret = process.env.JORGE_LORENZO_COACH_CONTACT_EVENTS_SECRET;
+  if (!endpoint || !secret) return "sin conexión configurada con el Hub";
+  try {
+    const response = await fetch(endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${secret}` },
+      body: JSON.stringify({
+        project: "jorge_lorenzo_coach",
+        event_type: "contact_upsert",
+        event_id: crypto.randomUUID(),
+        email: input.email,
+        first_name: input.firstName,
+        source: "jorgelorenzo.coach/newsletter",
+        lifecycle: "lead",
+        email_marketing_consent: true,
+        consent_text_version: NEWSLETTER_CONSENT_VERSION,
+        preferred_language: "es",
+        payload: { contact_list: HUB_NEWSLETTER_LIST, asset: "newsletter", ...input.attribution },
+      }),
+      cache: "no-store",
+      signal: AbortSignal.timeout(10_000),
+    });
+    return response.ok ? null : `${response.status} ${(await response.text()).slice(0, 300)}`;
+  } catch (error) {
+    return error instanceof Error ? error.message : "error de red con el Hub";
+  }
+}
+
 function normalizedText(value: unknown, maximumLength: number) {
   return typeof value === "string" ? value.trim().slice(0, maximumLength) : "";
 }
@@ -95,6 +133,14 @@ export async function POST(request: Request) {
     console.error("Error guardando suscriptor de newsletter:", subscriberError);
     return NextResponse.json({ error: "No hemos podido guardar tu suscripción." }, { status: 500 });
   }
+
+  // Alta en el Hub: contacto + lista de la newsletter + consentimiento. No bloquea la suscripción.
+  let attribution: Record<string, string> = {};
+  try {
+    attribution = JSON.parse(decodeURIComponent(request.headers.get("cookie")?.match(/(?:^|;\s*)growth_attribution=([^;]*)/)?.[1] || ""));
+  } catch { /* sin atribución */ }
+  const hubError = await sendSubscriptionToHub({ email, firstName, attribution });
+  if (hubError) console.error("Alta de la newsletter no registrada en el Hub:", hubError);
 
   // Móvil opcional: se manda a Basketouch Hub junto a la casilla de WhatsApp. No bloquea la
   // suscripción: si falla o el número no es válido, la newsletter sigue adelante.
