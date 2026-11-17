@@ -9,7 +9,7 @@
 .hero h1 em, .finalCta em { color: #d8b33f; font-style: normal; }
 .intro { max-width: 590px; margin: 27px 0 0; color: #bcb8af; font-size: 18px; line-height: 1.6; }
 .stats { display: flex; gap: 0; margin: 38px 0; }
-.stats > div { display: grid; gap: 4px; min-width: 106px; padding-right: 28px; margin-right: 28px; border-right: 1px solid #33312d; }
+.stats > div { display: grid; flex: 1; align-content: start; gap: 4px; min-width: 0; padding-right: 14px; margin-right: 14px; border-right: 1px solid #33312d; }
 .stats > div:last-child { margin: 0; padding: 0; border: 0; }
 .stats strong { color: #d8b33f; font-size: 30px; letter-spacing: -.04em; }
 .stats span { color: #9b978e; font-size: 12px; }

@@ -65,9 +65,10 @@ export default async function BlackFridayLaboratorio() {
             />
           </div>
           <div className={`${styles.stats} ${styles.videoStats}`}>
+            <div><strong>{modules.length || 9}</strong><span>módulos</span></div>
             <div><strong>52</strong><span>vídeos</span></div>
             <div><strong>23+</strong><span>horas</span></div>
-            <div><strong>∞</strong><span>acceso</span></div>
+            <div><strong>∞</strong><span>acceso de por vida</span></div>
           </div>
         </div>
       </section>
