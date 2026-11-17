@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import StripeCheckoutButton from "@/components/StripeCheckoutButton";
 import { createAdminClient } from "@/lib/supabase-admin";
 import BlackFridayCountdown from "./BlackFridayCountdown";
+import BlackFridayLeadVideo from "./BlackFridayLeadVideo";
 import styles from "./page.module.css";
 
 export const metadata: Metadata = {
@@ -16,6 +16,9 @@ type Lesson = { id: number; titulo: string; orden: number; es_preview: boolean; 
 type Module = { id: number; titulo: string; orden: number; lecciones_curso: Lesson[] | null };
 
 const checkoutMetadata = { slug: "laboratorio-2526", growth_project: "jorge_lorenzo_coach" };
+const bunnyLibraryId = "667464";
+const publicVideoId = "f1bd43e2-2931-40dd-bd58-ab015c9d4091";
+const leadVideoId = "5b6fa10c-20b4-440e-aba1-769c7371736a";
 
 export default async function BlackFridayLaboratorio() {
   const { data: course } = await createAdminClient()
@@ -28,12 +31,6 @@ export default async function BlackFridayLaboratorio() {
 
   const modules = ((course.modulos ?? []) as Module[]).sort((a, b) => a.orden - b.orden);
   const totalLessons = modules.reduce((total, module) => total + (module.lecciones_curso?.length ?? 0), 0);
-  const preview = modules
-    .flatMap((module) => module.lecciones_curso ?? [])
-    .sort((a, b) => a.orden - b.orden)
-    .find((lesson) => lesson.es_preview);
-  const bunnyLibraryId = process.env.NEXT_PUBLIC_BUNNY_LIBRARY_ID;
-
   return (
     <main className={styles.page}>
       <div className={styles.topbar}>
@@ -62,8 +59,15 @@ export default async function BlackFridayLaboratorio() {
 
         <div className={styles.heroVisual}>
           <div className={styles.deadline}><span>LA OFERTA CIERRA EN</span><BlackFridayCountdown /></div>
-          {course.portada_url && <Image src={course.portada_url} alt={course.titulo} width={960} height={540} priority className={styles.cover} />}
-          <div className={styles.visualCaption}><span>ARCHIVO 25/26</span><p>Entrenamiento que se queda contigo, no una temporada más.</p></div>
+          <div className={styles.heroVideo}>
+            <iframe
+              src={`https://iframe.mediadelivery.net/embed/${bunnyLibraryId}/${publicVideoId}?autoplay=false&preload=true&responsive=true&primaryColor=c9a84c&muted=false&loop=false&captions=false`}
+              title="El Laboratorio del Entrenador"
+              allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
+              allowFullScreen
+            />
+          </div>
+          <div className={styles.visualCaption}><span>EL LABORATORIO POR DENTRO</span><p>Partidos, detalles y situaciones reales de entrenamiento.</p></div>
         </div>
       </section>
 
@@ -73,23 +77,7 @@ export default async function BlackFridayLaboratorio() {
         <div className={styles.moduleGrid}>
           {modules.slice(0, 6).map((module, index) => <div className={styles.moduleCard} key={module.id}><span>0{index + 1}</span><div><strong>{module.titulo}</strong><p>{module.lecciones_curso?.length ?? 0} lecciones</p></div></div>)}
         </div>
-        {preview?.video_id && bunnyLibraryId && (
-          <div className={styles.videoSample}>
-            <div>
-              <p className={styles.sectionLabel}>MUESTRA DEL CONTENIDO</p>
-              <h3>{preview.titulo}</h3>
-              <p>Una lección completa del Laboratorio para que veas el nivel y el formato antes de decidir.</p>
-            </div>
-            <div className={styles.videoFrame}>
-              <iframe
-                src={`https://iframe.mediadelivery.net/embed/${bunnyLibraryId}/${preview.video_id}?autoplay=false&preload=true&responsive=true&primaryColor=c9a84c&muted=false&loop=false&captions=false`}
-                title={`Muestra: ${preview.titulo}`}
-                allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
-                allowFullScreen
-              />
-            </div>
-          </div>
-        )}
+        <BlackFridayLeadVideo libraryId={bunnyLibraryId} videoId={leadVideoId} />
       </section>
 
       <section className={styles.includes}>

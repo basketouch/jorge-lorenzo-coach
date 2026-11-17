@@ -20,7 +20,8 @@
 .offer .offerNote { grid-column: 1 / -1; margin-top: 12px; color: #d8b33f; font-size: 10px; font-weight: 900; letter-spacing: .06em; }
 .checkoutNote { margin: 11px 0 0; color: #868179; font-size: 12px; text-align: center; }
 .heroVisual { position: relative; }
-.cover { display: block; width: 100%; height: auto; border: 1px solid #3a3731; border-radius: 12px; box-shadow: 20px 24px 0 rgba(216, 179, 63, .11), 0 30px 60px rgba(0, 0, 0, .45); }
+.heroVideo { position: relative; overflow: hidden; aspect-ratio: 16 / 9; border: 1px solid #3a3731; border-radius: 12px; background: #060606; box-shadow: 20px 24px 0 rgba(216, 179, 63, .11), 0 30px 60px rgba(0, 0, 0, .45); }
+.heroVideo iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 .deadline { position: absolute; z-index: 1; top: -19px; left: -22px; display: grid; gap: 5px; padding: 13px 17px; border: 1px solid rgba(216, 179, 63, .85); border-radius: 8px; background: #14130f; box-shadow: 0 10px 20px rgba(0, 0, 0, .35); }
 .deadline span { font-size: 9px; font-weight: 900; letter-spacing: .12em; }
 .deadline strong { color: #f7f4ec; font-size: 17px; letter-spacing: .02em; }
@@ -41,6 +42,14 @@
 .videoSample p:not(.sectionLabel) { margin: 14px 0 0; color: #aaa69d; font-size: 14px; line-height: 1.55; }
 .videoFrame { position: relative; overflow: hidden; aspect-ratio: 16 / 9; border: 1px solid #4a463c; background: #060606; }
 .videoFrame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.leadForm { display: grid; gap: 10px; }
+.leadForm input[type="text"], .leadForm input[type="email"] { width: 100%; border: 1px solid #49453d; border-radius: 6px; background: #090909; padding: 13px; color: #f7f4ec; font-size: 14px; }
+.leadForm label { color: #aaa69d; font-size: 12px; line-height: 1.45; }
+.leadForm label input { margin: 0 7px 0 0; accent-color: #d8b33f; }
+.leadForm a { color: #d8b33f; }
+.leadForm button { border: 0; border-radius: 7px; background: #d8b33f; padding: 14px; color: #0a0a0a; font-size: 14px; font-weight: 900; cursor: pointer; }
+.leadForm button:disabled { cursor: wait; opacity: .7; }
+.leadForm [role="alert"] { margin: 0; color: #f08b8b; font-size: 12px; }
 .includes { display: grid; grid-template-columns: .8fr 1.2fr; gap: 80px; padding-top: 92px; padding-bottom: 92px; background: #11100e; }
 .benefits { display: grid; }
 .benefits p { display: grid; grid-template-columns: 45px 1fr; gap: 14px; margin: 0; padding: 19px 0; border-top: 1px solid #33312d; color: #cfcbc2; font-size: 16px; line-height: 1.45; }
