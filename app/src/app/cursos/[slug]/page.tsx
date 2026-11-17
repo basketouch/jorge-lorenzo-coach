@@ -216,7 +216,7 @@ export default async function CursoPage({ params }: { params: Promise<{ slug: st
                 ) : (
                   <div style={{ marginBottom: 20 }}>
                     {/* Opción Skool — solo si está configurada */}
-                    {tieneSkool && !ocultarPreciosSkool && (
+                    {tieneSkool && (
                       <>
                         <div style={{
                           background: "linear-gradient(135deg, rgba(201,168,76,0.1) 0%, rgba(201,168,76,0.03) 100%)",
@@ -224,25 +224,31 @@ export default async function CursoPage({ params }: { params: Promise<{ slug: st
                           borderRadius: 10, padding: "20px",
                           marginBottom: 10, position: "relative",
                         }}>
-                          <div style={{ position: "absolute", top: -11, left: 16, background: "var(--oro)", color: "var(--negro)", fontSize: 10, fontWeight: 800, padding: "2px 10px", borderRadius: 4, letterSpacing: "0.1em", textTransform: "uppercase" }}>
-                            Mejor precio
-                          </div>
-                          <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginBottom: 4 }}>
-                            <span style={{ fontSize: 38, fontWeight: 900, color: "var(--oro)", lineHeight: 1 }}>
-                              {formatSkoolPrecio(skoolPrecio!)}
-                            </span>
-                            {skoolPrecioOrig && (
-                              <span style={{ fontSize: 13, color: "var(--texto-suave)", textDecoration: "line-through" }}>
-                                {formatSkoolPrecio(skoolPrecioOrig)}
-                              </span>
-                            )}
-                          </div>
+                          {!ocultarPreciosSkool && (
+                            <>
+                              <div style={{ position: "absolute", top: -11, left: 16, background: "var(--oro)", color: "var(--negro)", fontSize: 10, fontWeight: 800, padding: "2px 10px", borderRadius: 4, letterSpacing: "0.1em", textTransform: "uppercase" }}>
+                                Mejor precio
+                              </div>
+                              <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginBottom: 4 }}>
+                                <span style={{ fontSize: 38, fontWeight: 900, color: "var(--oro)", lineHeight: 1 }}>
+                                  {formatSkoolPrecio(skoolPrecio!)}
+                                </span>
+                                {skoolPrecioOrig && (
+                                  <span style={{ fontSize: 13, color: "var(--texto-suave)", textDecoration: "line-through" }}>
+                                    {formatSkoolPrecio(skoolPrecioOrig)}
+                                  </span>
+                                )}
+                              </div>
+                            </>
+                          )}
                           <p style={{ fontSize: 12, color: "var(--texto-suave)", marginBottom: 14, lineHeight: 1.5 }}>
-                            Acceso completo · Pago único · Solo para miembros de la comunidad Skool
+                            {ocultarPreciosSkool
+                              ? "¿Quieres conocer la Comunidad de entrenadores?"
+                              : "Acceso completo · Pago único · Solo para miembros de la comunidad Skool"}
                           </p>
                           <a href={skoolUrl!} target="_blank" rel="noopener noreferrer"
                             className="btn-primary" style={{ display: "block", textAlign: "center", fontSize: 14 }}>
-                            Entrar a la comunidad →
+                            {ocultarPreciosSkool ? "Conocer la comunidad →" : "Entrar a la comunidad →"}
                           </a>
                         </div>
 
@@ -278,12 +284,6 @@ export default async function CursoPage({ params }: { params: Promise<{ slug: st
                           Comprar — {(webPrecio / 100).toFixed(0)}€ →
                         </StripeCheckoutButton>
                       </div>
-                    )}
-                    {ocultarPreciosSkool && skoolUrl && (
-                      <p style={{ marginTop: 16, textAlign: "center", fontSize: 12, color: "var(--texto-suave)" }}>
-                        ¿Quieres conocer la Comunidad?{" "}
-                        <a href={skoolUrl} target="_blank" rel="noopener noreferrer" style={{ color: "var(--oro)" }}>Descúbrela aquí →</a>
-                      </p>
                     )}
                   </div>
                 )}
