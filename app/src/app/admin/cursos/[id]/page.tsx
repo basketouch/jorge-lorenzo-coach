@@ -79,7 +79,6 @@ export default async function AdminCursoDetalle({ params }: { params: Promise<{ 
         skool_precio: curso.skool_precio,
         skool_precio_original: curso.skool_precio_original,
         skool_url: curso.skool_url,
-        ocultar_precios_skool: curso.ocultar_precios_skool,
         web_precio: curso.web_precio,
         web_precio_original: curso.web_precio_original,
         fecha_apertura_texto: curso.fecha_apertura_texto,

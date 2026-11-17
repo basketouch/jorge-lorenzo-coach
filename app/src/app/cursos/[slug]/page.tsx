@@ -53,11 +53,10 @@ export default async function CursoPage({ params }: { params: Promise<{ slug: st
   const skoolPrecio = curso.skool_precio ?? null;
   const skoolPrecioOrig = curso.skool_precio_original ?? null;
   const skoolUrl = curso.skool_url ?? null;
-  const ocultarPreciosSkool = Boolean(curso.ocultar_precios_skool);
   const skoolMoneda = curso.skool_moneda ?? "€";
   const formatSkoolPrecio = (centavos: number) =>
     skoolMoneda === "€" ? `${(centavos / 100).toFixed(0)}€` : `${skoolMoneda}${(centavos / 100).toFixed(0)}`;
-  const tieneSkool = !!(skoolUrl && (skoolPrecio || ocultarPreciosSkool));
+  const tieneSkool = !!(skoolPrecio && skoolUrl);
   const esGratuito = webPrecio === 0;
 
   const paraQuien: { texto: string }[] = curso.para_quien ?? [];
@@ -224,31 +223,25 @@ export default async function CursoPage({ params }: { params: Promise<{ slug: st
                           borderRadius: 10, padding: "20px",
                           marginBottom: 10, position: "relative",
                         }}>
-                          {!ocultarPreciosSkool && (
-                            <>
-                              <div style={{ position: "absolute", top: -11, left: 16, background: "var(--oro)", color: "var(--negro)", fontSize: 10, fontWeight: 800, padding: "2px 10px", borderRadius: 4, letterSpacing: "0.1em", textTransform: "uppercase" }}>
-                                Mejor precio
-                              </div>
-                              <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginBottom: 4 }}>
-                                <span style={{ fontSize: 38, fontWeight: 900, color: "var(--oro)", lineHeight: 1 }}>
-                                  {formatSkoolPrecio(skoolPrecio!)}
-                                </span>
-                                {skoolPrecioOrig && (
-                                  <span style={{ fontSize: 13, color: "var(--texto-suave)", textDecoration: "line-through" }}>
-                                    {formatSkoolPrecio(skoolPrecioOrig)}
-                                  </span>
-                                )}
-                              </div>
-                            </>
-                          )}
+                          <div style={{ position: "absolute", top: -11, left: 16, background: "var(--oro)", color: "var(--negro)", fontSize: 10, fontWeight: 800, padding: "2px 10px", borderRadius: 4, letterSpacing: "0.1em", textTransform: "uppercase" }}>
+                            Mejor precio
+                          </div>
+                          <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginBottom: 4 }}>
+                            <span style={{ fontSize: 38, fontWeight: 900, color: "var(--oro)", lineHeight: 1 }}>
+                              {formatSkoolPrecio(skoolPrecio!)}
+                            </span>
+                            {skoolPrecioOrig && (
+                              <span style={{ fontSize: 13, color: "var(--texto-suave)", textDecoration: "line-through" }}>
+                                {formatSkoolPrecio(skoolPrecioOrig)}
+                              </span>
+                            )}
+                          </div>
                           <p style={{ fontSize: 12, color: "var(--texto-suave)", marginBottom: 14, lineHeight: 1.5 }}>
-                            {ocultarPreciosSkool
-                              ? "¿Quieres conocer la Comunidad de entrenadores?"
-                              : "Acceso completo · Pago único · Solo para miembros de la comunidad Skool"}
+                            Acceso completo · Pago único · Solo para miembros de la comunidad Skool
                           </p>
                           <a href={skoolUrl!} target="_blank" rel="noopener noreferrer"
                             className="btn-primary" style={{ display: "block", textAlign: "center", fontSize: 14 }}>
-                            {ocultarPreciosSkool ? "Conocer la comunidad →" : "Entrar a la comunidad →"}
+                            Entrar a la comunidad →
                           </a>
                         </div>
 

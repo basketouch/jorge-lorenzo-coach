@@ -24,7 +24,6 @@ interface CursoData {
   skool_precio?: number | null;
   skool_precio_original?: number | null;
   skool_url?: string | null;
-  ocultar_precios_skool?: boolean | null;
   web_precio?: number | null;
   web_precio_original?: number | null;
   fecha_apertura_texto?: string | null;
@@ -55,7 +54,6 @@ export default function CursoEditor({ curso }: { curso: CursoData }) {
   const [skoolUrl, setSkoolUrl] = useState(curso.skool_url ?? "");
   const [skoolPrecio, setSkoolPrecio] = useState(String((curso.skool_precio ?? 0) / 100));
   const [skoolPrecioOrig, setSkoolPrecioOrig] = useState(String((curso.skool_precio_original ?? 0) / 100));
-  const [ocultarPreciosSkool, setOcultarPreciosSkool] = useState(Boolean(curso.ocultar_precios_skool));
   const [fechaApertura, setFechaApertura] = useState(curso.fecha_apertura_texto ?? "");
   // fecha_apertura: ISO datetime local (ej: "2026-06-01T09:00")
   const [fechaAperturaAuto, setFechaAperturaAuto] = useState(
@@ -99,7 +97,6 @@ export default function CursoEditor({ curso }: { curso: CursoData }) {
       skool_url: skoolUrl.trim() || null,
       skool_precio: skoolPrecio ? Math.round(parseFloat(skoolPrecio) * 100) : null,
       skool_precio_original: skoolPrecioOrig ? Math.round(parseFloat(skoolPrecioOrig) * 100) : null,
-      ocultar_precios_skool: ocultarPreciosSkool,
       fecha_apertura_texto: fechaApertura.trim() || null,
       // página
       descripcion_larga: descLarga.trim() || null,
@@ -264,14 +261,6 @@ export default function CursoEditor({ curso }: { curso: CursoData }) {
             </div>
             <Row label="URL Skool">
               <input value={skoolUrl} onChange={e => setSkoolUrl(e.target.value)} style={iS} placeholder="https://www.skool.com/..." />
-            </Row>
-            <Row label="Precios de Skool en la landing">
-              <Toggle
-                value={ocultarPreciosSkool}
-                onChange={setOcultarPreciosSkool}
-                labelOn="Ocultos · se mantiene solo el enlace a la Comunidad"
-                labelOff="Visibles"
-              />
             </Row>
             <Row label="Fecha apertura (texto)">
               <input value={fechaApertura} onChange={e => setFechaApertura(e.target.value)} style={iS} placeholder="Junio 2026" />
