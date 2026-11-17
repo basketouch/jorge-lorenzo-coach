@@ -21,6 +21,8 @@
 .offer .offerNote { grid-column: 1 / -1; margin-top: 12px; color: #d8b33f; font-size: 10px; font-weight: 900; letter-spacing: .06em; }
 .checkoutNote { margin: 11px 0 0; color: #a39f96; font-size: 12px; text-align: center; }
 .heroDeadline { margin: 0 0 15px; }
+.deadline.deadlineMobile { display: none; }
+.deadline.deadlineDesktop { margin: 0 0 22px; }
 .videoLabel { margin: 0 0 10px; color: #d8b33f; font-size: 11px; font-weight: 900; letter-spacing: .12em; text-transform: uppercase; }
 .heroVisual { position: relative; transform: translateY(-24px); }
 .heroVideo { position: relative; overflow: hidden; aspect-ratio: 16 / 9; border: 1px solid #3a3731; border-radius: 12px; background: #060606; box-shadow: 20px 24px 0 rgba(216, 179, 63, .11), 0 30px 60px rgba(0, 0, 0, .45); }
@@ -68,6 +70,8 @@
   .heroVisual { order: 4; transform: none; margin-bottom: 32px; }
   .offer { order: 5; }
   .heroDeadline { order: 6; }
+  .deadline.deadlineMobile { display: flex; }
+  .deadline.deadlineDesktop { display: none; }
   .cta { order: 7; }
   .hero h1 { font-size: clamp(49px, 14vw, 70px); }
   .intro { font-size: 16px; }
