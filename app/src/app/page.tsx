@@ -34,7 +34,7 @@ export default async function Home() {
   const adminDb = createAdminClient();
   const { data: lab } = await adminDb
     .from("cursos")
-    .select("en_venta, fecha_apertura, fecha_cierre, fecha_apertura_texto, web_precio, skool_precio")
+    .select("en_venta, fecha_apertura, fecha_cierre, fecha_apertura_texto, web_precio, skool_precio, ocultar_precios_skool")
     .eq("slug", "laboratorio-2526")
     .single();
 
@@ -43,6 +43,7 @@ export default async function Home() {
   const labEnVenta = (lab?.en_venta || enVentaAuto) && !cierrePasado;
   const webPrecio = lab?.web_precio ? (lab.web_precio / 100).toFixed(0) : "347";
   const skoolPrecio = lab?.skool_precio ? (lab.skool_precio / 100).toFixed(0) : "297";
+  const ocultarPreciosSkool = Boolean(lab?.ocultar_precios_skool);
 
   return (
     <>
@@ -367,24 +368,24 @@ export default async function Home() {
 
                 {/* Comunidad */}
                 <div style={{ background: "var(--negro)", border: "2px solid var(--oro)", borderRadius: 10, padding: 24, position: "relative" }}>
-                  <div style={{ position: "absolute", top: -12, left: 20, background: "var(--oro)", color: "var(--negro)", fontSize: 10, fontWeight: 800, padding: "3px 10px", borderRadius: 4, letterSpacing: "0.1em", textTransform: "uppercase" }}>Mejor opción</div>
+                  {!ocultarPreciosSkool && <div style={{ position: "absolute", top: -12, left: 20, background: "var(--oro)", color: "var(--negro)", fontSize: 10, fontWeight: 800, padding: "3px 10px", borderRadius: 4, letterSpacing: "0.1em", textTransform: "uppercase" }}>Mejor opción</div>}
                   <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: "var(--texto-suave)", marginBottom: 8 }}>Miembro Skool · Cualquier nivel</p>
-                  <div className="laboratorio-precio" style={{ color: "var(--oro)" }}>{skoolPrecio}€</div>
+                  {!ocultarPreciosSkool && <div className="laboratorio-precio" style={{ color: "var(--oro)" }}>{skoolPrecio}€</div>}
                   <p style={{ fontSize: 13, color: "var(--texto-suave)", marginTop: 8, lineHeight: 1.5 }}>
-                    Precio exclusivo para miembros<br />+ comunidad activa toda la temporada
+                    {ocultarPreciosSkool ? "Conoce la comunidad de entrenadores" : <>Precio exclusivo para miembros<br />+ comunidad activa toda la temporada</>}
                   </p>
-                  <div style={{ marginTop: 12, padding: "8px 12px", background: "rgba(201,168,76,0.08)", borderRadius: 6 }}>
+                  {!ocultarPreciosSkool && <div style={{ marginTop: 12, padding: "8px 12px", background: "rgba(201,168,76,0.08)", borderRadius: 6 }}>
                     <p style={{ fontSize: 11, color: "var(--oro)" }}>
                       Cualquier nivel de Skool (desde $20/mes) da acceso al archivo completo por 297€ — 50€ menos que en la web.
                     </p>
-                  </div>
+                  </div>}
                 </div>
               </div>
             </div>
 
             <div style={{ display: "flex", gap: 16, marginTop: 32, paddingTop: 32, borderTop: "1px solid var(--borde)", flexWrap: "wrap", alignItems: "stretch" }}>
               <a href="/cursos/laboratorio-2526" className="btn-secondary" style={{ flex: 1, textAlign: "center", display: "flex", alignItems: "center", justifyContent: "center" }}>Ver el programa completo</a>
-              <a href="https://www.skool.com/jorge-lorenzo-coach/plans" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ flex: 1, textAlign: "center", display: "flex", alignItems: "center", justifyContent: "center" }}>Acceder en Skool</a>
+              <a href="https://www.skool.com/jorge-lorenzo-coach/plans" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ flex: 1, textAlign: "center", display: "flex", alignItems: "center", justifyContent: "center" }}>{ocultarPreciosSkool ? "Conocer la comunidad" : "Acceder en Skool"}</a>
             </div>
           </div>
         </div>
