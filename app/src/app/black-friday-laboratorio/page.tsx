@@ -41,7 +41,7 @@ export default async function BlackFridayLaboratorio() {
         <div className={styles.heroCopy}>
           <p className={styles.eyebrow}>EL LABORATORIO DEL ENTRENADOR<span className={styles.eyebrowExtra}> · ARCHIVO 25/26</span></p>
           <h1>Todo el Laboratorio.<br /><em>Para siempre.</em></h1>
-          <p className={styles.intro}>El archivo completo para entrenadores que quieren llevar sus sesiones, su lectura del juego y su metodología a otro nivel.</p>
+          <p className={styles.intro}>52 vídeos y más de 23 horas de baloncesto: técnica individual, defensa, sistemas de ataque, scouting y planificación, más las clases de vestuario, presión y liderazgo que no salen en la pizarra.</p>
           <div className={styles.offer}>
             <div><span>BLACK FRIDAY</span><p>Antes <s>249,99€</s></p></div>
             <strong>119,99€</strong>
@@ -50,7 +50,7 @@ export default async function BlackFridayLaboratorio() {
           <div className={`${styles.deadline} ${styles.heroDeadline} ${styles.deadlineMobile}`}><span>LA OFERTA CIERRA EN</span><BlackFridayCountdown /></div>
           <div className={styles.cta}>
           <StripeCheckoutButton priceId={course.stripe_price_id} promotionCode="BLACKFRIDAY120" metadata={checkoutMetadata} style={{ width: "100%", padding: "19px", fontSize: 17, fontWeight: 900, border: 0, borderRadius: 8, background: "#d8b33f", color: "#0a0a0a" }}>Quiero el Laboratorio completo →</StripeCheckoutButton>
-          <p className={styles.checkoutNote}>Pago único · acceso permanente · sin suscripción</p>
+          <p className={styles.checkoutNote}>Pago único · acceso de por vida · sin suscripción</p>
           </div>
         </div>
 
