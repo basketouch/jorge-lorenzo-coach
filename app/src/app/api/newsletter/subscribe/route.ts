@@ -110,24 +110,43 @@ export async function POST(request: Request) {
     if (hub !== "saved") console.error("Móvil de la newsletter no guardado en el Hub:", hub);
   }
 
-  // Brevo se mantiene sincronizado hasta que el envío de campañas deje de usar sus listas.
-  const brevoResponse = await fetch("https://api.brevo.com/v3/contacts", {
-    method: "POST",
-    headers: {
-      "api-key": BREVO_API_KEY,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      email,
-      attributes: { NOMBRE: firstName },
-      listIds: [BREVO_NEWSLETTER_LIST_ID],
-      updateEnabled: true,
-    }),
-  });
+  // Brevo se mantiene sincronizado hasta que el envío de campañas deje de usar sus listas. Ya no
+  // bloquea el alta: la persona está guardada en nuestra base, así que si Brevo falla se anota en
+  // los metadatos del suscriptor (brevo_sync_failed_at) para reintentarlo y la alta sigue adelante.
+  let brevoError: string | null = null;
+  try {
+    const brevoResponse = await fetch("https://api.brevo.com/v3/contacts", {
+      method: "POST",
+      headers: {
+        "api-key": BREVO_API_KEY,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email,
+        attributes: { NOMBRE: firstName },
+        listIds: [BREVO_NEWSLETTER_LIST_ID],
+        updateEnabled: true,
+      }),
+    });
+    if (!brevoResponse.ok) brevoError = `${brevoResponse.status} ${await brevoResponse.text()}`.slice(0, 500);
+  } catch (error) {
+    brevoError = error instanceof Error ? error.message : "Error de red con Brevo";
+  }
 
-  if (!brevoResponse.ok) {
-    console.error("Error sincronizando suscriptor con Brevo:", await brevoResponse.text());
-    return NextResponse.json({ error: "No hemos podido completar tu suscripción. Inténtalo de nuevo." }, { status: 502 });
+  if (brevoError) {
+    console.error("Error sincronizando suscriptor con Brevo (el alta sigue adelante):", brevoError);
+    await admin
+      .from("newsletter_subscribers")
+      .update({ metadata: { ...existingMetadata, latest_form_submission_at: new Date().toISOString(), latest_form_submission_source: "jorgelorenzo.coach/newsletter", brevo_sync_failed_at: new Date().toISOString(), brevo_sync_error: brevoError } })
+      .eq("email", email);
+  } else if ("brevo_sync_failed_at" in existingMetadata) {
+    // Se resolvió: quita la marca de un fallo anterior.
+    const { brevo_sync_failed_at: _failedAt, brevo_sync_error: _error, ...cleanMetadata } = existingMetadata as Record<string, unknown>;
+    void _failedAt; void _error;
+    await admin
+      .from("newsletter_subscribers")
+      .update({ metadata: { ...cleanMetadata, latest_form_submission_at: new Date().toISOString(), latest_form_submission_source: "jorgelorenzo.coach/newsletter" } })
+      .eq("email", email);
   }
 
   return NextResponse.json({ ok: true });
