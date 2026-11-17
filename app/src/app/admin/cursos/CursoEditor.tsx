@@ -25,7 +25,6 @@ interface CursoData {
   skool_precio_original?: number | null;
   skool_url?: string | null;
   ocultar_precios_skool?: boolean | null;
-  codigo_promocional?: string | null;
   web_precio?: number | null;
   web_precio_original?: number | null;
   fecha_apertura_texto?: string | null;
@@ -57,7 +56,6 @@ export default function CursoEditor({ curso }: { curso: CursoData }) {
   const [skoolPrecio, setSkoolPrecio] = useState(String((curso.skool_precio ?? 0) / 100));
   const [skoolPrecioOrig, setSkoolPrecioOrig] = useState(String((curso.skool_precio_original ?? 0) / 100));
   const [ocultarPreciosSkool, setOcultarPreciosSkool] = useState(Boolean(curso.ocultar_precios_skool));
-  const [codigoPromocional, setCodigoPromocional] = useState(curso.codigo_promocional ?? "");
   const [fechaApertura, setFechaApertura] = useState(curso.fecha_apertura_texto ?? "");
   // fecha_apertura: ISO datetime local (ej: "2026-06-01T09:00")
   const [fechaAperturaAuto, setFechaAperturaAuto] = useState(
@@ -102,7 +100,6 @@ export default function CursoEditor({ curso }: { curso: CursoData }) {
       skool_precio: skoolPrecio ? Math.round(parseFloat(skoolPrecio) * 100) : null,
       skool_precio_original: skoolPrecioOrig ? Math.round(parseFloat(skoolPrecioOrig) * 100) : null,
       ocultar_precios_skool: ocultarPreciosSkool,
-      codigo_promocional: codigoPromocional.trim() || null,
       fecha_apertura_texto: fechaApertura.trim() || null,
       // página
       descripcion_larga: descLarga.trim() || null,
@@ -275,10 +272,6 @@ export default function CursoEditor({ curso }: { curso: CursoData }) {
                 labelOn="Ocultos · se mantiene solo el enlace a la Comunidad"
                 labelOff="Visibles"
               />
-            </Row>
-            <Row label="Código promocional visible">
-              <input value={codigoPromocional} onChange={e => setCodigoPromocional(e.target.value)} style={{ ...iS, fontFamily: "monospace", textTransform: "uppercase" }} placeholder="Ej. BLACKFRIDAY26" />
-              <p style={{ fontSize: 11, color: "var(--texto-suave)", marginTop: 6 }}>Se muestra junto al botón de compra. Déjalo vacío cuando no haya promoción.</p>
             </Row>
             <Row label="Fecha apertura (texto)">
               <input value={fechaApertura} onChange={e => setFechaApertura(e.target.value)} style={iS} placeholder="Junio 2026" />

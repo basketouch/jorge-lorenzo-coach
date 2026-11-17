@@ -54,14 +54,11 @@ export default async function CursoPage({ params }: { params: Promise<{ slug: st
   const skoolPrecioOrig = curso.skool_precio_original ?? null;
   const skoolUrl = curso.skool_url ?? null;
   const ocultarPreciosSkool = Boolean(curso.ocultar_precios_skool);
-  const codigoPromocional = curso.codigo_promocional?.trim() || null;
   const skoolMoneda = curso.skool_moneda ?? "€";
   const formatSkoolPrecio = (centavos: number) =>
     skoolMoneda === "€" ? `${(centavos / 100).toFixed(0)}€` : `${skoolMoneda}${(centavos / 100).toFixed(0)}`;
   const tieneSkool = !!(skoolUrl && (skoolPrecio || ocultarPreciosSkool));
   const esGratuito = webPrecio === 0;
-  const formatWebPrecio = (centavos: number) =>
-    `${(centavos / 100).toLocaleString("es-ES", { minimumFractionDigits: centavos % 100 ? 2 : 0, maximumFractionDigits: 2 })}€`;
 
   const paraQuien: { texto: string }[] = curso.para_quien ?? [];
   const trabajamos: { icono: string; texto: string }[] = curso.lo_que_trabajamos ?? [];
@@ -259,33 +256,26 @@ export default async function CursoPage({ params }: { params: Promise<{ slug: st
 
                     {/* Compra directa */}
                     {curso.stripe_price_id && (
-                      <div style={{ background: "linear-gradient(135deg, rgba(201,168,76,0.14) 0%, var(--card) 50%)", border: "2px solid rgba(201,168,76,0.75)", borderRadius: 10, padding: "20px", marginBottom: 10 }}>
+                      <div style={{ background: "var(--card)", border: "1px solid var(--borde)", borderRadius: 10, padding: "16px 20px", marginBottom: 10 }}>
                         <div style={{ marginBottom: 12 }}>
-                          {codigoPromocional && <p style={{ fontSize: 10, fontWeight: 800, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--oro)", marginBottom: 8 }}>Oferta especial</p>}
                           <div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
-                            <span style={{ fontSize: 34, fontWeight: 900, color: "var(--oro)", lineHeight: 1 }}>
-                              {formatWebPrecio(webPrecio)}
+                            <span style={{ fontSize: 26, fontWeight: 900, color: "var(--blanco)", lineHeight: 1 }}>
+                              {(webPrecio / 100).toFixed(0)}€
                             </span>
                             {webPrecioOrig && (
                               <span style={{ fontSize: 13, color: "var(--texto-suave)", textDecoration: "line-through" }}>
-                                {formatWebPrecio(webPrecioOrig)}
+                                {(webPrecioOrig / 100).toFixed(0)}€
                               </span>
                             )}
                           </div>
                           <p style={{ fontSize: 11, color: "var(--texto-suave)", marginTop: 3 }}>Acceso directo · Pago único</p>
                         </div>
-                        {codigoPromocional && (
-                          <div style={{ marginBottom: 14, padding: "10px 12px", borderRadius: 6, background: "rgba(0,0,0,0.22)", border: "1px dashed rgba(201,168,76,0.55)" }}>
-                            <p style={{ fontSize: 11, color: "var(--texto-suave)" }}>Código Black Friday · se aplica automáticamente al pagar</p>
-                            <p style={{ marginTop: 3, fontFamily: "monospace", fontSize: 17, fontWeight: 800, letterSpacing: "0.08em", color: "var(--oro)" }}>{codigoPromocional}</p>
-                          </div>
-                        )}
                         <StripeCheckoutButton
                           priceId={curso.stripe_price_id}
                           metadata={{ slug: curso.slug }}
-                          style={{ display: "block", textAlign: "center", fontSize: 15, fontWeight: 800, padding: "14px", border: "none", borderRadius: 6, color: "var(--negro)", background: "var(--oro)", cursor: "pointer", width: "100%" }}
+                          style={{ display: "block", textAlign: "center", fontSize: 13, padding: "10px", border: "1px solid var(--borde)", borderRadius: 6, color: "var(--texto)", background: "transparent", cursor: "pointer", width: "100%" }}
                         >
-                          Comprar ahora por {formatWebPrecio(webPrecio)} →
+                          Comprar — {(webPrecio / 100).toFixed(0)}€ →
                         </StripeCheckoutButton>
                       </div>
                     )}
