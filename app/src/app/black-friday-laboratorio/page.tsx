@@ -58,7 +58,6 @@ export default async function BlackFridayLaboratorio() {
         </div>
 
         <div className={styles.heroVisual}>
-          <div className={styles.deadline}><span>LA OFERTA CIERRA EN</span><BlackFridayCountdown /></div>
           <div className={styles.heroVideo}>
             <iframe
               src={`https://iframe.mediadelivery.net/embed/${bunnyLibraryId}/${publicVideoId}?autoplay=false&preload=true&responsive=true&primaryColor=c9a84c&muted=false&loop=false&captions=false`}
@@ -67,7 +66,7 @@ export default async function BlackFridayLaboratorio() {
               allowFullScreen
             />
           </div>
-          <div className={styles.visualCaption}><span>EL LABORATORIO POR DENTRO</span><p>Partidos, detalles y situaciones reales de entrenamiento.</p></div>
+          <div className={styles.deadline}><span>LA OFERTA CIERRA EN</span><BlackFridayCountdown /></div>
         </div>
       </section>
 
@@ -75,7 +74,7 @@ export default async function BlackFridayLaboratorio() {
         <p className={styles.sectionLabel}>NO ES UN CURSO SUELTO</p>
         <div className={styles.proofHeading}><h2>Es el archivo completo<br />del Laboratorio.</h2><p>Un lugar al que volver antes de una sesión, cuando preparas a un rival o cuando necesitas ordenar una idea.</p></div>
         <div className={styles.moduleGrid}>
-          {modules.slice(0, 6).map((module, index) => <div className={styles.moduleCard} key={module.id}><span>0{index + 1}</span><div><strong>{module.titulo}</strong><p>{module.lecciones_curso?.length ?? 0} lecciones</p></div></div>)}
+          {modules.slice(0, 9).map((module, index) => <div className={styles.moduleCard} key={module.id}><span>{String(index + 1).padStart(2, "0")}</span><div><strong>{module.titulo}</strong><p>{module.lecciones_curso?.length ?? 0} lecciones</p></div></div>)}
         </div>
         <BlackFridayLeadVideo libraryId={bunnyLibraryId} videoId={leadVideoId} />
       </section>

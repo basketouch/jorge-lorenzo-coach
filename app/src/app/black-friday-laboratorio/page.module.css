@@ -5,7 +5,7 @@
 .hero { display: grid; grid-template-columns: minmax(0, 1.04fr) minmax(390px, .96fr); align-items: center; gap: 72px; padding-top: 66px; padding-bottom: 112px; }
 .eyebrow, .sectionLabel { margin: 0 0 17px; font-size: 11px; font-weight: 900; letter-spacing: .14em; }
 .hero h1, .proof h2, .includes h2, .finalCta h2 { margin: 0; letter-spacing: -.055em; line-height: .96; }
-.hero h1 { max-width: 650px; font-size: clamp(51px, 6.5vw, 86px); }
+.hero h1 { max-width: 650px; font-size: clamp(51px, 6.5vw, 86px); font-weight: 800; }
 .hero h1 em, .finalCta em { color: #d8b33f; font-style: normal; }
 .intro { max-width: 590px; margin: 27px 0 0; color: #bcb8af; font-size: 18px; line-height: 1.6; }
 .stats { display: flex; gap: 0; margin: 38px 0; }
@@ -22,12 +22,9 @@
 .heroVisual { position: relative; }
 .heroVideo { position: relative; overflow: hidden; aspect-ratio: 16 / 9; border: 1px solid #3a3731; border-radius: 12px; background: #060606; box-shadow: 20px 24px 0 rgba(216, 179, 63, .11), 0 30px 60px rgba(0, 0, 0, .45); }
 .heroVideo iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
-.deadline { position: absolute; z-index: 1; top: -19px; left: -22px; display: grid; gap: 5px; padding: 13px 17px; border: 1px solid rgba(216, 179, 63, .85); border-radius: 8px; background: #14130f; box-shadow: 0 10px 20px rgba(0, 0, 0, .35); }
+.deadline { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 18px; padding: 13px 17px; border: 1px solid rgba(216, 179, 63, .6); border-radius: 8px; background: #14130f; }
 .deadline span { font-size: 9px; font-weight: 900; letter-spacing: .12em; }
 .deadline strong { color: #f7f4ec; font-size: 17px; letter-spacing: .02em; }
-.visualCaption { position: absolute; right: -12px; bottom: -39px; max-width: 280px; padding: 16px 18px; border-left: 2px solid #d8b33f; background: #151515; }
-.visualCaption span { color: #d8b33f; font-size: 10px; font-weight: 900; letter-spacing: .12em; }
-.visualCaption p { margin: 7px 0 0; color: #c7c2b8; font-size: 13px; line-height: 1.4; }
 .proof { padding-top: 98px; padding-bottom: 96px; border-top: 1px solid #292825; }
 .proofHeading { display: grid; grid-template-columns: minmax(0, 1fr) 330px; gap: 52px; align-items: end; margin-bottom: 42px; }
 .proof h2, .includes h2, .finalCta h2 { font-size: clamp(38px, 5vw, 65px); }
@@ -65,8 +62,7 @@
   .intro { font-size: 16px; }
   .stats > div { min-width: 0; flex: 1; padding-right: 12px; margin-right: 12px; }
   .offer > strong { font-size: 37px; }
-  .deadline { left: 12px; top: -18px; }
-  .visualCaption { right: 0; bottom: -49px; max-width: 235px; }
+  .deadline { gap: 12px; margin-top: 14px; padding: 12px 14px; }
   .proof { padding-top: 82px; padding-bottom: 74px; }
   .proofHeading, .includes { grid-template-columns: 1fr; gap: 26px; }
   .moduleGrid { grid-template-columns: 1fr; }
