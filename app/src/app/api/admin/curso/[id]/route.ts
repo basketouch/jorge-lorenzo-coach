@@ -27,6 +27,7 @@ export async function PATCH(
     "descripcion_larga", "duracion_texto", "para_quien", "lo_que_trabajamos", "videos_preview",
     "skool_precio", "skool_precio_original", "skool_url", "web_precio", "web_precio_original",
     "ocultar_precios_skool",
+    "codigo_promocional",
     "fecha_apertura_texto", "fecha_apertura", "fecha_cierre",
   ];
   const patch = Object.fromEntries(Object.entries(body).filter(([k]) => allowed.includes(k)));
