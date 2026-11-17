@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
+import { normalizePhone, sendWhatsappConsentToHub } from "@/lib/whatsapp-consent";
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export async function POST(request: NextRequest) {
   try {
-    const { name, email } = await request.json();
+    const { name, email, telefono, whatsapp } = await request.json();
     const firstName = typeof name === "string" ? name.trim().slice(0, 120) : "";
     const normalizedEmail = typeof email === "string" ? email.trim().toLowerCase() : "";
     if (!firstName || !EMAIL_PATTERN.test(normalizedEmail)) {
@@ -51,6 +52,15 @@ export async function POST(request: NextRequest) {
       console.error("Black Friday aviso: Hub respondió", response.status, await response.text());
       return NextResponse.json({ error: "No se pudo guardar tu email. Prueba de nuevo." }, { status: 502 });
     }
+
+    // Móvil opcional: solo se guarda en el Hub si la persona marca la casilla de WhatsApp.
+    // No bloquea el aviso: si falla o el número no es válido, el email ya está guardado.
+    const phone = typeof telefono === "string" ? normalizePhone(telefono.trim().slice(0, 30)) : null;
+    if (phone && whatsapp === true) {
+      const hub = await sendWhatsappConsentToHub({ email: normalizedEmail, firstName, phone, consent: true, source: "black_friday_2026_laboratorio_aviso" });
+      if (hub !== "saved") console.error("Black Friday aviso: móvil no guardado en el Hub:", hub);
+    }
+
     return NextResponse.json({ ok: true });
   } catch (error) {
     console.error("Black Friday aviso error", error);
