@@ -40,7 +40,7 @@ export default async function BlackFridayLaboratorio() {
 
       <section className={styles.hero}>
         <div className={styles.heroCopy}>
-          <p className={styles.eyebrow}>EL LABORATORIO DEL ENTRENADOR · ARCHIVO 25/26</p>
+          <p className={styles.eyebrow}>EL LABORATORIO DEL ENTRENADOR<span className={styles.eyebrowExtra}> · ARCHIVO 25/26</span></p>
           <h1>Todo el Laboratorio.<br /><em>Para siempre.</em></h1>
           <p className={styles.intro}>El archivo completo para entrenadores que quieren llevar sus sesiones, su lectura del juego y su metodología a otro nivel.</p>
           <div className={styles.offer}>
@@ -48,11 +48,15 @@ export default async function BlackFridayLaboratorio() {
             <strong>99,99€</strong>
             <p className={styles.offerNote}>Descuento aplicado al abrir el pago</p>
           </div>
-          <StripeCheckoutButton priceId={course.stripe_price_id} promotionCode="BLACKFRIDAY26" metadata={checkoutMetadata} style={{ width: "100%", padding: "19px", fontSize: 17, fontWeight: 900, border: 0, borderRadius: 8, background: "#d8b33f", color: "#0a0a0a" }}>Acceder al Laboratorio por 99,99€ →</StripeCheckoutButton>
+          <div className={`${styles.deadline} ${styles.heroDeadline}`}><span>LA OFERTA CIERRA EN</span><BlackFridayCountdown /></div>
+          <div className={styles.cta}>
+          <StripeCheckoutButton priceId={course.stripe_price_id} promotionCode="BLACKFRIDAY26" metadata={checkoutMetadata} style={{ width: "100%", padding: "19px", fontSize: 17, fontWeight: 900, border: 0, borderRadius: 8, background: "#d8b33f", color: "#0a0a0a" }}>Quiero el Laboratorio completo →</StripeCheckoutButton>
           <p className={styles.checkoutNote}>Pago único · acceso permanente · sin suscripción</p>
+          </div>
         </div>
 
         <div className={styles.heroVisual}>
+          <p className={styles.videoLabel}>Mira una lección completa</p>
           <div className={styles.heroVideo}>
             <iframe
               src={`https://iframe.mediadelivery.net/embed/${bunnyLibraryId}/${publicVideoId}?autoplay=false&preload=true&responsive=true&primaryColor=c9a84c&muted=false&loop=false&captions=false`}
@@ -64,9 +68,8 @@ export default async function BlackFridayLaboratorio() {
           <div className={`${styles.stats} ${styles.videoStats}`}>
             <div><strong>{modules.length || 9}</strong><span>módulos</span></div>
             <div><strong>{totalLessons || 51}</strong><span>lecciones</span></div>
-            <div><strong>∞</strong><span>acceso</span></div>
+            <div><strong>∞</strong><span>acceso de por vida</span></div>
           </div>
-          <div className={styles.deadline}><span>LA OFERTA CIERRA EN</span><BlackFridayCountdown /></div>
         </div>
       </section>
 
