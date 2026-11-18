@@ -8,6 +8,7 @@ import CambiarContrasena from "./CambiarContrasena";
 import AvisosWhatsapp from "./AvisosWhatsapp";
 import { getWhatsappStatusFromHub } from "@/lib/whatsapp-consent";
 import NavBar from "@/components/NavBar";
+import MetaPurchase from "@/components/MetaPurchase";
 
 export const metadata = { title: "Mi cuenta — Jorge Lorenzo" };
 
@@ -36,6 +37,7 @@ export default async function CuentaPage() {
 
   return (
     <>
+      <MetaPurchase />
       <NavBar
         links={[
           { label: "Cursos", href: "/cursos" },
