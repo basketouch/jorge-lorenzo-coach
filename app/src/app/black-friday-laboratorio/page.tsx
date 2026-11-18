@@ -124,7 +124,7 @@ export default async function BlackFridayLaboratorio({ searchParams }: { searchP
                 <strong>119,99€</strong>
                 <p className={styles.offerNote}>Descuento aplicado al abrir el pago</p>
               </div>
-              <div className={`${styles.deadline} ${styles.heroDeadline} ${styles.deadlineMobile}`}><span>LA OFERTA CIERRA EN</span><BlackFridayCountdown target={BF_CLOSES_AT} /></div>
+              <div className={`${styles.countdownMobile} ${styles.heroDeadline}`}><p className={styles.countdownLabel}>LA OFERTA CIERRA EN</p><BlackFridayCountdown target={BF_CLOSES_AT} tiles /></div>
               <div className={styles.cta} id="bf-hero-cta">
                 <StripeCheckoutButton priceId={course.stripe_price_id} promotionCode={BF_PROMO_CODE} metadata={checkoutMetadata} style={ctaStyle}>Quiero el Laboratorio completo →</StripeCheckoutButton>
                 <p className={styles.checkoutNote}>Pago único · acceso de por vida · sin suscripción</p>
@@ -132,7 +132,7 @@ export default async function BlackFridayLaboratorio({ searchParams }: { searchP
             </>
           ) : phase === "pre" ? (
             <>
-              <div className={`${styles.deadline} ${styles.heroDeadline} ${styles.deadlineMobile}`}><span>BLACK FRIDAY ABRE EN</span><BlackFridayCountdown target={BF_OPENS_AT} closedText="YA ABIERTO" /></div>
+              <div className={`${styles.countdownMobile} ${styles.heroDeadline}`}><p className={styles.countdownLabel}>BLACK FRIDAY ABRE EN</p><BlackFridayCountdown target={BF_OPENS_AT} closedText="YA ABIERTO" tiles /></div>
               <div className={`${styles.notify} ${styles.cta}`}>
                 <p className={styles.notifyTitle}>Abre el viernes 27 de noviembre.</p>
                 <p className={styles.notifyText}>Déjame tu email y serás de los primeros en saberlo.</p>

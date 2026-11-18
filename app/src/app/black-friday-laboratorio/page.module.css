@@ -30,8 +30,7 @@
 .closedText { margin: 26px 0 16px; color: #bcb8af; font-size: 16px; line-height: 1.55; }
 .closedLink { display: inline-block; width: 100%; padding: 19px; border-radius: 8px; background: #d8b33f; color: #0a0a0a; font-size: 17px; font-weight: 900; text-align: center; text-decoration: none; }
 .finalCta .closedLink { width: min(100%, 460px); }
-.deadline.deadlineMobile { display: none; }
-.deadline.deadlineDesktop { margin: 0 0 22px; }
+.countdownMobile { display: none; }
 .countdownDesktop { margin: 0 0 22px; }
 .countdownLabel { margin: 0 0 8px; color: #d8b33f; font-size: 11px; font-weight: 900; letter-spacing: .12em; }
 .countdownTiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
@@ -90,8 +89,10 @@
   .heroVisual { order: 4; transform: none; margin-bottom: 32px; }
   .offer { order: 5; }
   .heroDeadline { order: 6; }
-  .deadline.deadlineMobile { display: flex; }
-  .deadline.deadlineDesktop { display: none; }
+  .countdownMobile { display: block; }
+  .countdownTiles { gap: 8px; }
+  .countdownTiles > div { padding: 12px 4px 10px; }
+  .countdownTiles b { font-size: 34px; }
   .countdownDesktop { display: none; }
   .cta { order: 7; }
   .hero h1 { font-size: clamp(49px, 14vw, 70px); }
