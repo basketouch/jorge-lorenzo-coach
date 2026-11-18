@@ -3,9 +3,15 @@ export default function Footer() {
     <footer style={{ borderTop: "1px solid var(--borde)", padding: "32px 0" }}>
       <div className="container" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
         <p style={{ fontSize: 13, color: "var(--texto-suave)" }}>
-          © 2025 Jorge Lorenzo
+          © {new Date().getFullYear()} Jorge Lorenzo
         </p>
         <div style={{ display: "flex", gap: 20, alignItems: "center" }}>
+          <a
+            href="mailto:info@jorgelorenzo.coach"
+            style={{ fontSize: 13, color: "var(--texto-suave)", textDecoration: "none", borderBottom: "1px solid var(--borde)", paddingBottom: 1 }}
+          >
+            info@jorgelorenzo.coach
+          </a>
           <a
             href="/bio"
             style={{ fontSize: 13, color: "var(--texto-suave)", textDecoration: "none", borderBottom: "1px solid var(--borde)", paddingBottom: 1 }}
