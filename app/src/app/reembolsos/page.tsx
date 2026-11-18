@@ -54,7 +54,7 @@ export default function ReembolsosPage() {
               <h2 style={h2Style}>3. Cómo solicitar el reembolso</h2>
               <ul style={listStyle}>
                 {[
-                  "Envía un correo a basketouch@gmail.com con el asunto «Solicitud de reembolso».",
+                  "Envía un correo a info@jorgelorenzo.coach con el asunto «Solicitud de reembolso».",
                   "Incluye el email de tu cuenta y la fecha del cargo.",
                   "Procesaremos tu solicitud en un plazo máximo de 3 días hábiles.",
                   "El reembolso se realizará al método de pago original en un plazo de 5 a 10 días hábiles según tu entidad bancaria.",
@@ -70,7 +70,7 @@ export default function ReembolsosPage() {
             <section>
               <h2 style={h2Style}>4. Procesado de pagos</h2>
               <p style={pStyle}>
-                Los pagos son procesados por <strong style={{ color: "var(--blanco)" }}>Stripe</strong>. Los reembolsos se gestionan directamente por nosotros a través de Stripe. Para solicitar un reembolso, contacta con nosotros en <strong style={{ color: "var(--blanco)" }}>basketouch@gmail.com</strong> indicando tu correo de compra.
+                Los pagos son procesados por <strong style={{ color: "var(--blanco)" }}>Stripe</strong>. Los reembolsos se gestionan directamente por nosotros a través de Stripe. Para solicitar un reembolso, contacta con nosotros en <strong style={{ color: "var(--blanco)" }}>info@jorgelorenzo.coach</strong> indicando tu correo de compra.
               </p>
             </section>
 
@@ -84,7 +84,7 @@ export default function ReembolsosPage() {
             <section>
               <h2 style={h2Style}>6. Contacto</h2>
               <p style={pStyle}>
-                Para cualquier duda sobre reembolsos: <a href="mailto:basketouch@gmail.com" style={linkStyle}>basketouch@gmail.com</a>
+                Para cualquier duda sobre reembolsos: <a href="mailto:info@jorgelorenzo.coach" style={linkStyle}>info@jorgelorenzo.coach</a>
               </p>
             </section>
 
