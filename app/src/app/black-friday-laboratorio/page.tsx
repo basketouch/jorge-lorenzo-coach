@@ -20,7 +20,7 @@ function resolvePhase(fase: string | undefined): BlackFridayPhase {
 }
 
 const descriptions: Record<BlackFridayPhase, string> = {
-  pre: "El archivo completo de la temporada para entrenadores: técnica, defensa, sistemas de ataque, scouting y planificación. Black Friday abre el viernes 27 de noviembre.",
+  pre: "El archivo completo de la temporada para entrenadores: técnica, defensa, sistemas de ataque, scouting y planificación. Black Friday empieza el viernes 27 de noviembre.",
   oferta: "El Laboratorio del Entrenador 25/26 completo por 119,99 € en lugar de 249,99 €, hasta el 30 de noviembre. Pago único y acceso de por vida.",
   cerrada: "El archivo completo de la temporada para entrenadores: técnica, defensa, sistemas de ataque, scouting y planificación. Pago único y acceso de por vida.",
 };
@@ -97,7 +97,7 @@ export default async function BlackFridayLaboratorio({ searchParams }: { searchP
     ...(phase === "oferta"
       ? [{ q: "¿Hasta cuándo está este precio?", a: "Hasta el lunes 30 de noviembre a las 23:59, hora de Madrid. Después, el Laboratorio vuelve a su precio habitual de 249,99 €." }]
       : phase === "pre"
-        ? [{ q: "¿Cuándo abre Black Friday?", a: "El viernes 27 de noviembre a las 00:00, hora de Madrid, y se mantiene hasta el lunes 30 a las 23:59." }]
+        ? [{ q: "¿Cuándo empieza Black Friday?", a: "El viernes 27 de noviembre a las 00:00, hora de Madrid, y se mantiene hasta el lunes 30 a las 23:59." }]
         : []),
     { q: "¿El acceso es permanente?", a: "Sí. Es un pago único, sin suscripción y sin caducidad. Lo ves en jorgelorenzo.coach las veces que quieras." },
     { q: "¿Necesito ser miembro de la comunidad de Skool?", a: "No es necesario. Lo compras aquí y accedes en jorgelorenzo.coach, sin ninguna suscripción. Aun así, te recomiendo unirte a la comunidad de entrenadores en Skool: es donde comparto el contenido de cada semana y donde puedes preguntar, compartir y aprender con otros entrenadores." },
@@ -107,7 +107,7 @@ export default async function BlackFridayLaboratorio({ searchParams }: { searchP
     <main className={`${styles.page} ${phase === "oferta" ? styles.hasSticky : ""}`}>
       <div className={styles.topbar}>
         <span>JORGE <strong>LORENZO</strong></span>
-        <span>{phase === "pre" ? "BLACK FRIDAY · ABRE EL 27 NOV" : phase === "cerrada" ? "BLACK FRIDAY · FINALIZADO" : "BLACK FRIDAY · 27–30 NOV"}</span>
+        <span>{phase === "pre" ? "BLACK FRIDAY · EMPIEZA EL 27 NOV" : phase === "cerrada" ? "BLACK FRIDAY · FINALIZADO" : "BLACK FRIDAY · 27–30 NOV"}</span>
       </div>
 
       <section className={styles.hero}>
@@ -132,9 +132,9 @@ export default async function BlackFridayLaboratorio({ searchParams }: { searchP
             </>
           ) : phase === "pre" ? (
             <>
-              <div className={`${styles.countdownMobile} ${styles.heroDeadline}`}><p className={styles.countdownLabel}>BLACK FRIDAY ABRE EN</p><BlackFridayCountdown target={BF_OPENS_AT} closedText="YA ABIERTO" tiles /></div>
+              <div className={`${styles.countdownMobile} ${styles.heroDeadline}`}><p className={styles.countdownLabel}>BLACK FRIDAY EMPIEZA EN</p><BlackFridayCountdown target={BF_OPENS_AT} closedText="YA HA EMPEZADO" tiles /></div>
               <div className={`${styles.notify} ${styles.cta}`}>
-                <p className={styles.notifyTitle}>Abre el viernes 27 de noviembre.</p>
+                <p className={styles.notifyTitle}>El Black Friday del Laboratorio empieza el viernes 27.</p>
                 <p className={styles.notifyText}>Déjame tu email y serás de los primeros en saberlo.</p>
                 <BlackFridayNotifyForm />
               </div>
@@ -149,7 +149,7 @@ export default async function BlackFridayLaboratorio({ searchParams }: { searchP
 
         <div className={styles.heroVisual}>
           {phase === "oferta" ? <div className={styles.countdownDesktop}><p className={styles.countdownLabel}>LA OFERTA CIERRA EN</p><BlackFridayCountdown target={BF_CLOSES_AT} tiles /></div> : null}
-          {phase === "pre" ? <div className={styles.countdownDesktop}><p className={styles.countdownLabel}>BLACK FRIDAY ABRE EN</p><BlackFridayCountdown target={BF_OPENS_AT} closedText="YA ABIERTO" tiles /></div> : null}
+          {phase === "pre" ? <div className={styles.countdownDesktop}><p className={styles.countdownLabel}>BLACK FRIDAY EMPIEZA EN</p><BlackFridayCountdown target={BF_OPENS_AT} closedText="YA HA EMPEZADO" tiles /></div> : null}
           <p className={styles.videoLabel}>Mira estos ejemplos completos</p>
           <div className={styles.heroVideos}>
             {exampleVideos.map((video, index) => (
@@ -237,7 +237,7 @@ export default async function BlackFridayLaboratorio({ searchParams }: { searchP
           </>
         ) : phase === "pre" ? (
           <>
-            <p className={styles.sectionLabel}>BLACK FRIDAY · ABRE EL 27 DE NOVIEMBRE</p>
+            <p className={styles.sectionLabel}>BLACK FRIDAY · EMPIEZA EL 27 DE NOVIEMBRE</p>
             <h2>El Laboratorio completo.<br /><em>Apúntate al aviso.</em></h2>
             <div className={styles.finalNotify}><BlackFridayNotifyForm /></div>
           </>
