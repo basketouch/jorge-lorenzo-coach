@@ -2,6 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import { normalizePhone, WHATSAPP_CONSENT_TEXT } from "@/lib/whatsapp-consent";
+import { trackMeta } from "@/lib/meta-pixel";
 import styles from "./page.module.css";
 
 const WHATSAPP_GROUP_URL = "https://chat.whatsapp.com/EkeqdYr7SY67R9ys97poYc";
@@ -45,6 +46,7 @@ export default function BlackFridayNotifyForm() {
       if (!response.ok) throw new Error(result.error || "No se pudo guardar tu email.");
       setPhoneStatus((result.phone as PhoneStatus) || "none");
       setDone(true);
+      trackMeta("Lead", { content_name: "black_friday_2026_aviso" });
     } catch (err) {
       setError(err instanceof Error ? err.message : "No se pudo guardar tu email.");
     } finally {

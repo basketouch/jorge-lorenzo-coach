@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import RecoveryRedirect from "@/components/RecoveryRedirect";
+import CookieBanner from "@/components/CookieBanner";
+import MetaPixel from "@/components/MetaPixel";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -53,6 +55,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <RecoveryRedirect />
         {children}
+        <CookieBanner />
+        <MetaPixel />
       </body>
     </html>
   );

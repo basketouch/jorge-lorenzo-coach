@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { trackMeta } from "@/lib/meta-pixel";
 
 export default function StripeCheckoutButton({
   priceId,
@@ -24,6 +25,7 @@ export default function StripeCheckoutButton({
     if (loading) return;
     setLoading(true);
     setError("");
+    trackMeta("InitiateCheckout", { currency: "EUR" });
     try {
       const res = await fetch("/api/checkout", {
         method: "POST",

@@ -1,3 +1,5 @@
+import CookieSettingsLink from "@/components/CookieSettingsLink";
+
 export default function Footer() {
   return (
     <footer style={{ borderTop: "1px solid var(--borde)", padding: "32px 0" }}>
@@ -36,6 +38,7 @@ export default function Footer() {
           >
             Términos y condiciones
           </a>
+          <CookieSettingsLink style={{ fontSize: 13, color: "var(--texto-suave)" }} />
         </div>
       </div>
     </footer>
