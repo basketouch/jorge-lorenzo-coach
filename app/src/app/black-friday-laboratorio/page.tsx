@@ -148,8 +148,8 @@ export default async function BlackFridayLaboratorio({ searchParams }: { searchP
         </div>
 
         <div className={styles.heroVisual}>
-          {phase === "oferta" ? <div className={`${styles.deadline} ${styles.deadlineDesktop}`}><span>LA OFERTA CIERRA EN</span><BlackFridayCountdown target={BF_CLOSES_AT} /></div> : null}
-          {phase === "pre" ? <div className={`${styles.deadline} ${styles.deadlineDesktop}`}><span>BLACK FRIDAY ABRE EN</span><BlackFridayCountdown target={BF_OPENS_AT} closedText="YA ABIERTO" /></div> : null}
+          {phase === "oferta" ? <div className={styles.countdownDesktop}><p className={styles.countdownLabel}>LA OFERTA CIERRA EN</p><BlackFridayCountdown target={BF_CLOSES_AT} tiles /></div> : null}
+          {phase === "pre" ? <div className={styles.countdownDesktop}><p className={styles.countdownLabel}>BLACK FRIDAY ABRE EN</p><BlackFridayCountdown target={BF_OPENS_AT} closedText="YA ABIERTO" tiles /></div> : null}
           <p className={styles.videoLabel}>Mira estos ejemplos completos</p>
           <div className={styles.heroVideos}>
             {exampleVideos.map((video, index) => (
