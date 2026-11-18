@@ -36,7 +36,7 @@ export default function PrivacidadPage() {
               <h2 style={h2Style}>1. Responsable del tratamiento</h2>
               <p style={pStyle}>
                 <strong style={{ color: "var(--blanco)" }}>Basketouch Solutions Spain, SL</strong><br />
-                Email: <a href="mailto:basketouch@gmail.com" style={linkStyle}>basketouch@gmail.com</a><br />
+                Email: <a href="mailto:info@jorgelorenzo.coach" style={linkStyle}>info@jorgelorenzo.coach</a><br />
                 Web: <a href="https://www.jorgelorenzo.coach" style={linkStyle}>www.jorgelorenzo.coach</a>
               </p>
             </section>
@@ -122,7 +122,7 @@ export default function PrivacidadPage() {
                 ))}
               </ul>
               <p style={{ ...pStyle, marginTop: 16 }}>
-                Para ejercer cualquiera de estos derechos escríbenos a <a href="mailto:basketouch@gmail.com" style={linkStyle}>basketouch@gmail.com</a>. También puedes reclamar ante la Agencia Española de Protección de Datos (<a href="https://www.aepd.es" style={linkStyle}>aepd.es</a>).
+                Para ejercer cualquiera de estos derechos escríbenos a <a href="mailto:info@jorgelorenzo.coach" style={linkStyle}>info@jorgelorenzo.coach</a>. También puedes reclamar ante la Agencia Española de Protección de Datos (<a href="https://www.aepd.es" style={linkStyle}>aepd.es</a>).
               </p>
             </section>
 
