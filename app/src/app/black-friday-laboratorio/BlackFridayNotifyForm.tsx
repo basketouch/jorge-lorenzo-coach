@@ -58,7 +58,7 @@ export default function BlackFridayNotifyForm() {
     const phoneProblem = phoneStatus === "invalid" || phoneStatus === "failed" || phoneStatus === "no_consent";
     return (
       <div className={styles.notifyDone}>
-        <p><strong>Hecho.</strong> Te escribiré el viernes 27 en cuanto abra{phoneStatus === "saved" ? ", por email y por WhatsApp" : ""}.</p>
+        <p><strong>Hecho.</strong> Te escribiré el viernes 27 en cuanto empiece{phoneStatus === "saved" ? ", por email y por WhatsApp" : ""}.</p>
         {phoneProblem ? (
           <p className={styles.notifyWarn} role="alert">
             Tu email está guardado, pero no hemos podido guardar tu móvil. Para recibir el aviso por WhatsApp, entra al grupo con el botón de abajo.
@@ -88,7 +88,7 @@ export default function BlackFridayNotifyForm() {
         <label className={styles.consent}><input type="checkbox" checked={whatsapp} onChange={(event) => setWhatsapp(event.target.checked)} /> {WHATSAPP_CONSENT_TEXT}</label>
       ) : null}
       <label className={styles.consent}><input type="checkbox" required /> Quiero que me avisen por email cuando abra Black Friday y acepto la <a href="/privacidad" target="_blank">política de privacidad</a>.</label>
-      <button type="submit" disabled={loading}>{loading ? "Guardando..." : "Avísame cuando abra →"}</button>
+      <button type="submit" disabled={loading}>{loading ? "Guardando..." : "Avísame cuando empiece →"}</button>
       {error ? <p role="alert">{error}</p> : null}
     </form>
   );
