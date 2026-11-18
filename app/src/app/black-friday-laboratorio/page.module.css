@@ -32,6 +32,13 @@
 .finalCta .closedLink { width: min(100%, 460px); }
 .deadline.deadlineMobile { display: none; }
 .deadline.deadlineDesktop { margin: 0 0 22px; }
+.countdownDesktop { margin: 0 0 22px; }
+.countdownLabel { margin: 0 0 8px; color: #d8b33f; font-size: 11px; font-weight: 900; letter-spacing: .12em; }
+.countdownTiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.countdownTiles > div { display: grid; gap: 4px; padding: 14px 6px 12px; border: 1px solid rgba(216, 179, 63, .6); border-radius: 8px; background: #14130f; text-align: center; }
+.countdownTiles b { color: #f7f4ec; font-size: 40px; font-weight: 800; letter-spacing: -.04em; line-height: 1; font-variant-numeric: tabular-nums; }
+.countdownTiles span { color: #9b978e; font-size: 12px; }
+.countdownClosed { display: block; padding: 18px; border: 1px solid rgba(216, 179, 63, .6); border-radius: 8px; background: #14130f; color: #f7f4ec; text-align: center; letter-spacing: .04em; }
 .videoLabel { margin: 0 0 10px; color: #d8b33f; font-size: 11px; font-weight: 900; letter-spacing: .12em; text-transform: uppercase; }
 .heroVisual { position: relative; transform: translateY(-24px); }
 .heroVideos { display: grid; gap: 18px; }
@@ -85,6 +92,7 @@
   .heroDeadline { order: 6; }
   .deadline.deadlineMobile { display: flex; }
   .deadline.deadlineDesktop { display: none; }
+  .countdownDesktop { display: none; }
   .cta { order: 7; }
   .hero h1 { font-size: clamp(49px, 14vw, 70px); }
   .intro { font-size: 16px; }
