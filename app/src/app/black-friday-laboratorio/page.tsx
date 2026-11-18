@@ -47,7 +47,7 @@ const checkoutMetadata = { slug: "laboratorio-2526", growth_project: "jorge_lore
 const bunnyLibraryId = "667464";
 // Ejemplos completos del header: dos lecciones del curso (ambas de la biblioteca de Bunny).
 const exampleVideos = [
-  { id: "f1bd43e2-2931-40dd-bd58-ab015c9d4091", title: "El pase · Técnica individual ofensiva" },
+  { id: "1fb67132-41e2-44f4-b0ea-f527aa066a85", title: "Defensa Show · Defensa del bloqueo directo" },
   { id: "d6446f73-61b6-4524-9464-e93f5187b13e", title: "Sistemas para tiradores · Sistemas de ataque" },
 ];
 const leadVideoId = "5b6fa10c-20b4-440e-aba1-769c7371736a";
