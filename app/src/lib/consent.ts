@@ -1,7 +1,7 @@
 import { useSyncExternalStore } from "react";
 
 // Consentimiento de cookies de medición y publicidad (Píxel de Meta). Sin elección guardada, no se carga nada.
-export const CONSENT_KEY = "jl_cookie_consent_v1";
+export const CONSENT_KEY = "jl_cookie_consent_v2";
 export const CONSENT_EVENT = "jl-consent-change";
 export const REOPEN_EVENT = "jl-cookie-reopen";
 
