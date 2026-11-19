@@ -33,7 +33,7 @@ export default function CookieBanner() {
   return (
     <div role="dialog" aria-label="Aviso de cookies" style={{ position: "fixed", left: 12, right: 12, bottom: 12, zIndex: 100, maxWidth: 560, margin: "0 auto", padding: "16px 18px", border: "1px solid rgba(216,179,63,.55)", borderRadius: 12, background: "#14130f", color: "#f7f4ec", boxShadow: "0 12px 40px rgba(0,0,0,.55)" }}>
       <p style={{ margin: "0 0 12px", fontSize: 14, lineHeight: 1.55 }}>
-        Usamos cookies técnicas necesarias y, si lo aceptas, cookies de medición y publicidad de Meta para saber qué anuncios funcionan y mostrártelos. Puedes cambiarlo cuando quieras.{" "}
+        Usamos cookies técnicas necesarias y, si lo aceptas, cookies de medición propias y de publicidad de Meta para saber qué visitas y anuncios funcionan y mostrártelos. Puedes cambiarlo cuando quieras.{" "}
         <a href="/privacidad#cookies" style={{ color: "#d8b33f" }}>Más información</a>
       </p>
       <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>

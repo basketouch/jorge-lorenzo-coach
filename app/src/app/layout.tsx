@@ -3,6 +3,7 @@ import "./globals.css";
 import RecoveryRedirect from "@/components/RecoveryRedirect";
 import CookieBanner from "@/components/CookieBanner";
 import MetaPixel from "@/components/MetaPixel";
+import WebAnalytics from "@/components/WebAnalytics";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -57,6 +58,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {children}
         <CookieBanner />
         <MetaPixel />
+        <WebAnalytics />
       </body>
     </html>
   );

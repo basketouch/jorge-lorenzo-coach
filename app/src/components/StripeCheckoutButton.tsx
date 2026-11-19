@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { trackMeta } from "@/lib/meta-pixel";
+import { trackWeb } from "@/lib/web-analytics";
 
 export default function StripeCheckoutButton({
   priceId,
@@ -26,6 +27,7 @@ export default function StripeCheckoutButton({
     setLoading(true);
     setError("");
     trackMeta("InitiateCheckout", { currency: "EUR" });
+    trackWeb("cta_clicked", { cta_name: "trial" });
     try {
       const res = await fetch("/api/checkout", {
         method: "POST",
