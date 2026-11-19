@@ -212,8 +212,8 @@ export default async function BlackFridayLaboratorio({ searchParams }: { searchP
         <div className={styles.bioCopy}>
           <p className={styles.sectionLabel}>EL ENTRENADOR DETRÁS DEL LABORATORIO</p>
           <h2>Hola, soy Jorge Lorenzo.</h2>
-          <p>Empecé a entrenar con 16 años. Nunca lo dejé. En 2025 cerré una etapa de casi una década como asistente de la Selección Española: dos Mundiales, dos Juegos Olímpicos, dos Eurobasket. Y cada semana sigo en la pista con mis equipos.</p>
-          <p>El Laboratorio recoge lo que trabajé esta temporada, para que lo apliques en tu pista.</p>
+          <p>Empecé a entrenar con 16 años. Nunca lo dejé. En 2025 cerré una etapa de casi una década como asistente de la Selección Española: dos Mundiales, dos Juegos Olímpicos, dos Eurobasket.</p>
+          <p>El Laboratorio recoge lo que compartí con entrenadores la temporada pasada, para que lo apliques en tu pista.</p>
           <div className={styles.palmares}>
             {palmares.map((item) => <div key={item.title}><span aria-hidden="true">{item.icon}</span><p><strong>{item.title}</strong><br />{item.sub}</p></div>)}
           </div>

@@ -89,7 +89,7 @@ export default async function Home() {
               <span className="accent">Campeón de Europa.</span>
             </h1>
             <p className="hero-body">
-              Empecé a entrenar con 16 años. Nunca lo dejé. En 2025 cerré una etapa de casi una década como asistente de la Selección Española — dos Mundiales, dos Juegos Olímpicos, dos Eurobasket. Y cada semana sigo en la pista con mis equipos.{" "}
+              Empecé a entrenar con 16 años. Nunca lo dejé. En 2025 cerré una etapa de casi una década como asistente de la Selección Española — dos Mundiales, dos Juegos Olímpicos, dos Eurobasket.{" "}
               <strong>Eso es lo que voy a compartir contigo.</strong>
             </p>
             <a href="#niveles" className="btn-primary">Entra a la comunidad</a>
