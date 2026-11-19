@@ -101,8 +101,8 @@ export default function NewsletterPage() {
               <p className="section-label">Únete gratis</p>
               <h2 style={{ marginBottom: 12 }}>Una carta, una idea, una vez por semana</h2>
               <p style={{ color: "var(--texto-suave)", marginBottom: 32, fontSize: 15, lineHeight: 1.7 }}>
-                Comparto lo que aprendo — en la pista con mis equipos, revisando vídeos de la élite mundial,
-                o gestionando situaciones reales de vestuario. Sin padrinos, sin patrocinadores.
+                Comparto lo que he aprendido — en la pista con mis equipos, revisando vídeos de la élite mundial
+                y gestionando situaciones reales de vestuario. Sin padrinos, sin patrocinadores.
                 Solo baloncesto.
               </p>
 
@@ -111,7 +111,7 @@ export default function NewsletterPage() {
                 {[
                   "Análisis táctico y técnico a todos los niveles",
                   "Gestión del entrenador: liderazgo, presión y comunicación",
-                  "Recursos y herramientas que uso con mis equipos",
+                  "Recursos y herramientas que he usado con mis equipos",
                 ].map((item) => (
                   <li key={item} style={{ display: "flex", gap: 12, alignItems: "flex-start", fontSize: 15, color: "var(--texto-suave)", lineHeight: 1.5 }}>
                     <span style={{ color: "var(--oro)", fontWeight: 700, flexShrink: 0, marginTop: 1 }}>→</span>
