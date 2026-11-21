@@ -8,6 +8,17 @@ const nextConfig: NextConfig = {
     ],
     formats: ["image/avif", "image/webp"],
   },
+  async redirects() {
+    // Enlaces cortos para las bios de las redes (X no admite el enlace largo con UTM). Temporales (307) para poder cambiarlos.
+    return [
+      {
+        source: "/x",
+        destination:
+          "/black-friday-laboratorio?utm_source=x&utm_medium=bio&utm_campaign=black_friday_2026_laboratorio&utm_content=general",
+        permanent: false,
+      },
+    ];
+  },
   async headers() {
     return [
       {
