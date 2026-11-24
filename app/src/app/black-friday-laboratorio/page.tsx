@@ -101,7 +101,7 @@ export default async function BlackFridayLaboratorio({ searchParams }: { searchP
         : []),
     { q: "¿El acceso es permanente?", a: "Sí. Es un pago único, sin suscripción y sin caducidad. Lo ves en jorgelorenzo.coach las veces que quieras." },
     { q: "¿Necesito ser miembro de la comunidad de Skool?", a: "No es necesario. Lo compras aquí y accedes en jorgelorenzo.coach, sin ninguna suscripción. Aun así, te recomiendo unirte a la comunidad de entrenadores en Skool: es donde comparto el contenido de cada semana y donde puedes preguntar, compartir y aprender con otros entrenadores." },
-    { q: "¿Qué incluye exactamente?", a: `${modules.length || 9} módulos, ${videoCount} vídeos y más de 23 horas: técnica individual, defensa, sistemas de ataque, spacing, planificación, scouting y el resumen de la temporada, con clases sobre vestuario, presión y liderazgo.` },
+    { q: "¿Qué incluye exactamente?", a: `${modules.length || 9} módulos, ${videoCount} vídeos y más de 23 horas: técnica individual, defensa, sistemas de ataque, spacing, planificación, scouting y el resumen de la temporada, charlas incluidas. Cada módulo termina con una charla grabada de una hora sobre lo que no sale en la pizarra: vestuario, presión, liderazgo, estadísticas, mentalidad defensiva y cierre de temporada.` },
   ];
   return (
     <main className={`${styles.page} ${phase === "oferta" ? styles.hasSticky : ""}`}>
@@ -115,7 +115,7 @@ export default async function BlackFridayLaboratorio({ searchParams }: { searchP
           <p className={styles.eyebrow}>EL LABORATORIO DEL ENTRENADOR<span className={styles.eyebrowExtra}> · ARCHIVO 25/26</span></p>
           <h1>Todo el Laboratorio.<br /><em>Para siempre.</em></h1>
           <p className={styles.forWhom}>Para entrenadores que quieren llegar a cada sesión y a cada partido con las ideas claras.</p>
-          <p className={styles.intro}>{videoCount} vídeos y más de 23 horas de baloncesto: técnica individual, defensa, sistemas de ataque, scouting y planificación, más las clases de vestuario, presión y liderazgo que no salen en la pizarra.</p>
+          <p className={styles.intro}>{videoCount} vídeos y más de 23 horas de baloncesto: técnica individual, defensa, sistemas de ataque, scouting y planificación, más una charla grabada de una hora al final de cada módulo, sobre vestuario, presión y liderazgo: lo que no sale en la pizarra.</p>
           <p className={styles.credentials}><strong>Jorge Lorenzo</strong> · Campeón del Mundo 2019 y de Europa 2022 · Entrenador ayudante de la Selección Española 2017–2025</p>
           {phase === "oferta" ? (
             <>
