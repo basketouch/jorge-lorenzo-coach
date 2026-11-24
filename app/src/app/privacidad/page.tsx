@@ -90,7 +90,7 @@ export default function PrivacidadPage() {
                 ))}
               </ul>
               <p style={{ ...pStyle, marginTop: 16 }}>
-                No vendemos tus datos a terceros ni los cedemos con fines publicitarios.
+                No vendemos tus datos a terceros. Con fines publicitarios solo compartimos tu email, ya cifrado, con Meta (Facebook e Instagram), tal como se explica en el apartado 7.
               </p>
             </section>
 
@@ -133,6 +133,9 @@ export default function PrivacidadPage() {
               </p>
               <p style={{ ...pStyle, marginTop: 12 }}>
                 Solo si las aceptas en el aviso de cookies, registramos nuestras visitas y clics con un identificador aleatorio guardado en tu navegador (sin nombre ni email), unido a los parámetros UTM de la campaña, para saber qué publicaciones y anuncios funcionan; y cargamos el Píxel de Meta (Facebook e Instagram), que usa cookies de medición y publicidad (_fbp, _fbc) para medir los anuncios y mostrarte los nuestros. Si las rechazas, no se carga. Puedes cambiar tu elección en cualquier momento desde el enlace «Cookies» del pie de página.
+              </p>
+              <p style={{ ...pStyle, marginTop: 12 }}>
+                <strong style={{ color: "var(--blanco)" }}>Publicidad en Facebook e Instagram.</strong> Si estás suscrito a nuestro boletín o nos has dejado tu email, podemos usarlo para mostrarte nuestros anuncios en Facebook e Instagram y para no mostrártelos si ya eres cliente. Para ello subimos tu email a Meta ya cifrado (hash), que lo compara con los de sus usuarios. Meta no nos devuelve datos tuyos. Lo hacemos por interés legítimo, y puedes oponerte en cualquier momento escribiendo a <a href="mailto:info@jorgelorenzo.coach" style={linkStyle}>info@jorgelorenzo.coach</a>: retiraremos tu email de esos públicos.
               </p>
             </section>
 
