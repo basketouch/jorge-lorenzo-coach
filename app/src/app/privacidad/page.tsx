@@ -149,7 +149,7 @@ export default function PrivacidadPage() {
             <section>
               <h2 style={h2Style}>9. Cambios en esta política</h2>
               <p style={pStyle}>
-                Podemos actualizar esta Política de Privacidad ocasionalmente. Te notificaremos por correo electrónico antes de que los cambios entren en vigor.
+                Podemos actualizar esta Política de Privacidad ocasionalmente. Publicaremos aquí la versión vigente con su fecha de última actualización y te avisaremos por correo cuando los cambios sean relevantes.
               </p>
             </section>
 
