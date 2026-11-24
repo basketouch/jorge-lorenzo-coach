@@ -2,6 +2,7 @@ import { createAdminClient } from "@/lib/supabase-admin";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import crypto from "crypto";
+import { reportClientToHub } from "@/lib/hub-client-event";
 
 const getStripe = () => new Stripe(process.env.STRIPE_SECRET_KEY!);
 
@@ -116,6 +117,17 @@ export async function POST(req: NextRequest) {
   );
 
   await reportGrowthConversion(session).catch((error) => console.error("Error atribuyendo compra", error));
+  // El Hub guarda quién compró y desde qué campaña (sin cambiar su consentimiento de email).
+  await reportClientToHub({
+    email: customerEmail,
+    firstName: nombre,
+    lastName: apellido,
+    stripeSessionId: sessionId,
+    productSlug,
+    amountMinor: session.amount_total,
+    currency: session.currency,
+    attribution: metadata,
+  }).catch((error) => console.error("Error registrando al cliente en el Hub", error));
 
   return NextResponse.json({ ok: true });
 }
