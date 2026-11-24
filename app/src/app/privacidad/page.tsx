@@ -49,6 +49,7 @@ export default function PrivacidadPage() {
                   ["Datos de compra:", "cursos y módulos adquiridos, fecha de acceso y progreso en los contenidos."],
                   ["Datos de pago:", "procesados íntegramente por Stripe (nuestro proveedor de pagos). No almacenamos números de tarjeta ni datos bancarios."],
                   ["Datos técnicos:", "dirección IP, tipo de navegador, sistema operativo e identificadores de sesión, recogidos automáticamente para garantizar la seguridad y el correcto funcionamiento del servicio."],
+                  ["Teléfono móvil (opcional):", "solo si nos lo das para recibir mensajes por WhatsApp."],
                 ].map(([label, text]) => (
                   <li key={label} style={liStyle}>
                     <span style={{ color: "var(--oro)", flexShrink: 0, marginTop: 2 }}>→</span>
@@ -66,6 +67,7 @@ export default function PrivacidadPage() {
                   ["Gestión de pagos", "ejecución del contrato y obligaciones legales (art. 6.1.b y 6.1.c RGPD)."],
                   ["Comunicaciones transaccionales", "(confirmación de compra, acceso a contenidos) — ejecución del contrato (art. 6.1.b RGPD)."],
                   ["Comunicaciones comerciales", "consentimiento (art. 6.1.a RGPD), que das al apuntarte a un aviso, recordatorio o boletín pulsando el botón del formulario, junto al texto que te explica qué vas a recibir. Puedes retirarlo en cualquier momento con el enlace de baja de cada email o escribiéndonos."],
+                  ["Mensajes por WhatsApp", "consentimiento (art. 6.1.a RGPD), que das marcando la casilla de WhatsApp del formulario junto a tu número. Puedes retirarlo en cualquier momento escribiéndonos a info@jorgelorenzo.coach y eliminaremos tu número si lo pides."],
                 ].map(([label, text]) => (
                   <li key={label} style={liStyle}>
                     <span style={{ color: "var(--oro)", flexShrink: 0, marginTop: 2 }}>→</span>
@@ -82,6 +84,7 @@ export default function PrivacidadPage() {
                   ["Stripe", "procesador de pagos. Tus datos de facturación se rigen por la política de privacidad de Stripe (stripe.com/es/privacy)."],
                   ["Supabase", "plataforma de base de datos y autenticación (servidores en la UE)."],
                   ["Vercel", "alojamiento de la plataforma."],
+                  ["WhatsApp (Meta)", "servicio con el que te escribimos si nos has dado tu móvil y tu consentimiento."],
                 ].map(([label, text]) => (
                   <li key={label} style={liStyle}>
                     <span style={{ color: "var(--oro)", flexShrink: 0, marginTop: 2 }}>→</span>
