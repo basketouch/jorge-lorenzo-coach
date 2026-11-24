@@ -2,9 +2,9 @@
 // aceptación se envían a Basketouch Hub, que es donde se guarda la ficha de cada contacto.
 // Si se cambia el texto de la casilla, hay que cambiar también la versión.
 
-export const WHATSAPP_CONSENT_VERSION = "2026-11-14";
+export const WHATSAPP_CONSENT_VERSION = "2026-11-24";
 export const WHATSAPP_CONSENT_TEXT =
-  "Acepto que Basketouch Solutions Spain SL me escriba por WhatsApp a este número con novedades, contenidos exclusivos y ofertas de sus productos y servicios. Puedo darme de baja en cualquier momento.";
+  "Quiero recibir novedades y ofertas por WhatsApp en este número (Basketouch Solutions Spain SL). Puedo darme de baja cuando quiera.";
 
 /** Formato internacional; un número español de 9 cifras sin prefijo se toma como +34. */
 export function normalizePhone(raw: string): string | null {
