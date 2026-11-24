@@ -71,6 +71,7 @@ export default function BlackFridayNotifyForm() {
   }
 
   return (
+    <>
     <form className={`${styles.leadForm} ${styles.notifyForm}`} onSubmit={submit}>
       <label className={styles.field}>
         <span>Nombre</span>
@@ -91,5 +92,11 @@ export default function BlackFridayNotifyForm() {
       <p style={{ margin: 0, fontSize: 12, lineHeight: 1.5, opacity: 0.75 }}>Al pulsar el botón aceptas que te avise por email cuando empiece el Black Friday y la <a href="/privacidad" target="_blank">política de privacidad</a>.</p>
       {error ? <p role="alert">{error}</p> : null}
     </form>
+    <div className={styles.notifyGroup}>
+      <strong>¿Entrenas? Entra al grupo de WhatsApp de entrenadores.</strong>
+      <p>Publicaciones de la comunidad y lo que comparto yo: vídeos completos de ejemplo, ideas y análisis.</p>
+      <a href={WHATSAPP_GROUP_URL} target="_blank" rel="noopener noreferrer">Entrar al grupo →</a>
+    </div>
+    </>
   );
 }
