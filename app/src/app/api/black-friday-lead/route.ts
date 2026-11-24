@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { addContactToBrevoList } from "@/lib/brevo-contacts";
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -54,6 +55,10 @@ export async function POST(request: NextRequest) {
       console.error("Black Friday lead: Hub respondió", response.status, await response.text());
       return NextResponse.json({ error: "No se pudo guardar tu acceso. Prueba de nuevo." }, { status: 502 });
     }
+
+    // El Black Friday se envía desde Brevo: la persona también entra en su lista general. No bloquea el acceso.
+    const brevo = await addContactToBrevoList(normalizedEmail, firstName);
+    if (!brevo.ok) console.error("Black Friday lead: contacto no añadido a Brevo:", brevo.error);
 
     return NextResponse.json({ ok: true });
   } catch (error) {
