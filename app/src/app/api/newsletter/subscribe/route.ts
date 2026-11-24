@@ -11,7 +11,7 @@ const ALLOWED_ORIGINS =
     : ["https://www.jorgelorenzo.coach", "https://jorgelorenzo.coach", "http://localhost:3000"];
 const MIN_SUBMIT_MS = 2500; // por debajo de esto, es un bot rellenando el formulario al vuelo
 
-const NEWSLETTER_CONSENT_VERSION = "newsletter-web-v1";
+const NEWSLETTER_CONSENT_VERSION = "newsletter-web-v2";
 const HUB_NEWSLETTER_LIST = "newsletter-jorge-lorenzo";
 
 /**

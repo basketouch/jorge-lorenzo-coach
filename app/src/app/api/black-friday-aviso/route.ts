@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
         source: "black_friday_2026_laboratorio_aviso",
         lifecycle: "lead",
         email_marketing_consent: true,
-        consent_text_version: "black-friday-2026-aviso-v1",
+        consent_text_version: "black-friday-2026-aviso-v2",
         preferred_language: "es",
         payload: {
           contact_list: "black-friday-2026-laboratorio",
