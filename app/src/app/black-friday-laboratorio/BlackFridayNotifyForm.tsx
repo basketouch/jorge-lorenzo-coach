@@ -87,8 +87,8 @@ export default function BlackFridayNotifyForm() {
       {phone.trim() ? (
         <label className={styles.consent}><input type="checkbox" checked={whatsapp} onChange={(event) => setWhatsapp(event.target.checked)} /> {WHATSAPP_CONSENT_TEXT}</label>
       ) : null}
-      <label className={styles.consent}><input type="checkbox" required /> Quiero que me avisen por email cuando abra Black Friday y acepto la <a href="/privacidad" target="_blank">política de privacidad</a>.</label>
       <button type="submit" disabled={loading}>{loading ? "Guardando..." : "Avísame cuando empiece →"}</button>
+      <p style={{ margin: 0, fontSize: 12, lineHeight: 1.5, opacity: 0.75 }}>Al pulsar el botón aceptas que te avise por email cuando empiece el Black Friday y la <a href="/privacidad" target="_blank">política de privacidad</a>.</p>
       {error ? <p role="alert">{error}</p> : null}
     </form>
   );

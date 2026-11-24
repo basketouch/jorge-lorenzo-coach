@@ -65,7 +65,7 @@ export default function PrivacidadPage() {
                   ["Prestación del servicio", "ejecución del contrato (art. 6.1.b RGPD). Necesario para que puedas acceder a los cursos y contenidos adquiridos."],
                   ["Gestión de pagos", "ejecución del contrato y obligaciones legales (art. 6.1.b y 6.1.c RGPD)."],
                   ["Comunicaciones transaccionales", "(confirmación de compra, acceso a contenidos) — ejecución del contrato (art. 6.1.b RGPD)."],
-                  ["Comunicaciones comerciales", "consentimiento (art. 6.1.a RGPD). Solo si lo has aceptado expresamente; puedes retirarlo en cualquier momento."],
+                  ["Comunicaciones comerciales", "consentimiento (art. 6.1.a RGPD), que das al apuntarte a un aviso, recordatorio o boletín pulsando el botón del formulario, junto al texto que te explica qué vas a recibir. Puedes retirarlo en cualquier momento con el enlace de baja de cada email o escribiéndonos."],
                 ].map(([label, text]) => (
                   <li key={label} style={liStyle}>
                     <span style={{ color: "var(--oro)", flexShrink: 0, marginTop: 2 }}>→</span>
@@ -90,7 +90,7 @@ export default function PrivacidadPage() {
                 ))}
               </ul>
               <p style={{ ...pStyle, marginTop: 16 }}>
-                No vendemos tus datos a terceros ni los cedemos con fines publicitarios.
+                No vendemos tus datos a terceros. Con fines publicitarios solo compartimos tu email, ya cifrado, con Meta (Facebook e Instagram), tal como se explica en el apartado 7.
               </p>
             </section>
 
@@ -134,6 +134,9 @@ export default function PrivacidadPage() {
               <p style={{ ...pStyle, marginTop: 12 }}>
                 Solo si las aceptas en el aviso de cookies, registramos nuestras visitas y clics con un identificador aleatorio guardado en tu navegador (sin nombre ni email), unido a los parámetros UTM de la campaña, para saber qué publicaciones y anuncios funcionan; y cargamos el Píxel de Meta (Facebook e Instagram), que usa cookies de medición y publicidad (_fbp, _fbc) para medir los anuncios y mostrarte los nuestros. Si las rechazas, no se carga. Puedes cambiar tu elección en cualquier momento desde el enlace «Cookies» del pie de página.
               </p>
+              <p style={{ ...pStyle, marginTop: 12 }}>
+                <strong style={{ color: "var(--blanco)" }}>Publicidad en Facebook e Instagram.</strong> Si estás suscrito a nuestro boletín o nos has dejado tu email, podemos usarlo para mostrarte nuestros anuncios en Facebook e Instagram y para no mostrártelos si ya eres cliente. Para ello subimos tu email a Meta ya cifrado (hash), que lo compara con los de sus usuarios. Meta no nos devuelve datos tuyos. Lo hacemos por interés legítimo, y puedes oponerte en cualquier momento escribiendo a <a href="mailto:info@jorgelorenzo.coach" style={linkStyle}>info@jorgelorenzo.coach</a>: retiraremos tu email de esos públicos.
+              </p>
             </section>
 
             <section>
@@ -146,7 +149,7 @@ export default function PrivacidadPage() {
             <section>
               <h2 style={h2Style}>9. Cambios en esta política</h2>
               <p style={pStyle}>
-                Podemos actualizar esta Política de Privacidad ocasionalmente. Te notificaremos por correo electrónico antes de que los cambios entren en vigor.
+                Podemos actualizar esta Política de Privacidad ocasionalmente. Publicaremos aquí la versión vigente con su fecha de última actualización y te avisaremos por correo cuando los cambios sean relevantes.
               </p>
             </section>
 

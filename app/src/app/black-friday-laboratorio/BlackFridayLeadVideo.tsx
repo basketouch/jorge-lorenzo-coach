@@ -51,8 +51,8 @@ export default function BlackFridayLeadVideo({ libraryId, videoId }: { libraryId
         <form className={styles.leadForm} onSubmit={unlock}>
           <input value={name} onChange={(event) => setName(event.target.value)} placeholder="Tu nombre" autoComplete="given-name" required />
           <input value={email} onChange={(event) => setEmail(event.target.value)} type="email" placeholder="Tu email" autoComplete="email" required />
-          <label><input type="checkbox" required /> Quiero recibir el recordatorio de Black Friday y acepto la <a href="/privacidad" target="_blank">política de privacidad</a>.</label>
           <button type="submit" disabled={loading}>{loading ? "Abriendo vídeo..." : "Ver ejemplos de ejercicios →"}</button>
+          <p style={{ margin: 0, fontSize: 12, lineHeight: 1.5, opacity: 0.75 }}>Al pulsar el botón aceptas recibir el recordatorio de Black Friday por email y la <a href="/privacidad" target="_blank">política de privacidad</a>.</p>
           {error ? <p role="alert">{error}</p> : null}
         </form>
       )}

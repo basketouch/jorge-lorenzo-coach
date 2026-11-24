@@ -10,10 +10,9 @@ export default function NewsletterPage() {
   const [nombre, setNombre] = useState("");
   const [email, setEmail] = useState("");
   const [website, setWebsite] = useState(""); // honeypot: solo lo rellenan los bots
-  const [optIn, setOptIn] = useState(false);
   const [telefono, setTelefono] = useState("");
-  // Viene marcada, pero solo cuenta si además se escribe el móvil.
-  const [whatsapp, setWhatsapp] = useState(true);
+  // Desmarcada por defecto: solo se muestra y cuenta si además se escribe el móvil.
+  const [whatsapp, setWhatsapp] = useState(false);
   const [enviado, setEnviado] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -21,10 +20,6 @@ export default function NewsletterPage() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!optIn) {
-      setError("Debes aceptar los términos para suscribirte.");
-      return;
-    }
     setLoading(true);
     setError("");
 
@@ -32,7 +27,7 @@ export default function NewsletterPage() {
       const response = await fetch("/api/newsletter/subscribe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ nombre, email, optIn, telefono, whatsapp, website, renderedAt: renderedAt.current }),
+        body: JSON.stringify({ nombre, email, optIn: true, telefono, whatsapp: telefono.trim() ? whatsapp : false, website, renderedAt: renderedAt.current }),
       });
       if (!response.ok) throw new Error("newsletter_subscription_failed");
       setEnviado(true);
@@ -175,37 +170,19 @@ export default function NewsletterPage() {
                     style={inputStyle}
                   />
 
-                  <label style={{ display: "flex", gap: 12, alignItems: "flex-start", cursor: "pointer" }}>
-                    <input
-                      type="checkbox"
-                      checked={optIn}
-                      onChange={(e) => setOptIn(e.target.checked)}
-                      required
-                      style={{ marginTop: 3, accentColor: "var(--oro)", flexShrink: 0 }}
-                    />
-                    <span style={{ fontSize: 13, color: "var(--texto-suave)", lineHeight: 1.5 }}>
-                      Acepto recibir la newsletter y los{" "}
-                      <a
-                        href="/pages/aceptacion-de-terminos-y-condiciones"
-                        style={{ color: "var(--oro)" }}
-                      >
-                        términos y condiciones
-                      </a>
-                      .
-                    </span>
-                  </label>
-
-                  <label style={{ display: "flex", gap: 12, alignItems: "flex-start", cursor: "pointer" }}>
-                    <input
-                      type="checkbox"
-                      checked={whatsapp}
-                      onChange={(e) => setWhatsapp(e.target.checked)}
-                      style={{ marginTop: 3, accentColor: "var(--oro)", flexShrink: 0 }}
-                    />
-                    <span style={{ fontSize: 13, color: "var(--texto-suave)", lineHeight: 1.5 }}>
-                      {WHATSAPP_CONSENT_TEXT}
-                    </span>
-                  </label>
+                  {telefono.trim() ? (
+                    <label style={{ display: "flex", gap: 12, alignItems: "flex-start", cursor: "pointer" }}>
+                      <input
+                        type="checkbox"
+                        checked={whatsapp}
+                        onChange={(e) => setWhatsapp(e.target.checked)}
+                        style={{ marginTop: 3, accentColor: "var(--oro)", flexShrink: 0 }}
+                      />
+                      <span style={{ fontSize: 13, color: "var(--texto-suave)", lineHeight: 1.5 }}>
+                        {WHATSAPP_CONSENT_TEXT}
+                      </span>
+                    </label>
+                  ) : null}
 
                   {error && <p style={{ color: "#e05c5c", fontSize: 14 }}>{error}</p>}
 
@@ -218,7 +195,10 @@ export default function NewsletterPage() {
                     {loading ? "..." : "Suscribirme gratis →"}
                   </button>
 
-                  <p style={{ fontSize: 12, color: "var(--texto-suave)" }}>
+                  <p style={{ fontSize: 12, color: "var(--texto-suave)", lineHeight: 1.5 }}>
+                    Al pulsar el botón aceptas recibir la newsletter, la{" "}
+                    <a href="/privacidad" style={{ color: "var(--oro)" }}>política de privacidad</a> y los{" "}
+                    <a href="/pages/aceptacion-de-terminos-y-condiciones" style={{ color: "var(--oro)" }}>términos y condiciones</a>.
                     Sin spam. Baja cuando quieras.
                   </p>
                 </form>
