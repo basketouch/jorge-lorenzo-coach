@@ -175,9 +175,21 @@ export default async function BlackFridayLaboratorio({ searchParams }: { searchP
 
       <section className={styles.proof}>
         <p className={styles.sectionLabel}>NO ES UN CURSO SUELTO</p>
-        <div className={styles.proofHeading}><h2>Es el archivo completo<br />del Laboratorio.</h2><p>Un lugar al que volver antes de una sesión, cuando preparas a un rival o cuando necesitas ordenar una idea.</p></div>
+        <div className={styles.proofHeading}><h2>Es el archivo completo<br />del Laboratorio.</h2><p>Un lugar al que volver antes de una sesión, cuando preparas a un rival o cuando necesitas ordenar una idea. Cada módulo termina con una charla de una hora sobre lo que no sale en la pizarra.</p></div>
         <div className={styles.moduleGrid}>
-          {modules.slice(0, 9).map((module, index) => <div className={styles.moduleCard} key={module.id}><span>{String(index + 1).padStart(2, "0")}</span><div><strong>{module.titulo}</strong><p>{module.lecciones_curso?.length ?? 0} lecciones</p></div></div>)}
+          {modules.slice(0, 9).map((module, index) => {
+            const talk = (module.lecciones_curso ?? []).find((lesson) => lesson.titulo.includes("🎓"));
+            return (
+              <div className={styles.moduleCard} key={module.id}>
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <div>
+                  <strong>{module.titulo}</strong>
+                  <p>{module.lecciones_curso?.length ?? 0} lecciones</p>
+                  {talk ? <p className={styles.moduleTalk}>🎓 {talk.titulo.replace("🎓", "").trim()}</p> : null}
+                </div>
+              </div>
+            );
+          })}
         </div>
         {phase === "oferta" ? <BlackFridayLeadVideo libraryId={bunnyLibraryId} videoId={leadVideoId} /> : null}
       </section>

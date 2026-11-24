@@ -55,6 +55,7 @@
 .moduleCard > span { color: #d8b33f; font-size: 11px; font-weight: 900; }
 .moduleCard strong { font-size: 15px; line-height: 1.25; }
 .moduleCard p { margin: 7px 0 0; color: #918d85; font-size: 12px; }
+.moduleCard p.moduleTalk { margin-top: 9px; color: #d8b33f; font-size: 12px; line-height: 1.35; }
 .videoSample { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap: 36px; align-items: center; margin-top: 52px; padding: 28px; border: 1px solid #393732; background: #111; }
 .videoSample h3 { margin: 0; font-size: 25px; line-height: 1.05; letter-spacing: -.035em; }
 .videoSample p:not(.sectionLabel) { margin: 14px 0 0; color: #aaa69d; font-size: 14px; line-height: 1.55; }
