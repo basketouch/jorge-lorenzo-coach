@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { normalizePhone, sendWhatsappConsentToHub } from "@/lib/whatsapp-consent";
-import { addContactToBrevoList } from "@/lib/brevo-contacts";
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -53,10 +52,6 @@ export async function POST(request: NextRequest) {
       console.error("Black Friday aviso: Hub respondió", response.status, await response.text());
       return NextResponse.json({ error: "No se pudo guardar tu email. Prueba de nuevo." }, { status: 502 });
     }
-
-    // El Black Friday se envía desde Brevo: la persona también entra en su lista general. No bloquea el aviso.
-    const brevo = await addContactToBrevoList(normalizedEmail, firstName);
-    if (!brevo.ok) console.error("Black Friday aviso: contacto no añadido a Brevo:", brevo.error);
 
     // Móvil opcional: solo se guarda en el Hub si es válido y la persona marca la casilla de WhatsApp.
     // No bloquea el aviso (el email ya está guardado), pero el resultado se devuelve para avisarle.
