@@ -221,7 +221,7 @@ export default function NewsletterPage() {
               <div style={{ borderRadius: 12, overflow: "hidden", border: "1px solid var(--borde)" }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="https://newsletter.jorgelorenzo.coach/Con_Pau_Gasol.JPG"
+                  src="/fotos/Con%20Pau%20Gasol.png"
                   alt="Jorge Lorenzo con Pau Gasol"
                   style={{ width: "100%", display: "block", objectFit: "cover" }}
                 />
