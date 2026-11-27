@@ -3,10 +3,10 @@
 import { FormEvent, useState } from "react";
 import styles from "./page.module.css";
 
-export default function BlackFridayLeadVideo({ libraryId, videoId }: { libraryId: string; videoId: string }) {
+export default function BlackFridayLeadVideo({ libraryId, videoId, fromEmail = false }: { libraryId: string; videoId: string; fromEmail?: boolean }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [unlocked, setUnlocked] = useState(false);
+  const [unlocked, setUnlocked] = useState(fromEmail);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -36,7 +36,7 @@ export default function BlackFridayLeadVideo({ libraryId, videoId }: { libraryId
       <div>
         <p className={styles.sectionLabel}>MUESTRA DE EJERCICIOS</p>
         <h3>Ejemplos que puedes llevar a pista.</h3>
-        <p>Déjanos tu email y accede ahora a una selección de ejercicios. Antes de que cierre Black Friday recibirás un único recordatorio de la oferta.</p>
+        <p>{fromEmail ? "Una selección de ejercicios del Laboratorio, para que veas cómo es el material por dentro." : "Déjanos tu email y accede ahora a una selección de ejercicios. Antes de que cierre Black Friday recibirás un único recordatorio de la oferta."}</p>
       </div>
       {unlocked ? (
         <div className={styles.videoFrame}>
