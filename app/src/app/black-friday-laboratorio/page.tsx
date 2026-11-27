@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import Footer from "@/components/Footer";
+import { cookies } from "next/headers";
 import StripeCheckoutButton from "@/components/StripeCheckoutButton";
 import { createAdminClient } from "@/lib/supabase-admin";
 import BlackFridayCountdown from "./BlackFridayCountdown";
@@ -79,8 +80,13 @@ const palmares = [
   { icon: "🏀", title: "Mundial 2023 · Eurobasket 2025", sub: "Jakarta · Chipre" },
 ];
 const ctaStyle = { width: "100%", padding: "19px", fontSize: 17, fontWeight: 900, border: 0, borderRadius: 8, background: "#d8b33f", color: "#0a0a0a" } as const;
-export default async function BlackFridayLaboratorio({ searchParams }: { searchParams: Promise<{ fase?: string }> }) {
-  const { fase } = await searchParams;
+export default async function BlackFridayLaboratorio({ searchParams }: { searchParams: Promise<{ fase?: string; utm_source?: string; utm_medium?: string }> }) {
+  const { fase, utm_source, utm_medium } = await searchParams;
+  // Quien llega desde un email de Brevo ya es suscriptor: ve el vídeo directamente, sin volver a dejar su email.
+  // La cookie cubre las visitas posteriores; el parámetro, la primera (la cookie aún no existe en esa petición).
+  let attribution: { utm_source?: string; utm_medium?: string } = {};
+  try { attribution = JSON.parse(decodeURIComponent((await cookies()).get("growth_attribution")?.value || "")); } catch { /* sin atribución */ }
+  const fromEmail = (utm_medium ?? attribution.utm_medium) === "email" && (utm_source ?? attribution.utm_source) === "brevo";
   const phase = resolvePhase(fase);
   const { data: course } = await createAdminClient()
     .from("cursos")
@@ -191,7 +197,7 @@ export default async function BlackFridayLaboratorio({ searchParams }: { searchP
             );
           })}
         </div>
-        {phase === "oferta" ? <BlackFridayLeadVideo libraryId={bunnyLibraryId} videoId={leadVideoId} /> : null}
+        {phase === "oferta" ? <BlackFridayLeadVideo libraryId={bunnyLibraryId} videoId={leadVideoId} fromEmail={fromEmail} /> : null}
       </section>
 
       <section className={styles.includes}>
